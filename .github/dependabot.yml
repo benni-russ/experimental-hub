@@ -1,0 +1,12 @@
+# Abhängigkeiten aktuell halten: einmal im Monat, je Ökosystem gesammelt in
+# einem Pull Request. Sicherheitsupdates kommen davon unabhängig sofort.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: monthly
+    open-pull-requests-limit: 5
+    groups:
+      npm:
+        patterns: ['*']

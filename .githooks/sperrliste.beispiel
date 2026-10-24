@@ -1,0 +1,9 @@
+# Vorlage für .githooks/sperrliste.local (nicht im Repo).
+#
+# Ein Begriff pro Zeile, Groß- und Kleinschreibung egal. Gemeint ist alles,
+# was nur auf diesem Rechner bekannt sein soll: Hostname des Servers,
+# Benutzername, Name des Tailnets, Namen anderer eigener Projekte.
+#
+# mein-server
+# mein-benutzer
+# tail0000

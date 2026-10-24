@@ -17,6 +17,10 @@ npm run dev:web      # Vite-Entwicklungsserver
 
 Weitere Skripte: `npm run build`, `npm run test`, `npm run lint`.
 
+Einmalig nach dem Klonen `npm run hooks:einrichten`: Der Commit-Hook in
+`.githooks/` hält Datenbanken, `.env`-Dateien, IP-Adressen, E-Mail-Adressen
+und Zugangsschlüssel aus dem Repo.
+
 ## Auf einem Raspberry Pi betreiben
 
 Gebaut wird auf dem eigenen Rechner, auf den Pi wandert nur das Ergebnis.

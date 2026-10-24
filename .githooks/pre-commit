@@ -1,0 +1,107 @@
+#!/bin/bash
+#
+# Zweite Sperre gegen Dinge, die nicht in ein öffentliches Repo gehören. Die
+# erste ist die .gitignore -- die greift aber nur, solange niemand
+# "git add -f" tippt oder eine Datei dort liegt, an die beim Schreiben der
+# Regeln keiner gedacht hat.
+#
+# Geprüft wird zweierlei:
+#   1. Dateien, die ihrer Art nach nie ins Repo gehören (Datenbanken, .env,
+#      Schlüssel, Archive, lokale Arbeitsordner)
+#   2. Muster in neuen Zeilen: IP-Adressen außer 127.0.0.1, Tailnet-Namen,
+#      E-Mail-Adressen, Zugangsschlüssel, Windows-Benutzerpfade und alles aus
+#      der lokalen Sperrliste
+#
+# Die Sperrliste (.githooks/sperrliste.local) nennt, was nur auf diesem
+# Rechner bekannt sein soll -- Hostname, Benutzername, Namen anderer Projekte.
+# Sie ist von Git ausgenommen; Vorlage: .githooks/sperrliste.beispiel.
+#
+# Einschalten -- einmalig nach dem Klonen:
+#   npm run hooks:einrichten
+#
+# Den ganzen Stand statt nur der neuen Zeilen prüfen:
+#   .githooks/pre-commit --alle
+#
+# Ein Fehlalarm lässt sich in der betreffenden Zeile mit dem Kommentar
+# "sperre-ok" abstellen. Der ganze Hook lässt sich mit "git commit
+# --no-verify" umgehen; wer das tut, sollte einen Grund nennen können.
+#
+set -uo pipefail
+
+ROT=$'\033[31m'; GELB=$'\033[33m'; AUS=$'\033[0m'
+FEHLER=0
+WURZEL=$(git rev-parse --show-toplevel)
+SPERRLISTE="$WURZEL/.githooks/sperrliste.local"
+
+meldung() { printf '%s%s%s\n' "$ROT" "$1" "$AUS"; FEHLER=1; }
+
+if [ "${1:-}" = "--alle" ]; then
+  DATEIEN=$(git ls-files)
+else
+  DATEIEN=$(git diff --cached --name-only --diff-filter=ACMR)
+fi
+
+# --- 1. Dateien nach Art -----------------------------------------------------
+
+VERBOTEN='(^|/)\.env$|(^|/)ziel\.env$|\.(db|db-wal|db-shm|sqlite|sqlite3)$|\.(pem|key|p12|pfx)$|(^|/)id_(rsa|ed25519)|\.bundle$|\.tar\.gz$|\.local$|(^|/)(data|archiv|\.superpowers|\.claude)/|^docs/superpowers/'
+TREFFER=$(printf '%s\n' "$DATEIEN" | grep -E "$VERBOTEN")
+if [ -n "$TREFFER" ]; then
+  meldung "Diese Dateien gehören nicht ins Repo:"
+  printf '  %s\n' $TREFFER
+fi
+
+# --- 2. Muster in neuen Zeilen -----------------------------------------------
+
+# Zeilen als "datei:zeile: text". Ausgenommen: der Hook selbst (er nennt die
+# Muster) und die Paketsperre (Prüfsummen, maschinell geschrieben).
+ZEILEN=$(mktemp)
+trap 'rm -f "$ZEILEN"' EXIT
+AUSNAHMEN=(-- . ':!.githooks/' ':!package-lock.json')
+
+if [ "${1:-}" = "--alle" ]; then
+  git grep --cached -n -I -e '' "${AUSNAHMEN[@]}" > "$ZEILEN"
+else
+  git diff --cached -U0 --no-color --diff-filter=ACMR "${AUSNAHMEN[@]}" | awk '
+    /^\+\+\+ / { datei = substr($0, 7); next }
+    /^@@/      { match($0, /\+[0-9]+/); nr = substr($0, RSTART + 1, RLENGTH - 1) + 0; next }
+    /^\+/      { print datei ":" nr ": " substr($0, 2); nr++ }
+  ' > "$ZEILEN"
+fi
+
+pruefe() {
+  local titel=$1 muster=$2 erlaubt=${3:-}
+  local treffer
+  treffer=$(grep -E "$muster" "$ZEILEN" | grep -v 'sperre-ok')
+  if [ -n "$erlaubt" ] && [ -n "$treffer" ]; then
+    treffer=$(printf '%s\n' "$treffer" | grep -vE "$erlaubt")
+  fi
+  if [ -n "$treffer" ]; then
+    meldung "$titel:"
+    printf '%s\n' "$treffer" | head -20 | sed 's/^/  /'
+  fi
+}
+
+pruefe 'IP-Adresse' '\b([0-9]{1,3}\.){3}[0-9]{1,3}\b' '\b(127\.0\.0\.1|0\.0\.0\.0)\b'
+pruefe 'Tailnet-Name' '[A-Za-z0-9-]+\.ts\.net'
+pruefe 'E-Mail-Adresse' '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}' '@users\.noreply\.github\.com|noreply@anthropic\.com|@example\.(com|org)'
+pruefe 'Zugangsschlüssel' 'gh[pousr]_[A-Za-z0-9]{20,}|github_pat_|sk-[A-Za-z0-9_-]{20,}|AKIA[0-9A-Z]{16}|xox[abpr]-|-----BEGIN [A-Z ]*PRIVATE KEY'
+pruefe 'Windows-Benutzerpfad' '[A-Za-z]:\\+Users\\+'
+
+if [ -f "$SPERRLISTE" ]; then
+  BEGRIFFE=$(grep -vE '^\s*(#|$)' "$SPERRLISTE" | tr -d '\r')
+  if [ -n "$BEGRIFFE" ]; then
+    treffer=$(grep -iF -f <(printf '%s\n' "$BEGRIFFE") "$ZEILEN" | grep -v 'sperre-ok')
+    if [ -n "$treffer" ]; then
+      meldung 'Begriff aus der Sperrliste:'
+      printf '%s\n' "$treffer" | head -20 | sed 's/^/  /'
+    fi
+  fi
+else
+  printf '%sHinweis: keine .githooks/sperrliste.local -- nur die allgemeinen Muster wurden geprüft.%s\n' "$GELB" "$AUS"
+fi
+
+if [ "$FEHLER" -ne 0 ]; then
+  printf '\n%sCommit gestoppt.%s Fehlalarm? "sperre-ok" in die Zeile schreiben.\n' "$ROT" "$AUS"
+  exit 1
+fi
+exit 0
