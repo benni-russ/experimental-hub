@@ -1,0 +1,41 @@
+# Prüft jeden Push und jeden Pull Request: Commit-Sperre, Typen, Tests, Build.
+# Läuft auf den kostenlosen GitHub-Runnern, nicht auf dem Pi -- ein eigener
+# Runner an einem öffentlichen Repo würde fremden Code im eigenen Netz
+# ausführen.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# Nur lesen: Der Lauf braucht weder Schreibrechte noch Geheimnisse.
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  pruefen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      # Actions über die Commit-Kennung festgelegt, nicht über das Tag:
+      # Ein Tag lässt sich umhängen. Dependabot hält beide aktuell.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24 # wie auf dem Pi
+          cache: npm
+      - run: npm ci
+      - name: Commit-Sperre über den ganzen Stand
+        run: bash .githooks/pre-commit --alle
+      # Erst bauen: Typprüfung und Tests von server und web lesen das
+      # gebaute @hub/shared.
+      - run: npm run build
+      - run: npm run lint
+      - run: npm test
