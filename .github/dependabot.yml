@@ -10,3 +10,11 @@ updates:
     groups:
       npm:
         patterns: ['*']
+    # Hauptversionen hier nur von Hand: better-sqlite3 ist ein natives Modul,
+    # das auch auf dem Pi laufen muss, und @types/node folgt der Node-Version
+    # des Servers, nicht der neuesten.
+    ignore:
+      - dependency-name: better-sqlite3
+        update-types: ['version-update:semver-major']
+      - dependency-name: '@types/node'
+        update-types: ['version-update:semver-major']
