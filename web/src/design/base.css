@@ -1,0 +1,54 @@
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scrollbar-color: var(--farbe-rahmen-stark) transparent;
+  accent-color: var(--farbe-akzent);
+}
+
+::selection { background: var(--farbe-akzent-weich); color: var(--farbe-text); }
+input, textarea { caret-color: var(--farbe-akzent); }
+
+body {
+  margin: 0;
+  background: var(--farbe-hintergrund);
+  color: var(--farbe-text);
+  font-family: var(--schrift-text);
+  font-size: var(--schriftgroesse-basis);
+  line-height: var(--zeilenhoehe);
+  font-feature-settings: "cv11", "ss01";
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  font-family: var(--schrift-ueberschrift);
+  font-weight: var(--gewicht-halbfett);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  margin: 0 0 var(--abstand-3);
+}
+h1 { font-size: 1.9rem; font-weight: var(--gewicht-fett); letter-spacing: -0.02em; }
+h2 { font-size: 1.3rem; }
+h3 { font-size: 1.1rem; }
+p { margin: 0 0 var(--abstand-3); }
+
+a { color: var(--farbe-akzent); text-underline-offset: 3px; text-decoration-thickness: 1px; }
+a:hover { color: var(--farbe-akzent-hover); }
+
+code, kbd, pre { font-family: var(--schrift-code); }
+
+/* Nur für Screenreader sichtbar */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+:focus-visible {
+  outline: 2px solid var(--farbe-fokus);
+  outline-offset: 2px;
+  box-shadow: var(--fokus-ring);
+}

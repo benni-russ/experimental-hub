@@ -1,0 +1,413 @@
+/* Button: Weinrot = Interaktion */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--abstand-2);
+  min-height: 44px;
+  padding: 0 var(--abstand-4);
+  border: 1px solid transparent;
+  border-radius: var(--radius-klein);
+  font: inherit;
+  font-weight: var(--gewicht-mittel);
+  cursor: pointer;
+  transition: background var(--animation-kurz) var(--animation-kurve);
+}
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn-primary { background: var(--farbe-akzent); color: var(--farbe-akzent-text); }
+.btn-primary:hover:not(:disabled) { background: var(--farbe-akzent-hover); }
+.btn-secondary { background: transparent; color: var(--farbe-akzent); border-color: var(--farbe-akzent); }
+.btn-secondary:hover:not(:disabled) { background: var(--farbe-akzent-weich); }
+.btn-quiet { background: transparent; color: var(--farbe-text); }
+.btn-quiet:hover:not(:disabled) { background: var(--farbe-hover-neutral); }
+
+.card {
+  background: var(--farbe-flaeche);
+  border: var(--linie);
+  border-radius: var(--radius);
+  padding: var(--abstand-karte);
+  box-shadow: var(--schatten-klein);
+}
+
+.slider { display: grid; gap: var(--abstand-1); }
+.slider-head { display: flex; justify-content: space-between; gap: var(--abstand-3); }
+.slider-value { font-family: var(--schrift-code); }
+.slider input[type="range"] { width: 100%; min-height: 44px; accent-color: var(--farbe-akzent); }
+
+.segmented {
+  display: inline-flex;
+  border: var(--linie);
+  border-radius: var(--radius-klein);
+  overflow: hidden;
+  background: var(--farbe-flaeche);
+}
+.segmented-item {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0 var(--abstand-4);
+  border: 0;
+  background: transparent;
+  color: var(--farbe-text);
+  font: inherit;
+  cursor: pointer;
+}
+.segmented-item + .segmented-item { border-left: var(--linie); }
+.segmented-item:hover { background: var(--farbe-hover-neutral); }
+.segmented-item[aria-pressed="true"] {
+  background: var(--farbe-akzent);
+  color: var(--farbe-akzent-text);
+}
+
+.switch {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--abstand-3);
+  min-height: 44px;
+  padding: 0 var(--abstand-2);
+  border: 0;
+  background: transparent;
+  color: var(--farbe-text);
+  font: inherit;
+  cursor: pointer;
+}
+.switch-track {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  width: 44px;
+  height: 24px;
+  padding: 2px;
+  border: 1px solid var(--farbe-rahmen-stark);
+  border-radius: 12px;
+  background: var(--farbe-flaeche);
+  transition: background 0.15s;
+}
+.switch-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--farbe-rahmen-stark);
+  transition: translate 0.15s, background 0.15s;
+}
+.switch[aria-checked="true"] .switch-track { background: var(--farbe-akzent); border-color: var(--farbe-akzent); }
+.switch[aria-checked="true"] .switch-thumb { translate: 20px 0; background: var(--farbe-akzent-text); }
+.switch-state { min-width: 2ch; color: var(--farbe-text-gedaempft); font-size: 0.9rem; }
+@media (prefers-reduced-motion: reduce) {
+  .switch-track, .switch-thumb { transition: none; }
+}
+
+.metric { display: grid; gap: 2px; }
+.metric-label { color: var(--farbe-text-gedaempft); font-size: 0.85rem; }
+.metric-value { font-family: var(--schrift-code); font-size: 1.6rem; font-weight: var(--gewicht-fett); }
+.metric-hint { color: var(--farbe-text-gedaempft); font-size: 0.85rem; }
+
+.disclosure { border: var(--linie); border-radius: var(--radius); background: var(--farbe-flaeche); }
+.disclosure > summary {
+  min-height: 56px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--abstand-3);
+  padding: var(--abstand-3) var(--abstand-4);
+  cursor: pointer;
+  font-weight: var(--gewicht-mittel);
+  list-style: none;
+}
+.disclosure > summary::-webkit-details-marker { display: none; }
+.disclosure:has(> summary:hover) { border-color: var(--farbe-akzent); }
+.disclosure-marker {
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border: 1px solid var(--farbe-rahmen-stark);
+  border-radius: 50%;
+  font-size: 0.9rem;
+  line-height: 1;
+  transition: rotate 0.15s;
+}
+.disclosure[open] > summary .disclosure-marker { rotate: 180deg; }
+/* Das Fragezeichen wird zum ×, nur der Pfeil dreht sich. */
+.disclosure[open] > summary .disclosure-marker:not(:has(svg)) { rotate: none; }
+@media (prefers-reduced-motion: reduce) {
+  .disclosure-marker { transition: none; }
+  .disclosure[open] > summary .disclosure-marker { rotate: none; }
+}
+.disclosure-body { padding: 0 var(--abstand-4) var(--abstand-4); }
+
+/* Gold = Erkenntnis */
+.insight {
+  background: var(--farbe-sekundaer-weich);
+  border: 1px solid var(--farbe-sekundaer);
+  border-radius: var(--radius-klein);
+  padding: var(--abstand-3) var(--abstand-4);
+  margin-block: var(--abstand-4) var(--abstand-5);
+}
+.insight-title { display: block; margin-bottom: var(--abstand-1); }
+
+/* Fläche mit Überschrift: Heute, Lernpfad */
+.panel {
+  display: grid;
+  align-content: start;
+  gap: var(--abstand-4);
+  background: var(--farbe-flaeche);
+  border: var(--linie);
+  border-radius: var(--radius);
+  padding: var(--abstand-5);
+  box-shadow: var(--schatten-klein);
+}
+.panel > h2 { margin: 0; font-size: 1.05rem; font-weight: var(--gewicht-halbfett); }
+.panel > p { margin: 0; }
+
+/* Status-Tag: Zeichen und Wort, Fläche nur als Hilfe */
+.status-mark { flex: none; }
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  padding: 1px 10px;
+  border: 1px solid var(--farbe-rahmen);
+  border-radius: var(--radius-rund);
+  background: var(--farbe-flaeche);
+  color: var(--farbe-text-gedaempft);
+  font-size: 0.8rem;
+  font-weight: var(--gewicht-mittel);
+  line-height: 1.6;
+  white-space: nowrap;
+}
+.tag-started { background: var(--farbe-flaeche-neutral); border-color: var(--farbe-rahmen-stark); color: var(--farbe-text); }
+.tag-done { background: var(--farbe-erfolg-weich); border-color: transparent; color: var(--farbe-erfolg); }
+
+/* Punktreihe: voll, halb, leer */
+.dots { display: inline-flex; flex-wrap: wrap; gap: 6px; }
+.dot {
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid var(--farbe-rahmen-stark);
+  border-radius: 50%;
+}
+.dot-started { border-color: var(--farbe-text); background: linear-gradient(90deg, var(--farbe-text) 50%, transparent 50%); }
+.dot-done { border-color: var(--farbe-text); background: var(--farbe-text); }
+
+/* Versuchsmarke */
+.mark {
+  flex: none;
+  display: inline-grid;
+  place-content: center;
+  justify-items: center;
+  width: 72px;
+  height: 72px;
+  border: 1.5px solid var(--farbe-text);
+  border-radius: 50%;
+  color: var(--farbe-text);
+  line-height: 1;
+}
+.mark-word { font-size: 0.7rem; font-weight: var(--gewicht-mittel); color: var(--farbe-text-gedaempft); margin-bottom: 4px; }
+.mark-id { font-size: 1.25rem; font-weight: var(--gewicht-fett); font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
+.mark-small { width: auto; height: auto; padding: 1px 8px; border-width: 1px; border-radius: var(--radius-rund); }
+.mark-small .mark-id { font-size: 0.8rem; font-weight: var(--gewicht-halbfett); line-height: 1.6; }
+
+/* Strichzeichnung des Versuchs */
+.sketch {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--farbe-text);
+  background: var(--farbe-hintergrund);
+  border-radius: var(--radius-mittel);
+  padding: var(--abstand-3);
+}
+.sketch svg { display: block; width: 100%; height: auto; max-height: 110px; }
+.sketch-fallback { color: var(--farbe-text-gedaempft); min-height: 88px; }
+.sketch-fallback svg { width: 40px; height: 40px; }
+
+/* Track-Zeichen */
+.track-icon { flex: none; vertical-align: -0.2em; }
+.track-label { display: inline-flex; align-items: center; gap: 6px; }
+.track-badge {
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: var(--linie);
+  border-radius: var(--radius-mittel);
+  color: var(--farbe-text);
+  background: var(--farbe-flaeche);
+}
+
+/* Gold = Erkenntnis: als Schrift immer im tiefen Ton */
+.insight-title { color: var(--farbe-sekundaer-tief); }
+
+/* Strich-Icons neben Text: sitzen auf der Textmitte. */
+.icon { display: inline-block; flex-shrink: 0; vertical-align: -0.2em; }
+
+
+/* Taste: feiner Rahmen, unten ein kräftigerer Rand, wirkt drückbar */
+.kbd {
+  display: inline-block;
+  min-width: 1.9em;
+  padding: 0.1em 0.5em;
+  border: 1px solid var(--farbe-rahmen-stark);
+  border-bottom-width: 2px;
+  border-radius: var(--radius-klein);
+  background: var(--farbe-flaeche);
+  color: var(--farbe-text);
+  font-family: var(--schrift-code);
+  font-size: 0.9em;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.4;
+  text-align: center;
+  white-space: nowrap;
+  box-shadow: 0 1px 0 var(--farbe-rahmen);
+  vertical-align: 0.1em;
+}
+
+/* NumberField: Eingabe mit sichtbarem Label, Hinweis und Fehlertext */
+.number-field { display: grid; gap: var(--abstand-1); align-content: start; min-width: 0; }
+.number-field > label { font-weight: var(--gewicht-mittel); }
+.number-field-row { display: flex; align-items: center; gap: var(--abstand-2); }
+.number-field-row .input { flex: 1 1 6rem; min-width: 0; font-variant-numeric: tabular-nums; }
+.number-field-suffix { color: var(--farbe-text-gedaempft); font-size: 0.9rem; flex: 0 0 auto; }
+.number-field-hint { margin: 0; color: var(--farbe-text-gedaempft); font-size: 0.85rem; }
+.number-field .field-error { margin: 0; font-size: 0.9rem; }
+.number-field .input[aria-invalid="true"] { border-width: 2px; }
+
+/* Interaktive Formel: Weinrot nur für den aktiven Term (Bedienung), kein Gold */
+.interactive-formula { display: grid; gap: var(--abstand-3); min-width: 0; }
+.formula-equation {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--abstand-2) var(--abstand-3);
+  padding: var(--abstand-3);
+  background: var(--farbe-flaeche-neutral);
+  border-radius: var(--radius-klein);
+  font-family: var(--schrift-code);
+  line-height: 1.4;
+  min-width: 0;
+}
+.formula-lead { white-space: nowrap; }
+.formula-fraction { display: grid; justify-items: center; min-width: 0; max-width: 100%; }
+.formula-numerator,
+.formula-denominator,
+.formula-line { min-width: 0; max-width: 100%; text-align: center; overflow-wrap: anywhere; }
+.formula-numerator { padding-bottom: var(--abstand-1); }
+/* Bruchstrich über die volle Breite des Bruchs */
+.formula-denominator { justify-self: stretch; padding-top: var(--abstand-1); border-top: 2px solid var(--farbe-text); }
+/* Ruhend dezenter Rand, aktiv weinrot; Ziel mindestens 44 px hoch */
+.formula-term {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin: 2px 0;
+  padding: 0 var(--abstand-2);
+  background: transparent;
+  border: 1px solid var(--farbe-rahmen-stark);
+  border-radius: var(--radius-klein);
+  color: var(--farbe-text);
+  font: inherit;
+  cursor: pointer;
+  transition: border-color var(--animation-kurz) var(--animation-kurve), box-shadow var(--animation-kurz) var(--animation-kurve);
+}
+.formula-term:hover { background: var(--farbe-hover-neutral); }
+.formula-term.is-active {
+  border-color: var(--farbe-akzent);
+  box-shadow: inset 0 0 0 1px var(--farbe-akzent);
+  color: var(--farbe-akzent);
+  font-weight: var(--gewicht-fett);
+}
+@media (prefers-reduced-motion: reduce) {
+  .formula-term { transition: none; }
+}
+.formula-detail {
+  display: grid;
+  gap: var(--abstand-1);
+  justify-items: start;
+  min-height: 7.5rem;
+  padding: var(--abstand-3) var(--abstand-4);
+  border: var(--linie);
+  border-radius: var(--radius-klein);
+}
+.formula-detail p { margin: 0; }
+.formula-detail code { font-family: var(--schrift-code); overflow-wrap: anywhere; }
+
+/* Hülle des Reglers, auf den der aktive Formelterm zeigt */
+.is-linked {
+  border-color: var(--farbe-akzent);
+  /* sichtbar auch ohne eigenen Rand (z. B. Zahlenfelder) */
+  box-shadow: 0 0 0 1px var(--farbe-akzent);
+  background: var(--farbe-hover-neutral);
+}
+
+/* Codeblock mit Kopierknopf */
+.code-block {
+  position: relative;
+  margin-block: var(--abstand-3) var(--abstand-4);
+}
+.code-block pre {
+  margin: 0;
+  padding: var(--abstand-3);
+  padding-right: calc(var(--abstand-3) + 7.5rem);
+  overflow-x: auto;
+  background: var(--farbe-flaeche-neutral);
+  border-radius: var(--radius-klein);
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+.btn.code-block-copy {
+  position: absolute;
+  top: var(--abstand-1);
+  right: var(--abstand-1);
+  min-height: 44px;
+  font-size: 0.85rem;
+}
+/* Schmal: kein Platz neben dem Code, der Knopf steht rechtsbündig darüber. */
+@media (max-width: 479px) {
+  .code-block {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+  .btn.code-block-copy {
+    position: static;
+    order: -1;
+  }
+  .code-block pre {
+    align-self: stretch;
+    padding-right: var(--abstand-3);
+  }
+}
+
+/* Karte zum Umdrehen (FlipCard). Beide Seiten liegen übereinander, die Höhe
+   bestimmt die höhere. Bei reduzierter Bewegung wird nur überblendet. */
+.flip-card { display: grid; gap: var(--abstand-3); perspective: 1200px; }
+.flip-card-inner {
+  display: grid;
+  transform-style: preserve-3d;
+  transition: transform 450ms var(--animation-kurve);
+}
+.flip-card-inner.is-flipped { transform: rotateY(180deg); }
+.flip-card-face {
+  grid-area: 1 / 1;
+  min-width: 0;
+  background: var(--farbe-flaeche);
+  border: var(--linie);
+  border-radius: var(--radius);
+  box-shadow: var(--schatten-klein);
+  padding: var(--abstand-4);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  outline: none;
+}
+.flip-card-back { transform: rotateY(180deg); }
+.flip-card .flip-card-label { margin: 0 0 var(--abstand-3); color: var(--farbe-text-gedaempft); font-size: 0.9rem; }
+.flip-card .flip-card-recall { margin: 0 0 var(--abstand-3); color: var(--farbe-text-gedaempft); font-size: 0.9rem; }
+.flip-card .flip-card-recall * { margin: 0; color: inherit; font-size: inherit; line-height: inherit; }
+.flip-card-button { justify-self: start; min-height: 44px; }
+@media (prefers-reduced-motion: reduce) {
+  .flip-card-inner, .flip-card-inner.is-flipped, .flip-card-back { transform: none; transition: none; }
+  .flip-card-face { opacity: 1; visibility: visible; transition: opacity 150ms linear, visibility 0s; }
+  .flip-card-face.is-hidden { opacity: 0; visibility: hidden; transition: opacity 150ms linear, visibility 0s linear 150ms; }
+}

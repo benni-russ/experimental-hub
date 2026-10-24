@@ -1,0 +1,20 @@
+node_modules/
+dist/
+data/
+*.db
+*.db-wal
+*.db-shm
+.env
+tools/ziel.env
+*.tar.gz
+*.tsbuildinfo
+.claude/
+
+# Impeccable: Entscheidungsskizzen und Prüfbilder bleiben lokal
+web/.impeccable/mocks/
+web/.impeccable/review/
+
+# Arbeitspläne, Archiv und alte Git-Verläufe bleiben lokal
+archiv/
+docs/superpowers/
+*.bundle

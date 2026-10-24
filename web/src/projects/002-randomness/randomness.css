@@ -1,0 +1,14 @@
+/* 002 Zufall & Varianz: statische Zeichnung, keine Bedienung. */
+.rnd-explain { display: grid; gap: var(--abstand-4); min-width: 0; }
+.rnd-explain p { margin: 0; }
+.rnd-figure { margin: 0; max-width: 36rem; }
+.rnd-caption { color: var(--farbe-text-gedaempft); font-size: 0.85rem; margin-bottom: var(--abstand-1); }
+.rnd-figure svg { display: block; width: 100%; height: auto; overflow: visible; }
+.rnd-axis { stroke: var(--farbe-rahmen-stark); stroke-width: 1; }
+.rnd-tick { fill: var(--farbe-text-gedaempft); font-size: 13px; font-family: var(--schrift-flies); }
+.rnd-center { stroke: var(--farbe-rahmen-stark); stroke-width: 1; stroke-dasharray: 3 3; }
+.rnd-wide { fill: none; stroke: var(--farbe-daten-neutral); stroke-width: 2; stroke-dasharray: 6 4; }
+.rnd-narrow { fill: none; stroke: var(--farbe-daten-a); stroke-width: 2.5; }
+.rnd-label { font-size: 13px; font-weight: var(--gewicht-fett); font-family: var(--schrift-flies); }
+.rnd-label-wide { fill: var(--farbe-daten-neutral); }
+.rnd-label-narrow { fill: var(--farbe-daten-a); }

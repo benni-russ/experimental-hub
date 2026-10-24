@@ -1,0 +1,460 @@
+/*
+ * Rahmen der App:
+ *
+ * - Ab 768 px: Seitenleiste fest links (240 px, eingeklappt Schiene 64 px),
+ *   rechts daneben die obere Leiste (Suche, Glocke, Hell/Dunkel) über dem Inhalt.
+ * - Darunter: obere Leiste über die volle Breite mit Menü-Knopf; die
+ *   Seitenleiste ist dann eine Schublade über einem Schleier. Unten die Leiste
+ *   mit „Heute“ als Mittelknopf.
+ *
+ * Farben nur aus vorhandenen Rollen; die Seitenleiste nutzt ihre eigenen
+ * (--farbe-seitenleiste-*).
+ */
+
+/* Höhe der oberen Leiste; Klebendes darunter (Notizen-Spalte) rechnet damit. */
+:root { --hoehe-leiste: 64px; }
+@media (max-width: 767px) {
+  :root { --hoehe-leiste: 60px; }
+}
+
+.shell { min-height: 100dvh; }
+.shell-body { display: flex; flex-direction: column; min-width: 0; min-height: 100dvh; }
+.shell-main { width: 100%; max-width: 64rem; margin: 0 auto; padding: var(--abstand-5); }
+/* Ziel des Sprunglinks: kein Ring um die ganze Seite */
+.shell-main:focus { outline: none; box-shadow: none; }
+
+.skip-link {
+  position: absolute;
+  top: var(--abstand-2);
+  left: var(--abstand-2);
+  z-index: 60;
+  padding: var(--abstand-2) var(--abstand-4);
+  border: var(--linie);
+  border-radius: var(--radius-klein);
+  background: var(--farbe-flaeche);
+  font-weight: var(--gewicht-mittel);
+  transform: translateY(-200%);
+}
+.skip-link:focus { transform: none; }
+
+/* --- Knöpfe mit Icon (Menü, Glocke, Modus, Schließen) ------------------- */
+.icon-button {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: var(--linie);
+  border-radius: var(--radius-klein);
+  background: transparent;
+  color: var(--farbe-text-gedaempft);
+  cursor: pointer;
+  transition: background var(--animation-kurz) var(--animation-kurve), color var(--animation-kurz) var(--animation-kurve);
+}
+.icon-button:hover { background: var(--farbe-hover-neutral); color: var(--farbe-text); }
+.icon-button[aria-expanded="true"] { background: var(--farbe-aktiv-neutral); color: var(--farbe-text); }
+
+/* Zahl als kleine Weinrot-Pille: an der Glocke */
+.nav-badge {
+  display: inline-grid;
+  place-items: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: var(--radius-rund);
+  background: var(--farbe-akzent);
+  color: var(--farbe-akzent-text);
+  font-size: 10px;
+  font-weight: var(--gewicht-halbfett);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  box-shadow: 0 0 0 2px var(--farbe-flaeche);
+}
+
+/* --- Seitenleiste -------------------------------------------------------- */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--abstand-1);
+  padding: var(--abstand-4) var(--abstand-3);
+  overflow-x: hidden;
+  overflow-y: auto;
+  background: var(--farbe-seitenleiste);
+  color: var(--farbe-seitenleiste-text);
+  border-right: 1px solid var(--farbe-seitenleiste-rahmen);
+}
+
+.sidebar-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--abstand-2);
+  padding-bottom: var(--abstand-3);
+}
+.sidebar-brand { display: flex; align-items: center; gap: 10px; min-width: 0; padding-left: 2px; white-space: nowrap; }
+/* Zeichen der App im Strich der Versuchsmarke */
+.brand-mark {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 1.5px solid currentColor;
+  border-radius: var(--radius-rund);
+  font-size: 0.75rem;
+  font-weight: var(--gewicht-fett);
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+.brand-name { font-weight: var(--gewicht-halbfett); letter-spacing: -0.01em; }
+
+/* Wörter blenden in der Schiene aus, statt zu springen; Screenreader lesen sie weiter. */
+.sidebar-word {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: opacity var(--animation-dauer) var(--animation-kurve);
+}
+
+/* minmax(0, 1fr): Die Spalte richtet sich nach der Leiste, nicht nach dem
+   längsten (ausgeblendeten) Wort – sonst ragt der Link aus der Schiene. */
+.sidebar-nav { display: grid; grid-template-columns: minmax(0, 1fr); }
+.sidebar-list { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2px; margin: 0; padding: 0; list-style: none; }
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 44px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: var(--radius-klein);
+  background: none;
+  color: var(--farbe-seitenleiste-text);
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: var(--gewicht-mittel);
+  text-align: left;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background var(--animation-kurz) var(--animation-kurve), color var(--animation-kurz) var(--animation-kurve);
+}
+.sidebar-link .icon { color: var(--farbe-seitenleiste-gedaempft); }
+.sidebar-link:hover { background: var(--farbe-hover-neutral); color: var(--farbe-seitenleiste-text); }
+.sidebar-link:hover .icon { color: currentColor; }
+.sidebar-link.active {
+  background: var(--farbe-seitenleiste-aktiv);
+  color: var(--farbe-seitenleiste-aktiv-text);
+  font-weight: var(--gewicht-halbfett);
+}
+.sidebar-link.active .icon { color: currentColor; }
+
+.sidebar-section {
+  position: relative;
+  display: flex;
+  min-height: 20px;
+  margin: var(--abstand-4) 0 var(--abstand-1);
+  padding: 0 10px;
+  color: var(--farbe-seitenleiste-gedaempft);
+  font-size: 0.75rem;
+  font-weight: var(--gewicht-mittel);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.sidebar-external { display: inline-flex; color: var(--farbe-seitenleiste-gedaempft); opacity: 0; transition: opacity var(--animation-kurz) var(--animation-kurve); }
+.sidebar-link:hover .sidebar-external,
+.sidebar-link:focus-visible .sidebar-external { opacity: 1; }
+
+.sidebar-foot { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--abstand-1); margin-top: auto; padding-top: var(--abstand-3); }
+
+/* Statuskarte: Punkt plus Text, nie Farbe allein */
+.status-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: var(--abstand-1) 9px;
+  border: 1px solid var(--farbe-seitenleiste-rahmen);
+  border-radius: var(--radius-mittel);
+  color: var(--farbe-seitenleiste-gedaempft);
+  font-size: 0.8rem;
+  line-height: 1.35;
+  transition: border-color var(--animation-dauer) var(--animation-kurve);
+}
+/* 20 px breit wie die Icons, damit der Punkt in der Schiene mittig steht */
+.status-dot { flex: none; width: 8px; height: 8px; margin: 0 6px; border-radius: var(--radius-rund); background: var(--farbe-rahmen-stark); }
+.status-dot-ok { background: var(--farbe-erfolg); }
+.status-dot-busy { background: var(--farbe-text-sehr-gedaempft); }
+.status-dot-error { background: var(--farbe-fehler); }
+.status-text { display: grid; }
+.status-line { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.status-line:first-child { color: var(--farbe-seitenleiste-text); font-weight: var(--gewicht-mittel); }
+
+.sidebar-collapse { color: var(--farbe-seitenleiste-gedaempft); }
+.sidebar-collapse .icon { transition: transform var(--animation-dauer) var(--animation-kurve); }
+
+/* --- Obere Leiste -------------------------------------------------------- */
+/* Klebt oben, damit die Suche immer zu sehen ist. Über dem Inhalt (z 10),
+   unter Seitenleiste (20), Schleier (40) und Schublade (50). Das Glocken-Feld
+   (30) liegt im Ebenen-Kontext der Leiste, wirkt also mit ihr auf Ebene 10. */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: var(--abstand-3);
+  height: var(--hoehe-leiste);
+  padding: 10px var(--abstand-5);
+  background: var(--farbe-flaeche);
+  border-bottom: var(--linie);
+}
+.topbar-search { position: relative; display: flex; align-items: center; flex: 1 1 auto; min-width: 0; max-width: 32rem; }
+.topbar-search > .icon { position: absolute; left: 12px; color: var(--farbe-text-gedaempft); pointer-events: none; }
+.topbar-search-input {
+  width: 100%;
+  min-height: 44px;
+  padding: 0 var(--abstand-3) 0 40px;
+  border: 1px solid var(--farbe-rahmen-stark);
+  border-radius: var(--radius-klein);
+  background: var(--farbe-flaeche);
+  color: var(--farbe-text);
+  font: inherit;
+  text-overflow: ellipsis;
+}
+.topbar-search-input::placeholder { color: var(--farbe-text-gedaempft); opacity: 1; }
+/* Hinweis auf die Taste „/“: nur mit Maus und Tastatur, weg beim Tippen */
+.topbar-search-key { display: none; position: absolute; right: 12px; pointer-events: none; }
+@media (hover: hover) and (pointer: fine) {
+  .topbar-search-key { display: block; }
+  .topbar-search-input { padding-right: 44px; }
+}
+.topbar-search:focus-within .topbar-search-key { display: none; }
+.topbar-actions { display: flex; align-items: center; gap: var(--abstand-2); margin-left: auto; }
+
+/* --- Glocke -------------------------------------------------------------- */
+.bell { position: relative; }
+.bell-button .nav-badge { position: absolute; top: 3px; right: 1px; }
+.bell-popover {
+  position: absolute;
+  top: calc(100% + var(--abstand-2));
+  right: 0;
+  z-index: 30;
+  display: grid;
+  gap: var(--abstand-3);
+  width: min(20rem, calc(100vw - 2 * var(--abstand-4)));
+  padding: var(--abstand-4);
+  background: var(--farbe-flaeche);
+  border: var(--linie);
+  border-radius: var(--radius);
+  box-shadow: var(--schatten-mittel);
+}
+.bell-popover[hidden] { display: none; }
+.bell-popover p { margin: 0; }
+.bell-note { color: var(--farbe-text-gedaempft); }
+.bell-title { font-size: 1.05rem; font-weight: var(--gewicht-halbfett); font-variant-numeric: tabular-nums; }
+.bell-list { display: grid; margin: 0; padding: 0; list-style: none; }
+.bell-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--abstand-3);
+  min-height: 44px;
+  padding: var(--abstand-2) 0;
+  border-top: var(--linie);
+  font-size: 0.95rem;
+  color: var(--farbe-text);
+  text-decoration: none;
+}
+.bell-list li:last-child .bell-row { border-bottom: var(--linie); }
+.bell-row:hover .bell-project, .bell-row:focus-visible .bell-project { color: var(--farbe-akzent); text-decoration: underline; }
+.bell-count { color: var(--farbe-text-gedaempft); font-variant-numeric: tabular-nums; }
+.bell-start { justify-self: start; text-decoration: none; }
+
+/* --- Ab 768 px: Seitenleiste fest links, einklappbar --------------------- */
+@media (min-width: 768px) {
+  .shell { display: grid; grid-template-columns: auto minmax(0, 1fr); }
+  .sidebar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    height: 100dvh;
+    width: 240px;
+    transition: width var(--animation-dauer) var(--animation-kurve);
+  }
+  .sidebar-close,
+  .topbar-menu,
+  .shell-scrim,
+  .shell-tabbar { display: none; }
+
+  /* Schiene: 12 px Rand + 10 px Polster + 20 px Icon + 10 + 12 = 64 px */
+  .shell-rail .sidebar { width: 64px; overflow: visible; }
+  /* Der Link ist genau 40 px breit: 10 + 20 + 10. Kein Abstand zum
+     ausgeblendeten Wort, das Extern-Zeichen fällt weg. */
+  .shell-rail .sidebar-link,
+  .shell-rail .status-card { gap: 0; }
+  .shell-rail .sidebar-word { flex: 0 0 0; }
+  .shell-rail .sidebar-external { display: none; }
+  .shell-rail .sidebar-word,
+  .shell-rail .sidebar-external { opacity: 0; }
+  .shell-rail .status-card { border-color: transparent; }
+  .shell-rail .sidebar-collapse .icon { transform: scaleX(-1); }
+  /* Statt der Überschrift ein kurzer Strich */
+  .shell-rail .sidebar-section::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    width: 20px;
+    border-top: 1px solid var(--farbe-seitenleiste-rahmen);
+  }
+
+  /* Tooltip mit dem Wort, bei Maus und Tastaturfokus */
+  .shell-rail .sidebar [data-tip] { position: relative; }
+  .shell-rail .sidebar [data-tip]:hover::after,
+  .shell-rail .sidebar [data-tip]:focus-visible::after {
+    content: attr(data-tip);
+    position: absolute;
+    top: 50%;
+    left: calc(100% + var(--abstand-3));
+    z-index: 20;
+    padding: var(--abstand-1) var(--abstand-2);
+    border-radius: var(--radius-klein);
+    background: var(--farbe-invers);
+    color: var(--farbe-invers-text);
+    font-size: 0.8rem;
+    font-weight: var(--gewicht-mittel);
+    line-height: 1.4;
+    white-space: nowrap;
+    box-shadow: var(--schatten-mittel);
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+}
+
+/* --- Unter 768 px: Schublade, untere Leiste ------------------------------ */
+.tabbar { display: none; }
+
+@media (max-width: 767px) {
+  body { padding-bottom: calc(60px + env(safe-area-inset-bottom)); }
+  .shell-main { padding: var(--abstand-4); }
+  .topbar { gap: var(--abstand-2); padding: var(--abstand-2) var(--abstand-4); }
+  /* Modus-Schalter mobil in der unteren Leiste, Einklappen nur am PC */
+  .topbar .theme-toggle,
+  .sidebar-collapse { display: none; }
+
+  .shell-scrim {
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    background: color-mix(in srgb, var(--farbe-invers) 40%, transparent);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--animation-lang) var(--animation-kurve);
+  }
+  .shell-drawer-open .shell-scrim { opacity: 1; pointer-events: auto; }
+
+  /* Geschlossen unsichtbar, nicht nur verschoben – sonst liefe Tab durch
+     Links, die niemand sieht. Die Sichtbarkeit läuft nur beim Schließen mit;
+     beim Öffnen muss sie sofort da sein, sonst greift der Fokus ins Leere. */
+  .sidebar {
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: 50;
+    width: 85%;
+    max-width: 20rem;
+    padding-top: calc(var(--abstand-4) + env(safe-area-inset-top));
+    padding-bottom: calc(var(--abstand-4) + env(safe-area-inset-bottom));
+    border-radius: 0 var(--radius-gross) var(--radius-gross) 0;
+    box-shadow: var(--schatten-mittel);
+    transform: translateX(-100%);
+    visibility: hidden;
+    transition: transform var(--animation-lang) var(--animation-kurve), visibility var(--animation-lang) var(--animation-kurve);
+  }
+  .shell-drawer-open .sidebar {
+    transform: none;
+    visibility: visible;
+    transition: transform var(--animation-lang) var(--animation-kurve);
+  }
+
+  .tabbar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10;
+    display: flex;
+    align-items: flex-end;
+    min-height: 60px;
+    padding: 0 var(--abstand-1) env(safe-area-inset-bottom);
+    background: var(--farbe-flaeche);
+    border-top: var(--linie);
+  }
+  .tabbar-slot {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    padding: var(--abstand-2) 2px;
+    border: 0;
+    background: none;
+    font: inherit;
+    font-size: 11px;
+    font-weight: var(--gewicht-mittel);
+    letter-spacing: -0.01em;
+    color: var(--farbe-text-gedaempft);
+    text-decoration: none;
+    cursor: pointer;
+    transition: color var(--animation-kurz) var(--animation-kurve);
+  }
+  .tabbar-slot:hover { color: var(--farbe-text); }
+  .tabbar-slot.active { color: var(--farbe-akzent); }
+  .tabbar-icon { position: relative; display: inline-flex; }
+  .tabbar-label { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .tabbar-center { flex: 1; display: flex; justify-content: center; }
+  .tabbar-home {
+    display: grid;
+    place-items: center;
+    width: 56px;
+    height: 56px;
+    margin: -20px 0 6px;
+    border-radius: var(--radius-rund);
+    background: var(--farbe-akzent);
+    color: var(--farbe-akzent-text);
+    box-shadow: 0 0 0 4px var(--farbe-hintergrund), var(--schatten-mittel);
+    transition: background var(--animation-kurz) var(--animation-kurve), transform var(--animation-kurz) var(--animation-kurve);
+  }
+  .tabbar-home:hover { background: var(--farbe-akzent-hover); color: var(--farbe-akzent-text); }
+  .tabbar-home:active { transform: scale(0.97); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sidebar,
+  .shell-drawer-open .sidebar,
+  .shell-scrim,
+  .sidebar-word,
+  .sidebar-collapse .icon { transition: none; }
+}
+
+/* Brotkrumen: Links weinrot (Bedienung), das aktuelle Glied nicht. */
+.breadcrumb ol {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: var(--abstand-2);
+  margin: 0 0 var(--abstand-2);
+  padding: 0;
+  list-style: none;
+  font-size: 0.875rem;
+}
+.breadcrumb li { display: inline-flex; align-items: center; gap: var(--abstand-2); }
+.breadcrumb a { display: inline-flex; align-items: center; min-height: 44px; }
+.breadcrumb [aria-current='page'] { color: var(--farbe-text-gedaempft); }
+.breadcrumb-sep { color: var(--farbe-text-sehr-gedaempft); }

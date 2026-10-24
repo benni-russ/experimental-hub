@@ -1,0 +1,446 @@
+/* Farben, Schrift und Abstände des Hubs als Rollen.
+ *
+ * Werte mit Impeccable verfeinert. Hell gilt immer; dunkel folgt dem System oder
+ * data-modus="dunkel" auf <html>; data-modus="hell" erzwingt hell.
+ */
+:root {
+  color-scheme: light;
+
+  /* FLÄCHEN */
+  /* Seitenhintergrund */
+  --farbe-hintergrund: #f5f3f1;
+  /* Karten, Dialoge, Leisten */
+  --farbe-flaeche: #ffffff;
+  /* Hervorgehobene Fläche */
+  --farbe-flaeche-hoch: #f3e7ea;
+  /* Neutrale Fläche */
+  --farbe-flaeche-neutral: #ece7e3;
+  /* Umgekehrte Fläche */
+  --farbe-invers: #1b1517;
+  /* Text auf umgekehrter Fläche */
+  --farbe-invers-text: #f7f3f0;
+
+  /* TEXT UND LINIEN */
+  /* Fließtext und Überschrift */
+  --farbe-text: #1b1517;
+  /* Beschriftungen, Hilfetexte */
+  --farbe-text-gedaempft: #625b58;
+  /* Nebensächliches */
+  --farbe-text-sehr-gedaempft: #857e7a;
+  /* Linien und Trenner */
+  --farbe-rahmen: #e0d9d4;
+  /* Linien und Trenner, kräftig */
+  --farbe-rahmen-stark: #948b86;
+
+  /* AKZENT */
+  /* Schaltflächen, Verweise */
+  --farbe-akzent: #7a1024;
+  /* Akzent beim Überfahren */
+  --farbe-akzent-hover: #5e0b1b;
+  /* Akzent, weich */
+  --farbe-akzent-weich: #f5e8eb;
+  /* Schrift auf dem Akzent */
+  --farbe-akzent-text: #ffffff;
+
+  /* SEKUNDÄRFARBE */
+  /* Sekundärfarbe */
+  --farbe-sekundaer: #bd8a30;
+  /* Sekundärfarbe beim Überfahren */
+  --farbe-sekundaer-hover: #cd9a3e;
+  /* Sekundärfarbe, weich */
+  --farbe-sekundaer-weich: #f6ecd9;
+  /* Schrift auf der Sekundärfarbe */
+  --farbe-sekundaer-text: #1b1517;
+  /* Gold als Schrift auf hellem Grund */
+  --farbe-sekundaer-tief: #8a6118;
+
+  /* STATUS */
+  /* Erledigt, gespeichert */
+  --farbe-erfolg: #17773a;
+  /* Erledigt, weich */
+  --farbe-erfolg-weich: #dff2e4;
+  /* Achtung, aber kein Fehler */
+  --farbe-warnung: #a3500c;
+  /* Achtung, weich */
+  --farbe-warnung-weich: #fbefd6;
+  /* Fehler, Löschen */
+  --farbe-fehler: #b3261e;
+  /* Fehler, weich */
+  --farbe-fehler-weich: #fbe5e2;
+  /* Info, Hinweis */
+  --farbe-info: #2457c5;
+  /* Info, weich */
+  --farbe-info-weich: #e2eafa;
+
+  /* INTERAKTION */
+  /* Fokussiertes Element */
+  --farbe-fokus: #946419;
+  /* Überfahren, neutral */
+  --farbe-hover-neutral: #efeae6;
+  /* Ausgewählt, neutral */
+  --farbe-aktiv-neutral: #e6e0db;
+
+  /* DATENVISUALISIERUNG */
+  /* Diagramm, erste Reihe */
+  --farbe-daten-a: #1b1517;
+  /* Diagramm, zweite Reihe */
+  --farbe-daten-b: #b5822a;
+  /* Diagramm, dritte Reihe */
+  --farbe-daten-c: #8c1d33;
+  /* Diagramm, vierte Reihe */
+  --farbe-daten-d: #3b5bdb;
+  /* Diagramm, Spur */
+  --farbe-daten-track: #e6e0db;
+  /* Diagramm, neutral */
+  --farbe-daten-neutral: #6e7379;
+  /* Diagramm, fällig (Bernstein, heller als die Warnfarbe) */
+  --farbe-daten-faellig: #d4931c;
+
+  /* SEITENLEISTE */
+  /* Seitenleiste, Fläche */
+  --farbe-seitenleiste: #fcfbfa;
+  /* Seitenleiste, Schrift */
+  --farbe-seitenleiste-text: #1b1517;
+  /* Seitenleiste, gedämpfte Schrift */
+  --farbe-seitenleiste-gedaempft: #625b58;
+  /* Seitenleiste, aktiver Punkt */
+  --farbe-seitenleiste-aktiv: #f5e8eb;
+  /* Seitenleiste, Schrift im aktiven Punkt */
+  --farbe-seitenleiste-aktiv-text: #7a1024;
+  /* Seitenleiste, Rahmen */
+  --farbe-seitenleiste-rahmen: #e0d9d4;
+
+  /* VERLAUF */
+  /* Verlauf, Anfang */
+  --farbe-verlauf-start: #7a1024;
+  /* Verlauf, Ende */
+  --farbe-verlauf-ende: #8f6118;
+
+  /* TYPOGRAFIE */
+  /* Überschriften */
+  --schrift-ueberschrift: "Inter Variable", Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  /* Fließtext */
+  --schrift-flies: "Inter Variable", Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  /* Code und Zahlen */
+  --schrift-code: "JetBrains Mono", "Cascadia Code", Consolas, monospace;
+  /* Grundgröße */
+  --schriftgroesse-basis: 17px;
+  /* Größensprung */
+  --skala-verhaeltnis: 1.25;
+  /* Normal */
+  --gewicht-normal: 400;
+  /* Mittel */
+  --gewicht-mittel: 500;
+  /* Halbfett */
+  --gewicht-halbfett: 600;
+  /* Betont */
+  --gewicht-fett: 700;
+  /* Zeilenabstand */
+  --zeilenhoehe: 1.5;
+
+  /* FORM UND BEWEGUNG */
+  /* Eingabefelder, Knöpfe */
+  --radius-klein: 6px;
+  /* Karten */
+  --radius-mittel: 10px;
+  /* Dialoge, große Karten */
+  --radius-gross: 16px;
+  /* Pillen und Abzeichen */
+  --radius-rund: 999px;
+  /* Rastermaß */
+  --abstand-einheit: 4px;
+  /* Abstand, eng */
+  --abstand-eng: 8px;
+  /* Abstand, klein */
+  --abstand-klein: 12px;
+  /* Abstand, mittel */
+  --abstand-mittel: 16px;
+  /* Abstand, groß */
+  --abstand-gross: 24px;
+  /* Abstand zwischen Abschnitten */
+  --abstand-abschnitt: 40px;
+  /* Innenabstand Karte */
+  --abstand-karte: 16px;
+  /* Seitenrand */
+  --abstand-seite: 24px;
+  /* Linienstärke */
+  --rahmen-staerke: 1px;
+  /* Leichtes Abheben */
+  --schatten-klein: 0 1px 2px rgb(27 21 23 / 0.05), 0 2px 8px rgb(27 21 23 / 0.04);
+  /* Dialoge, Menüs */
+  --schatten-mittel: 0 8px 24px rgb(27 21 23 / 0.12);
+  /* Fokusring */
+  --fokus-ring: 0 0 0 3px rgb(148 100 25 / 0.24);
+  /* Übergang, kurz */
+  --animation-kurz: 120ms;
+  /* Übergangsdauer */
+  --animation-dauer: 180ms;
+  /* Übergang, lang */
+  --animation-lang: 280ms;
+  /* Bewegungskurve */
+  --animation-kurve: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-modus="hell"]) {
+    color-scheme: dark;
+
+    /* FLÄCHEN */
+    /* Seitenhintergrund */
+    --farbe-hintergrund: #121012;
+    /* Karten, Dialoge, Leisten */
+    --farbe-flaeche: #1c191b;
+    /* Hervorgehobene Fläche */
+    --farbe-flaeche-hoch: #2d2226;
+    /* Neutrale Fläche */
+    --farbe-flaeche-neutral: #262325;
+    /* Umgekehrte Fläche */
+    --farbe-invers: #271c20;
+    /* Text auf umgekehrter Fläche */
+    --farbe-invers-text: #f7f3f0;
+
+    /* TEXT UND LINIEN */
+    /* Fließtext und Überschrift */
+    --farbe-text: #f3eeeb;
+    /* Beschriftungen, Hilfetexte */
+    --farbe-text-gedaempft: #ada5a2;
+    /* Nebensächliches */
+    --farbe-text-sehr-gedaempft: #857d7a;
+    /* Linien und Trenner */
+    --farbe-rahmen: #36302f;
+    /* Linien und Trenner, kräftig */
+    --farbe-rahmen-stark: #756c6e;
+
+    /* AKZENT */
+    /* Schaltflächen, Verweise */
+    --farbe-akzent: #de7085;
+    /* Akzent beim Überfahren */
+    --farbe-akzent-hover: #ea8c9e;
+    /* Akzent, weich */
+    --farbe-akzent-weich: #3c2229;
+    /* Schrift auf dem Akzent */
+    --farbe-akzent-text: #1b0c10;
+
+    /* SEKUNDÄRFARBE */
+    /* Sekundärfarbe */
+    --farbe-sekundaer: #dcab52;
+    /* Sekundärfarbe beim Überfahren */
+    --farbe-sekundaer-hover: #e8bd6b;
+    /* Sekundärfarbe, weich */
+    --farbe-sekundaer-weich: #3a2f1d;
+    /* Schrift auf der Sekundärfarbe */
+    --farbe-sekundaer-text: #1b1517;
+    /* Gold als Schrift */
+    --farbe-sekundaer-tief: #dcab52;
+
+    /* STATUS */
+    /* Erledigt, gespeichert */
+    --farbe-erfolg: #5fcf8a;
+    /* Erledigt, weich */
+    --farbe-erfolg-weich: #18301f;
+    /* Achtung, aber kein Fehler */
+    --farbe-warnung: #f0b545;
+    /* Achtung, weich */
+    --farbe-warnung-weich: #38291a;
+    /* Fehler, Löschen */
+    --farbe-fehler: #f3857c;
+    /* Fehler, weich */
+    --farbe-fehler-weich: #3d201f;
+    /* Info, Hinweis */
+    --farbe-info: #78a9f2;
+    /* Info, weich */
+    --farbe-info-weich: #1a2a42;
+
+    /* INTERAKTION */
+    /* Fokussiertes Element */
+    --farbe-fokus: #dcab52;
+    /* Überfahren, neutral */
+    --farbe-hover-neutral: #262325;
+    /* Ausgewählt, neutral */
+    --farbe-aktiv-neutral: #302b2d;
+
+    /* DATENVISUALISIERUNG */
+    /* Diagramm, erste Reihe */
+    --farbe-daten-a: #f3eeeb;
+    /* Diagramm, zweite Reihe */
+    --farbe-daten-b: #dcab52;
+    /* Diagramm, dritte Reihe */
+    --farbe-daten-c: #d65c75;
+    /* Diagramm, vierte Reihe */
+    --farbe-daten-d: #6f7ff0;
+    /* Diagramm, Spur */
+    --farbe-daten-track: #322d2f;
+    /* Diagramm, neutral */
+    --farbe-daten-neutral: #949aa0;
+    /* Diagramm, fällig (Bernstein, heller als die Warnfarbe) */
+    --farbe-daten-faellig: #f0b545;
+
+    /* SEITENLEISTE */
+    /* Seitenleiste, Fläche */
+    --farbe-seitenleiste: #1c191b;
+    /* Seitenleiste, Schrift */
+    --farbe-seitenleiste-text: #f3eeeb;
+    /* Seitenleiste, gedämpfte Schrift */
+    --farbe-seitenleiste-gedaempft: #ada5a2;
+    /* Seitenleiste, aktiver Punkt */
+    --farbe-seitenleiste-aktiv: #3c2229;
+    /* Seitenleiste, Schrift im aktiven Punkt */
+    --farbe-seitenleiste-aktiv-text: #f1a9b6;
+    /* Seitenleiste, Rahmen */
+    --farbe-seitenleiste-rahmen: #36302f;
+
+    /* VERLAUF */
+    /* Verlauf, Anfang */
+    --farbe-verlauf-start: #8a2035;
+    /* Verlauf, Ende */
+    --farbe-verlauf-ende: #8a6020;
+
+    /* FORM UND BEWEGUNG */
+    /* Leichtes Abheben */
+    --schatten-klein: 0 1px 2px rgb(0 0 0 / 0.30);
+    /* Dialoge, Menüs */
+    --schatten-mittel: 0 8px 24px rgb(0 0 0 / 0.45);
+    /* Fokusring */
+    --fokus-ring: 0 0 0 3px rgb(220 171 82 / 0.28);
+  }
+}
+
+:root[data-modus="dunkel"] {
+  color-scheme: dark;
+
+  /* FLÄCHEN */
+  /* Seitenhintergrund */
+  --farbe-hintergrund: #121012;
+  /* Karten, Dialoge, Leisten */
+  --farbe-flaeche: #1c191b;
+  /* Hervorgehobene Fläche */
+  --farbe-flaeche-hoch: #2d2226;
+  /* Neutrale Fläche */
+  --farbe-flaeche-neutral: #262325;
+  /* Umgekehrte Fläche */
+  --farbe-invers: #271c20;
+  /* Text auf umgekehrter Fläche */
+  --farbe-invers-text: #f7f3f0;
+
+  /* TEXT UND LINIEN */
+  /* Fließtext und Überschrift */
+  --farbe-text: #f3eeeb;
+  /* Beschriftungen, Hilfetexte */
+  --farbe-text-gedaempft: #ada5a2;
+  /* Nebensächliches */
+  --farbe-text-sehr-gedaempft: #857d7a;
+  /* Linien und Trenner */
+  --farbe-rahmen: #36302f;
+  /* Linien und Trenner, kräftig */
+  --farbe-rahmen-stark: #756c6e;
+
+  /* AKZENT */
+  /* Schaltflächen, Verweise */
+  --farbe-akzent: #de7085;
+  /* Akzent beim Überfahren */
+  --farbe-akzent-hover: #ea8c9e;
+  /* Akzent, weich */
+  --farbe-akzent-weich: #3c2229;
+  /* Schrift auf dem Akzent */
+  --farbe-akzent-text: #1b0c10;
+
+  /* SEKUNDÄRFARBE */
+  /* Sekundärfarbe */
+  --farbe-sekundaer: #dcab52;
+  /* Sekundärfarbe beim Überfahren */
+  --farbe-sekundaer-hover: #e8bd6b;
+  /* Sekundärfarbe, weich */
+  --farbe-sekundaer-weich: #3a2f1d;
+  /* Schrift auf der Sekundärfarbe */
+  --farbe-sekundaer-text: #1b1517;
+  /* Gold als Schrift */
+  --farbe-sekundaer-tief: #dcab52;
+
+  /* STATUS */
+  /* Erledigt, gespeichert */
+  --farbe-erfolg: #5fcf8a;
+  /* Erledigt, weich */
+  --farbe-erfolg-weich: #18301f;
+  /* Achtung, aber kein Fehler */
+  --farbe-warnung: #f0b545;
+  /* Achtung, weich */
+  --farbe-warnung-weich: #38291a;
+  /* Fehler, Löschen */
+  --farbe-fehler: #f3857c;
+  /* Fehler, weich */
+  --farbe-fehler-weich: #3d201f;
+  /* Info, Hinweis */
+  --farbe-info: #78a9f2;
+  /* Info, weich */
+  --farbe-info-weich: #1a2a42;
+
+  /* INTERAKTION */
+  /* Fokussiertes Element */
+  --farbe-fokus: #dcab52;
+  /* Überfahren, neutral */
+  --farbe-hover-neutral: #262325;
+  /* Ausgewählt, neutral */
+  --farbe-aktiv-neutral: #302b2d;
+
+  /* DATENVISUALISIERUNG */
+  /* Diagramm, erste Reihe */
+  --farbe-daten-a: #f3eeeb;
+  /* Diagramm, zweite Reihe */
+  --farbe-daten-b: #dcab52;
+  /* Diagramm, dritte Reihe */
+  --farbe-daten-c: #d65c75;
+  /* Diagramm, vierte Reihe */
+  --farbe-daten-d: #6f7ff0;
+  /* Diagramm, Spur */
+  --farbe-daten-track: #322d2f;
+  /* Diagramm, neutral */
+  --farbe-daten-neutral: #949aa0;
+  /* Diagramm, fällig (Bernstein, heller als die Warnfarbe) */
+  --farbe-daten-faellig: #f0b545;
+
+  /* SEITENLEISTE */
+  /* Seitenleiste, Fläche */
+  --farbe-seitenleiste: #1c191b;
+  /* Seitenleiste, Schrift */
+  --farbe-seitenleiste-text: #f3eeeb;
+  /* Seitenleiste, gedämpfte Schrift */
+  --farbe-seitenleiste-gedaempft: #ada5a2;
+  /* Seitenleiste, aktiver Punkt */
+  --farbe-seitenleiste-aktiv: #3c2229;
+  /* Seitenleiste, Schrift im aktiven Punkt */
+  --farbe-seitenleiste-aktiv-text: #f1a9b6;
+  /* Seitenleiste, Rahmen */
+  --farbe-seitenleiste-rahmen: #36302f;
+
+  /* VERLAUF */
+  /* Verlauf, Anfang */
+  --farbe-verlauf-start: #8a2035;
+  /* Verlauf, Ende */
+  --farbe-verlauf-ende: #8a6020;
+
+  /* FORM UND BEWEGUNG */
+  /* Leichtes Abheben */
+  --schatten-klein: 0 1px 2px rgb(0 0 0 / 0.30);
+  /* Dialoge, Menüs */
+  --schatten-mittel: 0 8px 24px rgb(0 0 0 / 0.45);
+  /* Fokusring */
+  --fokus-ring: 0 0 0 3px rgb(220 171 82 / 0.28);
+}
+
+:root[data-modus="hell"] {
+  color-scheme: light;
+}
+
+/* Rollen für den Hub */
+:root {
+  --schrift-text: var(--schrift-flies);
+  --abstand-1: 4px;
+  --abstand-2: 8px;
+  --abstand-3: 12px;
+  --abstand-4: 16px;
+  --abstand-5: 24px;
+  --abstand-6: 40px;
+  --abstand-7: 64px;
+  --radius: 12px;
+  --linie: 1px solid var(--farbe-rahmen);
+}

@@ -1,0 +1,87 @@
+import type { ContentMeta } from '@hub/shared';
+
+// Gemeinsame Prüfungen für die content.test.ts der Module. Jedes Modul ruft
+// checkStructure mit seinem Umfang auf und sucht mit allText nach zitierten Zahlen.
+
+export interface ContentSize {
+  quiz: number;
+  reflection: [number, number];
+  cards: [number, number];
+}
+
+/** Alle Texte eines Moduls, mit Zeilenumbruch verbunden. */
+export function allText(meta: ContentMeta): string {
+  return [
+    meta.intro.text,
+    ...meta.quiz.flatMap((q) => [q.prompt, q.explanation, ...(q.type === 'choice' ? q.options : [])]),
+    ...meta.reflection.map((r) => r.prompt),
+    ...meta.cards.flatMap((c) => [c.front, c.back]),
+  ].join('\n');
+}
+
+/** Liste der Verstöße gegen den Aufbau; leer heißt in Ordnung. */
+export function checkStructure(meta: ContentMeta, size: ContentSize): string[] {
+  const problems: string[] = [];
+  const id = meta.id;
+
+  const schemas: [string, RegExp, { id: string }[]][] = [
+    ['Quizfrage', new RegExp(`^${id}-quiz-\\d{2}$`), meta.quiz],
+    ['Reflexion', new RegExp(`^${id}-refl-\\d{2}$`), meta.reflection],
+    ['Karte', new RegExp(`^${id}-card-\\d{2}$`), meta.cards],
+  ];
+  for (const [label, pattern, items] of schemas) {
+    for (const item of items) {
+      if (!pattern.test(item.id)) problems.push(`${label} hat eine ungültige ID: ${item.id}`);
+    }
+  }
+
+  const seen = new Set<string>();
+  for (const item of [...meta.quiz, ...meta.reflection, ...meta.cards]) {
+    if (seen.has(item.id)) problems.push(`ID doppelt vergeben: ${item.id}`);
+    seen.add(item.id);
+  }
+
+  if (meta.quiz.length > 0) {
+    const estimateId = `${id}-quiz-01`;
+    if (meta.intro.estimateQuestionId !== estimateId) {
+      problems.push(`Einstieg verweist nicht auf ${estimateId} (ist: ${meta.intro.estimateQuestionId ?? 'nichts'})`);
+    }
+    const estimate = meta.quiz.find((q) => q.id === estimateId);
+    if (estimate?.type !== 'estimate') {
+      problems.push(`${estimateId} ist keine Schätzfrage (Typ estimate)`);
+    }
+  }
+
+  for (const q of meta.quiz) {
+    if (q.type === 'choice' && correctIsGiveaway(q.options, q.correctIndex)) {
+      problems.push(`${q.id}: Die richtige Option ist deutlich die längste und damit erratbar`);
+    }
+  }
+
+  if (meta.quiz.length !== size.quiz) {
+    problems.push(`Quizumfang ist ${meta.quiz.length}, erwartet ${size.quiz}`);
+  }
+  checkRange('Reflexionen', meta.reflection.length, size.reflection, problems);
+  checkRange('Karten', meta.cards.length, size.cards, problems);
+
+  if (meta.kind === 'unit') {
+    if (!meta.attachedTo) problems.push('Unit ohne attachedTo');
+    if (meta.quiz.length > 0) problems.push('Unit mit Quizfragen, erwartet leeres quiz');
+  }
+
+  return problems;
+}
+
+/** Erratbar: die richtige Option ist strikt die längste und mehr als 1,3-mal so lang wie die zweitlängste. */
+const GIVEAWAY_RATIO = 1.3;
+function correctIsGiveaway(options: string[], correctIndex: number): boolean {
+  const correct = options[correctIndex]?.length ?? 0;
+  const longestOther = Math.max(0, ...options.filter((_, i) => i !== correctIndex).map((o) => o.length));
+  return correct > longestOther && correct > GIVEAWAY_RATIO * longestOther;
+}
+
+function checkRange(label: string, count: number, [min, max]: [number, number], problems: string[]): void {
+  if (count < min || count > max) {
+    problems.push(`${label}: ${count}, erwartet ${min}–${max}`);
+  }
+}

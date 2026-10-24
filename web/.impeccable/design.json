@@ -1,0 +1,150 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-24T12:00:00.000Z",
+  "title": "Design System: Experimental Hub",
+  "extensions": {
+    "colorMeta": {
+      "weinrot": { "role": "primary", "displayName": "Weinrot", "canonical": "#7a1024", "tonalRamp": ["#2a050c", "#450914", "#5e0b1b", "#7a1024", "#a3485a", "#c78290", "#e6bfc8", "#f5e8eb"] },
+      "gold": { "role": "secondary", "displayName": "Gold", "canonical": "#bd8a30", "tonalRamp": ["#3a2a0a", "#5c4310", "#8a6118", "#bd8a30", "#cd9a3e", "#dfba73", "#eed7aa", "#f6ecd9"] },
+      "gold-tief": { "role": "secondary", "displayName": "Gold tief", "canonical": "#8a6118", "tonalRamp": ["#2f2008", "#46330c", "#5f4510", "#8a6118", "#a97d2c", "#c79f58", "#e2c996", "#f6ecd9"] },
+      "tinte": { "role": "neutral", "displayName": "Tinte", "canonical": "#1b1517", "tonalRamp": ["#1b1517", "#3a3335", "#625b58", "#857e7a", "#948b86", "#c4bcb7", "#e0d9d4", "#f5f3f1"] },
+      "hintergrund": { "role": "neutral", "displayName": "Warmes Off-White", "canonical": "#f5f3f1", "tonalRamp": ["#948b86", "#c4bcb7", "#e0d9d4", "#ece7e3", "#efeae6", "#f5f3f1", "#fcfbfa", "#ffffff"] },
+      "fokus-gold": { "role": "interaction", "displayName": "Fokus-Gold", "canonical": "#946419", "tonalRamp": ["#2f2008", "#4f360d", "#6f4a12", "#946419", "#b0832f", "#c9a55e", "#e2c996", "#f6ecd9"] },
+      "erfolg": { "role": "status", "displayName": "Erfolg", "canonical": "#17773a", "tonalRamp": ["#082a14", "#0f4524", "#125c2e", "#17773a", "#4a9a68", "#85bf9b", "#bfe0cb", "#dff2e4"] }
+    },
+    "typographyMeta": {
+      "headline": { "displayName": "Headline", "purpose": "Seitentitel (h1), 700, enge Laufweite." },
+      "title": { "displayName": "Title", "purpose": "Abschnitte und Versuchstitel, 600." },
+      "body": { "displayName": "Body", "purpose": "Fließtext 17px, Zeilenabstand 1.5, Fragen bis 60ch." },
+      "label": { "displayName": "Label", "purpose": "Metazeilen und Zähler mit tabellarischen Ziffern." },
+      "tag": { "displayName": "Tag", "purpose": "Status-Pillen." },
+      "figure": { "displayName": "Figure", "purpose": "Große Fällig-Zahl." },
+      "mono": { "displayName": "Mono", "purpose": "Kennzahlen und Slider-Werte; JetBrains Mono ist deklariert, aber nicht eingebunden (Fallback Cascadia Code, Consolas)." }
+    },
+    "shadows": [
+      { "name": "klein", "value": "0 1px 2px rgb(27 21 23 / 0.05), 0 2px 8px rgb(27 21 23 / 0.04)", "purpose": "Karten, Panels, Pfadknoten." },
+      { "name": "mittel", "value": "0 8px 24px rgb(27 21 23 / 0.12)", "purpose": "Notizen-Leiste und -Knopf." },
+      { "name": "fokus-ring", "value": "0 0 0 3px rgb(148 100 25 / 0.24)", "purpose": "Goldener Halo zur 2px-Kontur; bewusst nicht weinrot." }
+    ],
+    "motion": [
+      { "name": "kurve", "value": "cubic-bezier(0.2, 0.8, 0.2, 1)", "purpose": "Standardkurve." },
+      { "name": "kurz", "value": "120ms", "purpose": "Hover-Übergänge." },
+      { "name": "dauer", "value": "180ms", "purpose": "Notizen-Leiste gleitet hoch; entfällt bei reduzierter Bewegung." }
+    ],
+    "breakpoints": [
+      { "name": "mobil-nav", "value": "767px" },
+      { "name": "pfad-linie", "value": "768px" },
+      { "name": "heute-zweispaltig", "value": "900px" },
+      { "name": "notizen-seitenleiste", "value": "1024px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primärknopf",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Der einzige gefüllte Knopf einer Fläche; Weinrot steht für Interaktion.",
+      "html": "<button class=\"ds-btn-primary\">Lernrunde starten</button>",
+      "css": ".ds-btn-primary { min-height: 44px; padding: 0 16px; border: 1px solid transparent; border-radius: 6px; background: var(--farbe-akzent, #7a1024); color: var(--farbe-akzent-text, #fff); font: inherit; font-weight: 500; cursor: pointer; transition: background 120ms cubic-bezier(0.2,0.8,0.2,1); } .ds-btn-primary:hover { background: var(--farbe-akzent-hover, #5e0b1b); } .ds-btn-primary:focus-visible { outline: 2px solid var(--farbe-fokus, #946419); outline-offset: 2px; box-shadow: 0 0 0 3px rgb(148 100 25 / 0.24); }"
+    },
+    {
+      "name": "Sekundärknopf",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Umrissknopf in Weinrot für Nebenaktionen.",
+      "html": "<button class=\"ds-btn-secondary\">Zum Projekt</button>",
+      "css": ".ds-btn-secondary { min-height: 44px; padding: 0 16px; border: 1px solid var(--farbe-akzent, #7a1024); border-radius: 6px; background: transparent; color: var(--farbe-akzent, #7a1024); font: inherit; font-weight: 500; cursor: pointer; } .ds-btn-secondary:hover { background: var(--farbe-akzent-weich, #f5e8eb); } .ds-btn-secondary:focus-visible { outline: 2px solid var(--farbe-fokus, #946419); outline-offset: 2px; box-shadow: 0 0 0 3px rgb(148 100 25 / 0.24); }"
+    },
+    {
+      "name": "Navigationsleiste",
+      "kind": "nav",
+      "refersTo": "nav-link-active",
+      "description": "Kopfleiste mit Name, Verweisen und Hell/Dunkel-Schalter (Mond als Ziel).",
+      "html": "<header class=\"ds-nav\"><span class=\"ds-nav-brand\">Experimental Hub</span><a class=\"ds-nav-link ds-active\" href=\"#\">Heute</a><a class=\"ds-nav-link\" href=\"#\">Lernpfad</a><button class=\"ds-nav-toggle\" aria-label=\"Dunkler Modus\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z\"/></svg></button></header>",
+      "css": ".ds-nav { display: flex; align-items: center; gap: 8px; padding: 8px 24px; background: var(--farbe-flaeche, #fff); border-bottom: 1px solid var(--farbe-rahmen, #e0d9d4); } .ds-nav-brand { font-weight: 700; margin-right: auto; } .ds-nav-link { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: 6px; color: var(--farbe-text, #1b1517); text-decoration: none; } .ds-nav-link:hover { background: var(--farbe-hover-neutral, #efeae6); } .ds-nav-link.ds-active { background: var(--farbe-akzent-weich, #f5e8eb); color: var(--farbe-akzent, #7a1024); font-weight: 600; box-shadow: inset 0 -2px 0 currentColor; } .ds-nav-toggle { display: inline-grid; place-items: center; min-width: 44px; min-height: 44px; border: 1px solid var(--farbe-rahmen, #e0d9d4); border-radius: 6px; background: transparent; color: var(--farbe-text-gedaempft, #625b58); cursor: pointer; }"
+    },
+    {
+      "name": "Status-Tag",
+      "kind": "chip",
+      "refersTo": "tag",
+      "description": "Pille mit Zeichen und Wort: offen, begonnen, durchgearbeitet.",
+      "html": "<span class=\"ds-tag ds-tag-done\"><svg width=\"12\" height=\"12\" viewBox=\"0 0 12 12\" fill=\"none\"><path d=\"M2 6.5l2.5 2.5L10 3\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg> Durchgearbeitet</span>",
+      "css": ".ds-tag { display: inline-flex; align-items: center; gap: 0.35em; padding: 1px 10px; border: 1px solid var(--farbe-rahmen, #e0d9d4); border-radius: 999px; background: var(--farbe-flaeche, #fff); color: var(--farbe-text-gedaempft, #625b58); font-size: 0.8rem; font-weight: 500; line-height: 1.6; white-space: nowrap; } .ds-tag-done { background: var(--farbe-erfolg-weich, #dff2e4); border-color: transparent; color: var(--farbe-erfolg, #17773a); }"
+    },
+    {
+      "name": "Versuchsmarke",
+      "kind": "custom",
+      "refersTo": "experiment-mark",
+      "description": "Kreis mit Wort und Nummer: jedes Projekt ist ein nummerierter Versuch.",
+      "html": "<span class=\"ds-mark\"><span class=\"ds-mark-word\">Versuch</span><span class=\"ds-mark-id\">001</span></span>",
+      "css": ".ds-mark { display: inline-grid; place-content: center; justify-items: center; width: 72px; height: 72px; border: 1.5px solid var(--farbe-text, #1b1517); border-radius: 50%; color: var(--farbe-text, #1b1517); line-height: 1; } .ds-mark-word { font-size: 0.7rem; font-weight: 500; color: var(--farbe-text-gedaempft, #625b58); margin-bottom: 4px; } .ds-mark-id { font-size: 1.25rem; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }"
+    },
+    {
+      "name": "Punktreihe",
+      "kind": "custom",
+      "refersTo": "tag",
+      "description": "Fortschritt je Track: voll, halb, leer; die Zahl steht zusätzlich als Text.",
+      "html": "<span class=\"ds-dots\"><span class=\"ds-dot ds-dot-done\"></span><span class=\"ds-dot ds-dot-started\"></span><span class=\"ds-dot\"></span></span>",
+      "css": ".ds-dots { display: inline-flex; gap: 6px; } .ds-dot { width: 16px; height: 16px; border: 1.5px solid var(--farbe-rahmen-stark, #948b86); border-radius: 50%; } .ds-dot-started { border-color: var(--farbe-text, #1b1517); background: linear-gradient(90deg, var(--farbe-text, #1b1517) 50%, transparent 50%); } .ds-dot-done { border-color: var(--farbe-text, #1b1517); background: var(--farbe-text, #1b1517); }"
+    },
+    {
+      "name": "Karte",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Kartenweiß, Haarlinie, 12 px Radius, kaum sichtbarer Schatten.",
+      "html": "<div class=\"ds-card\"><h3>Mindestens erkennbarer Effekt</h3><p>Wie klein darf ein Unterschied sein, damit man ihn noch bemerkt?</p></div>",
+      "css": ".ds-card { background: var(--farbe-flaeche, #fff); border: 1px solid var(--farbe-rahmen, #e0d9d4); border-radius: 12px; padding: 16px; box-shadow: 0 1px 2px rgb(27 21 23 / 0.05), 0 2px 8px rgb(27 21 23 / 0.04); } .ds-card h3 { margin: 0 0 12px; font-size: 1.1rem; font-weight: 600; } .ds-card p { margin: 0; }"
+    },
+    {
+      "name": "Erkenntnis-Kasten",
+      "kind": "custom",
+      "refersTo": "insight",
+      "description": "Gold nur für Erkenntnis; Titel in Gold tief.",
+      "html": "<div class=\"ds-insight\"><strong class=\"ds-insight-title\">Erkenntnis</strong>Kleine Effekte brauchen große Stichproben.</div>",
+      "css": ".ds-insight { background: var(--farbe-sekundaer-weich, #f6ecd9); border: 1px solid var(--farbe-sekundaer, #bd8a30); border-radius: 6px; padding: 12px 16px; } .ds-insight-title { display: block; margin-bottom: 4px; color: var(--farbe-sekundaer-tief, #8a6118); }"
+    },
+    {
+      "name": "Eingabefeld",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "44 px hoch, kräftiger Rahmen; Fehler über Rahmen und Text.",
+      "html": "<input class=\"ds-input\" value=\"Meine Schätzung\">",
+      "css": ".ds-input { width: 100%; min-height: 44px; padding: 8px 12px; border: 1px solid var(--farbe-rahmen-stark, #948b86); border-radius: 6px; background: var(--farbe-flaeche, #fff); color: var(--farbe-text, #1b1517); font: inherit; } .ds-input:focus-visible { outline: 2px solid var(--farbe-fokus, #946419); outline-offset: 2px; box-shadow: 0 0 0 3px rgb(148 100 25 / 0.24); } .ds-input[aria-invalid=\"true\"] { border-color: var(--farbe-fehler, #b3261e); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Das Versuchsheft",
+    "overview": "Der Hub ist ein ruhiger Lern-Standard: warmes Off-White, Kartenweiß, Tinte statt Schwarz, Haarlinien statt Schmuck. Seine Eigenart steckt in einer einzigen Idee: Jedes Projekt ist ein nummerierter Versuch mit eigener Strichzeichnung. Marke, Zeichnung und Track-Zeichen stehen in derselben Linienstärke (1,5), sodass die Oberfläche wie ein sauber geführtes Heft wirkt und nicht wie eine Kachelliste mit Fortschrittsbalken.\n\nHell und dunkel sind gleichwertig. Hell gilt als Grundwert, dunkel folgt dem System oder dem Schalter (data-modus auf <html>). Die Farben laufen über Rollennamen (--farbe-*); neue Werte ändern die Rollen, nicht die Namen.",
+    "keyCharacteristics": [
+      "Weinrot nur für Interaktion, Gold nur für Erkenntnis, alles andere neutral.",
+      "Status und Track werden nie über Farbe allein getragen: immer Zeichen plus Wort bzw. Label.",
+      "Fortschritt als Punktreihe (leer, halb, voll), nicht als Balken.",
+      "Alle Ziele mindestens 44 px hoch.",
+      "Icons ausschließlich Strich-SVGs, currentColor, runde Enden."
+    ],
+    "rules": [
+      { "name": "The Eine-Stimme Rule", "body": "Weinrot gehört der Interaktion. Es ist nie Dekoration und nie Status.", "section": "colors" },
+      { "name": "The Gold-Tief Rule", "body": "Gold als Schrift oder Strich auf hellem Grund läuft immer über --farbe-sekundaer-tief; das helle Gold bleibt Fläche und Rahmen.", "section": "colors" },
+      { "name": "The Kein-Track-Farbe Rule", "body": "Tracks unterscheiden sich über Zeichen und Label, nie über Farbe.", "section": "colors" },
+      { "name": "The Goldener-Fokus Rule", "body": "Der Fokusring ist bewusst golden (--farbe-fokus, 2 px Kontur plus 3 px Halo): ein weinroter Ring verschwände auf weinroten Buttons, Gold kontrastiert in beiden Modi. Das ist die einzige Ausnahme von „Gold nur für Erkenntnis“.", "section": "colors" },
+      { "name": "The Zahlen-Tabular Rule", "body": "Zähler und Nummern stehen mit tabular-nums.", "section": "typography" },
+      { "name": "The Haarlinie Rule", "body": "Eine Karte ist erst durch ihre 1-px-Linie eine Karte; der Schatten ist nur Beigabe.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do Status immer als Zeichen plus Wort setzen, Tracks immer als Zeichen plus Label.",
+      "Do neue Zeichen im selben Strichmaß zeichnen: 1,5, currentColor, runde Enden.",
+      "Do neue Projekte als nummerierten Versuch mit eigener Strichzeichnung anlegen.",
+      "Do Gold als Schrift oder Strich über --farbe-sekundaer-tief setzen.",
+      "Do alle bedienbaren Ziele auf mindestens 44 px bringen.",
+      "Do neue Werte als Rollen --farbe-* in tokens.css führen, hell und dunkel."
+    ],
+    "donts": [
+      "Don't Weinrot für Dekoration oder Status verwenden.",
+      "Don't Tracks oder Status über Farbe allein unterscheiden.",
+      "Don't Emojis oder Schrift-Glyphen (✓, ✗, ☀️) als Icons einsetzen.",
+      "Don't Fortschritt als Balken oder anonyme Kachelliste darstellen.",
+      "Don't mehr als einen gefüllten Knopf auf einer Fläche setzen.",
+      "Don't den Fokusring in Weinrot umfärben; er bleibt golden."
+    ]
+  }
+}

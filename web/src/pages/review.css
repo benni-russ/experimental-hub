@@ -1,0 +1,37 @@
+/* Lernrunde. Weinrot nur auf Knöpfen; Ergebnis nie nur über Farbe. */
+.review { display: grid; gap: var(--abstand-4); max-width: 40rem; }
+.review h1, .review p { margin: 0; }
+.review-progress { font-variant-numeric: tabular-nums; }
+.review-text { font-size: 1.25rem; line-height: 1.5; white-space: pre-wrap; overflow-wrap: anywhere; }
+.review-actions { display: flex; flex-wrap: wrap; gap: var(--abstand-3); }
+.review-actions .btn, .review > a.btn { min-height: 48px; }
+.review-actions .btn { flex: 1 1 10rem; }
+.review > a.btn { justify-self: start; text-decoration: none; }
+.review-end { display: flex; flex-wrap: wrap; gap: var(--abstand-3); }
+.review-end .btn { min-height: 48px; text-decoration: none; }
+.review-scope { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--abstand-1) var(--abstand-3); }
+.review-scope-link { display: inline-flex; align-items: center; min-height: 44px; color: var(--farbe-akzent); }
+.review-topic { display: grid; gap: var(--abstand-2); }
+.review-topic-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--abstand-2) var(--abstand-3); }
+.review h2 { display: flex; align-items: center; gap: var(--abstand-2); margin: 0; font-size: 1.1rem; }
+.review-topic-head .btn { text-decoration: none; }
+.review-count { color: var(--farbe-text-gedaempft); font-variant-numeric: tabular-nums; font-weight: 400; }
+.review-topic-list { display: grid; border-top: var(--linie); }
+.review-topic-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--abstand-3);
+  min-height: 44px;
+  padding: var(--abstand-2) 0;
+  border-bottom: var(--linie);
+  color: var(--farbe-text);
+  text-decoration: none;
+}
+.review-topic-title { min-width: 0; overflow-wrap: anywhere; }
+.review-topic-row:hover .review-topic-title, .review-topic-row:focus-visible .review-topic-title { color: var(--farbe-akzent); text-decoration: underline; }
+.review-summary { display: grid; gap: var(--abstand-2); }
+.review-hint { display: none; font-size: 0.9rem; }
+@media (hover: hover) and (pointer: fine) {
+  .review-hint { display: block; }
+}
