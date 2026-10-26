@@ -153,7 +153,8 @@ export function allVisitorKinds(): VisitorTraits[] {
 export function reach(list: Experience[], strategy: Strategy): Record<string, { matches: number; wins: number }> {
   const result: Record<string, { matches: number; wins: number }> = { [DEFAULT_ID]: { matches: 0, wins: 0 } };
   for (const e of list) result[e.id] = { matches: 0, wins: 0 };
-  for (const traits of allVisitorKinds()) {
+  const kinds = allVisitorKinds();
+  for (const traits of kinds) {
     const { winnerId, steps } = decide(list, traits, strategy);
     for (const s of steps) {
       const r = result[s.experienceId];
@@ -162,8 +163,8 @@ export function reach(list: Experience[], strategy: Strategy): Record<string, { 
     const winner = result[winnerId];
     if (winner) winner.wins += 1;
   }
-  // Das Standarderlebnis passt auf alle, die sonst nirgends landen.
+  // Das Standarderlebnis passt immer, gewinnt aber nur, wenn sonst nichts passt.
   const std = result[DEFAULT_ID];
-  if (std) std.matches = std.wins;
+  if (std) std.matches = kinds.length;
   return result;
 }

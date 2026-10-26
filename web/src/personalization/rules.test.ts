@@ -134,6 +134,30 @@ describe('Startstand', () => {
     expect(bySpecificity[shadowed[0]?.id ?? '']?.wins).toBeGreaterThan(0);
   });
 
+  it('Reichweite unter priority: passt / gewinnt je Erlebnis', () => {
+    const r = reach(START_EXPERIENCES, 'priority');
+    const table = Object.fromEntries(Object.entries(r).map(([id, v]) => [id, [v.matches, v.wins]]));
+    expect(table).toEqual({
+      [DEFAULT_ID]: [48, 8],
+      'cart-reminder': [24, 24],
+      'free-shipping': [24, 12],
+      'app-hint': [16, 4],
+      'newsletter-discount': [6, 0],
+    });
+  });
+
+  it('Reichweite unter specificity: passt / gewinnt je Erlebnis', () => {
+    const r = reach(START_EXPERIENCES, 'specificity');
+    const table = Object.fromEntries(Object.entries(r).map(([id, v]) => [id, [v.matches, v.wins]]));
+    expect(table).toEqual({
+      [DEFAULT_ID]: [48, 8],
+      'cart-reminder': [24, 18],
+      'free-shipping': [24, 12],
+      'app-hint': [16, 4],
+      'newsletter-discount': [6, 6],
+    });
+  });
+
   it('für mindestens einen der 6 Besucher unterscheidet sich der Gewinner', () => {
     const differs = VISITORS.some(
       (v) =>
