@@ -148,6 +148,7 @@
 .json-table { border-collapse: collapse; font-variant-numeric: tabular-nums; }
 .json-table th,
 .json-table td { padding: var(--abstand-2) var(--abstand-4); border-bottom: 1px solid var(--farbe-rahmen-stark); text-align: left; }
+.json-table caption { text-align: left; color: var(--farbe-text-gedaempft); font-size: 0.85rem; margin-bottom: var(--abstand-1); }
 .json-table thead th { font-size: 0.85rem; color: var(--farbe-text-gedaempft); font-weight: var(--gewicht-halbfett); }
 .json-table tbody th { font-weight: var(--gewicht-normal); }
 .json-links { margin: 0; padding-left: var(--abstand-5); }

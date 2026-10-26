@@ -52,8 +52,9 @@ export default function UnderTheHood() {
         Die Methode sagt, was du mit dem Pfad vorhast. Sie entscheidet auch, ob eine Wiederholung gefahrlos ist: Wer ein <code>POST</code> zweimal
         schickt, legt womöglich zwei Dinge an.
       </p>
-      <div className="http-table-wrap">
+      <div className="http-table-wrap" tabIndex={0} role="region" aria-label="Tabelle: Methoden, seitlich verschiebbar">
         <table className="http-table">
+          <caption>Die vier Methoden: Zweck, Body und ob zweimal Senden harmlos ist</caption>
           <thead>
             <tr>
               <th scope="col">Methode</th>
@@ -82,8 +83,9 @@ export default function UnderTheHood() {
         Die erste Ziffer ist die Klasse: <code>2xx</code> Erfolg, <code>4xx</code> der Absender hat etwas falsch gemacht,{' '}
         <code>5xx</code> der Server schafft es gerade nicht. Diese Tabelle hinterlegt die Demo:
       </p>
-      <div className="http-table-wrap">
+      <div className="http-table-wrap" tabIndex={0} role="region" aria-label="Tabelle: Statuscodes der Demo, seitlich verschiebbar">
         <table className="http-table">
+          <caption>Die Statuscodes der Demo mit Klasse, Verursacher und Wiederholung</caption>
           <thead>
             <tr>
               <th scope="col">Code</th>

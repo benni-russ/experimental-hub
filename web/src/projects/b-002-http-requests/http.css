@@ -116,6 +116,7 @@
 /* Unter der Haube */
 .http-table-wrap { overflow-x: auto; }
 .http-table { border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.http-table caption { text-align: left; color: var(--farbe-text-gedaempft); font-size: 0.85rem; margin-bottom: var(--abstand-1); }
 .http-table th,
 .http-table td { padding: var(--abstand-2) var(--abstand-4); border-bottom: 1px solid var(--farbe-rahmen-stark); text-align: left; }
 .http-table thead th { font-size: 0.85rem; color: var(--farbe-text-gedaempft); font-weight: var(--gewicht-halbfett); }

@@ -82,8 +82,9 @@ export default function UnderTheHood() {
       <p>
         <code>ok</code> ist keine Meinung des Servers, sondern eine Abkürzung für <code>{'status >= 200 && status <= 299'}</code>. Diese Tabelle rechnet dein Browser gerade selbst aus:
       </p>
-      <div className="json-table-wrap">
+      <div className="json-table-wrap" tabIndex={0} role="region" aria-label="Tabelle: Status und res.ok">
         <table className="json-table">
+          <caption>res.ok je Status, live in deinem Browser berechnet</caption>
           <thead>
             <tr>
               <th scope="col">Status</th>

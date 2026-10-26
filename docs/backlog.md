@@ -140,11 +140,11 @@ Selbstschreiben. Als Nächstes dran: **Track C**, beginnend mit **C-001**.
 | Nr. | Alte ID | Projekt | Kernfrage | Baut auf | Führt zu | Mini-Einheiten |
 |---|---|---|---|---|---|---|
 | B-001 ✓ | 010 | JSON API Explorer | Was passiert zwischen `fetch()` und einem fertigen JavaScript-Objekt? | JS-Basis | B-002 ✓ | B-001.1 JSON vs. JS-Objekte ✓ |
-| B-002 | 011 | HTTP Request Visualizer | Was steht in Request und Antwort – und was bedeuten 200, 400, 401, 404 und 500? | B-001 | B-003, B-004 | – |
+| B-002 ✓ | 011 | HTTP Request Visualizer | Was steht in Request und Antwort – und was bedeuten 200, 400, 401, 404 und 500? | B-001 | B-003 ✓, B-004 ✓ | – |
 | B-003 ✓ | 022 | JavaScript Event Loop Visualizer | In welcher Reihenfolge läuft asynchroner Code wirklich? | B-001, B-002 | B-004 ✓ | – |
-| B-004 | 012 | GA4 Event Builder | Wie ist ein GA4-Event aufgebaut, und woran erkenne ich ein fehlerhaftes? | B-001, B-002 | B-005 ✓ | B-004.1 Purchase vs. Add-to-Cart ✓, B-004.2 Datenqualität ✓ |
-| B-005 | 014 | GA4 / React Event Builder | Was ändert sich, wenn ein bestehendes Tool in React neu gebaut wird? | B-004 | B-006 ✓ | – |
-| B-006 | 024 | First Testing Playground | Was prüfe ich mit einem Unit Test an echter Projektlogik überhaupt? | B-005 | – | – |
+| B-004 ✓ | 012 | GA4 Event Builder | Wie ist ein GA4-Event aufgebaut, und woran erkenne ich ein fehlerhaftes? | B-001, B-002 | B-005 ✓ | B-004.1 Purchase vs. Add-to-Cart ✓, B-004.2 Datenqualität ✓ |
+| B-005 ✓ | 014 | GA4 / React Event Builder | Was ändert sich, wenn ein bestehendes Tool in React neu gebaut wird? | B-004 | B-006 ✓ | – |
+| B-006 ✓ | 024 | First Testing Playground | Was prüfe ich mit einem Unit Test an echter Projektlogik überhaupt? | B-005 | – | – |
 
 ### Track C – Personalization ●
 
