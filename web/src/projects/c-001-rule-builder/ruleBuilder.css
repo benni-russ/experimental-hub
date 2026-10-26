@@ -1,0 +1,119 @@
+/* C-001 Personalization Rule Builder. Weinrot nur für Knöpfe und das gewählte Besucher-Element.
+   Gewinner und überdeckte Regeln tragen Zeichen und Wort; Farbe unterstützt nur. */
+
+.rb-demo,
+.rb-hood { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--abstand-5); min-width: 0; }
+.rb-demo { container-type: inline-size; }
+.rb-hood > p,
+.rb-hood > h3 { margin: 0; }
+.rb-hood h3 { margin-top: var(--abstand-2); }
+
+.rb-label { font-size: 0.9rem; font-weight: var(--gewicht-mittel); color: var(--farbe-text-gedaempft); }
+.rb-hint { margin: 0; font-size: 0.9rem; color: var(--farbe-text-gedaempft); }
+
+/* Leiste: Konfliktregel und Zurücksetzen */
+.rb-toolbar { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: var(--abstand-3) var(--abstand-5); min-width: 0; }
+.rb-field { display: grid; gap: var(--abstand-2); min-width: 0; }
+.rb-field .segmented { max-width: 100%; }
+@container (max-width: 35.99rem) {
+  .rb-field .segmented { display: grid; }
+  .rb-field .segmented-item { text-align: left; }
+  .rb-field .segmented-item + .segmented-item { border-left: 0; border-top: var(--linie); }
+}
+
+/* Baukasten links, Besucher und Weg rechts; schmal untereinander */
+.rb-columns { display: grid; gap: var(--abstand-5); min-width: 0; }
+@container (min-width: 52rem) {
+  .rb-columns { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; }
+}
+.rb-side { display: grid; gap: var(--abstand-4); min-width: 0; }
+
+.rb-panel {
+  display: grid;
+  align-content: start;
+  gap: var(--abstand-3);
+  min-width: 0;
+  padding: var(--abstand-4);
+  background: var(--farbe-flaeche);
+  border: var(--linie);
+  border-radius: var(--radius-klein);
+}
+.rb-panel h3 { margin: 0; font-size: 1rem; }
+
+/* Regeln */
+.rb-rules { display: grid; gap: var(--abstand-3); margin: 0; padding: 0; list-style: none; min-width: 0; }
+.rb-rule {
+  display: grid;
+  gap: var(--abstand-3);
+  min-width: 0;
+  padding: var(--abstand-3);
+  border: var(--linie);
+  border-radius: var(--radius-klein);
+}
+.rb-rule-default { background: var(--farbe-flaeche-neutral); border-style: dashed; }
+.rb-rule h4 { margin: 0; font-size: 1rem; overflow-wrap: anywhere; }
+.rb-rule-no { font-weight: var(--gewicht-halbfett); color: var(--farbe-text-gedaempft); margin-right: var(--abstand-1); }
+.rb-rule-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--abstand-2); min-width: 0; }
+.rb-move { display: flex; flex-wrap: wrap; gap: var(--abstand-1); }
+
+.rb-conditions { display: grid; gap: var(--abstand-2); margin: 0; padding: 0; list-style: none; }
+.rb-condition { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--abstand-2); min-width: 0; }
+.rb-condition .input { min-width: 0; width: 100%; }
+.rb-condition .btn { grid-column: 1 / -1; justify-self: start; }
+@container (min-width: 34rem) {
+  .rb-condition { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, 1.2fr) auto; align-items: center; }
+  .rb-condition .btn { grid-column: auto; }
+}
+
+/* Besucher */
+.rb-visitors { display: grid; gap: var(--abstand-2); margin: 0; padding: 0; list-style: none; }
+.rb-visitor {
+  display: grid;
+  gap: var(--abstand-1);
+  width: 100%;
+  min-height: 44px;
+  padding: var(--abstand-2) var(--abstand-3);
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  background: var(--farbe-flaeche);
+  border: var(--linie);
+  border-radius: var(--radius-klein);
+  cursor: pointer;
+}
+.rb-visitor:hover { background: var(--farbe-hover-neutral); }
+.rb-visitor[aria-pressed="true"] { border-color: var(--farbe-akzent); background: var(--farbe-akzent-weich); }
+.rb-visitor-name { font-weight: var(--gewicht-halbfett); }
+.rb-visitor-traits { font-size: 0.85rem; color: var(--farbe-text-gedaempft); overflow-wrap: anywhere; }
+.rb-visitor-result { overflow-wrap: anywhere; }
+
+/* Entscheidungsweg */
+.rb-path { display: grid; gap: var(--abstand-2); margin: 0; padding: 0; list-style: none; }
+.rb-step {
+  display: grid;
+  grid-template-columns: 1.5rem minmax(0, 1fr);
+  gap: var(--abstand-2);
+  padding: var(--abstand-2) var(--abstand-3);
+  border: var(--linie);
+  border-left: 4px solid var(--farbe-rahmen-stark);
+  border-radius: var(--radius-klein);
+  overflow-wrap: anywhere;
+}
+.rb-step.is-miss { color: var(--farbe-text-gedaempft); }
+.rb-step.is-winner { border-left-color: var(--farbe-erfolg); background: var(--farbe-erfolg-weich); color: var(--farbe-text); }
+.rb-step-mark { display: inline-flex; align-items: start; padding-top: 2px; }
+.rb-step-mark svg { width: 1.1rem; height: 1.1rem; }
+
+/* Reichweite */
+.rb-table { width: 100%; border-collapse: separate; font-size: 0.95rem; }
+.rb-table th,
+.rb-table td { padding: var(--abstand-2) var(--abstand-3); text-align: left; vertical-align: top; border-bottom: var(--linie); }
+.rb-table tbody th { font-weight: var(--gewicht-mittel); min-width: 10rem; }
+.rb-table td { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.rb-mark { display: inline-flex; align-items: center; gap: var(--abstand-1); font-weight: var(--gewicht-mittel); color: var(--farbe-warnung); }
+.rb-mark svg { width: 1rem; height: 1rem; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .rb-visitor,
+  .rb-step { transition: background-color var(--animation-kurz) var(--animation-kurve), border-color var(--animation-kurz) var(--animation-kurve); }
+}

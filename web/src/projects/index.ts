@@ -29,6 +29,8 @@ import { meta as reactRebuildMeta } from './b-005-react-rebuild/content';
 import ReactRebuildSketch from './b-005-react-rebuild/Sketch';
 import { meta as testingPlaygroundMeta } from './b-006-testing-playground/content';
 import TestingPlaygroundSketch from './b-006-testing-playground/Sketch';
+import { meta as ruleBuilderMeta } from './c-001-rule-builder/content';
+import RuleBuilderSketch from './c-001-rule-builder/Sketch';
 import SampleSketch from './000-sample/Sketch';
 
 export interface ProjectModule {
@@ -107,6 +109,12 @@ export const projects: ProjectModule[] = [
     Sketch: TestingPlaygroundSketch,
     Demo: lazy(() => import('./b-006-testing-playground/Demo')),
     UnderTheHood: lazy(() => import('./b-006-testing-playground/UnderTheHood')),
+  },
+  {
+    meta: ruleBuilderMeta,
+    Sketch: RuleBuilderSketch,
+    Demo: lazy(() => import('./c-001-rule-builder/Demo')),
+    UnderTheHood: lazy(() => import('./c-001-rule-builder/UnderTheHood')),
   },
 ];
 
