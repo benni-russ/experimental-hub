@@ -62,7 +62,7 @@ export default function UnderTheHood() {
       </p>
       <CodeBlock code={TWO_STEPS} label="Zwei Schritte" />
       <p>
-        Darum lauten die Fehlermeldungen von <code>res.json()</code> genau wie die von <code>JSON.parse</code>. Und
+        Darum lauten die Fehlermeldungen von <code>res.json()</code> ganz ähnlich wie die von <code>JSON.parse</code>. Und
         darum lohnt es sich bei der Fehlersuche, zuerst den Rohtext anzusehen: Oft steht dort eine HTML-Fehlerseite statt
         der erwarteten Daten.
       </p>

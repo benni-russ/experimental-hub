@@ -30,6 +30,9 @@ function Entry({ name, value, open = false }: { name: string; value: unknown; op
     <li>
       <details className="json-branch" open={open}>
         <summary>
+          <span className="json-marker" aria-hidden="true">
+            ▸
+          </span>
           <span className="json-key">{name}</span> {tag}
         </summary>
         {entries.length > 0 ? (

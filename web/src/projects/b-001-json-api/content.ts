@@ -114,7 +114,7 @@ export const meta: ContentMeta = {
     {
       id: 'B-001-card-03',
       front: 'Wann wirft fetch, und wann nicht?',
-      back: 'fetch wirft nur, wenn gar keine Antwort ankommt, etwa bei Netzwerkausfall (TypeError: Failed to fetch). Ein 404 oder 500 ist eine Antwort und wirft nicht.',
+      back: 'fetch wirft nur, wenn gar keine Antwort ankommt, etwa bei Netzwerkausfall. Dann ist es ein TypeError, in Chrome mit der Meldung „Failed to fetch“; Firefox formuliert sie anders. Ein 404 oder 500 ist eine Antwort und wirft nicht.',
     },
     {
       id: 'B-001-card-04',
@@ -211,7 +211,7 @@ export const meta: ContentMeta = {
         "    return { ok: false, error: 'Netzwerkfehler: Der Server ist nicht erreichbar.' };",
         '  }',
         '  if (!res.ok) {',
-        '    return { ok: false, error: `HTTP-Fehler ${res.status} ${res.statusText}` };',
+        '    return { ok: false, error: `HTTP-Fehler ${res.status}` };',
         '  }',
         '  try {',
         '    return { ok: true, data: await res.json() };',

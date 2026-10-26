@@ -116,7 +116,9 @@ export default function Demo() {
     }, STEP_MS);
   }
 
-  const ready = walk !== null && walk.caseId === caseId ? walk : null;
+  // Beim Fallwechsel bleibt die alte Leiste stehen, bis der neue Weg berechnet ist: kein Springen.
+  const ready = walk;
+  const shownCase = walk?.caseId ?? caseId;
   const stations = ready?.stations ?? [];
   const failed = stations.find((s) => s.status === 'failed');
   const done = shown >= STATION_IDS.length;
@@ -124,7 +126,7 @@ export default function Demo() {
   const showText = textStation !== undefined && textStation.status !== 'skipped' && shown > STATION_IDS.indexOf('text');
   const showObject = done && ready !== null;
 
-  const caseLabel = CASES.find((c) => c.value === caseId)?.label ?? '';
+  const caseLabel = CASES.find((c) => c.value === shownCase)?.label ?? '';
   const sentence = !ready
     ? ''
     : !done
@@ -159,7 +161,7 @@ export default function Demo() {
             ) : textStation.detail === '' ? (
               <p className="json-muted">Leer. Der Server hat keinen Inhalt geschickt.</p>
             ) : (
-              <pre className="json-raw" tabIndex={0} aria-label="Rohtext der Antwort">
+              <pre className="json-raw" tabIndex={0} role="region" aria-label="Rohtext der Antwort">
                 {textStation.detail}
               </pre>
             )}
@@ -177,7 +179,7 @@ export default function Demo() {
         </div>
       ) : null}
 
-      {ready && done ? <InsightBox title={LESSON[caseId].title}>{LESSON[caseId].text}</InsightBox> : null}
+      {ready && done ? <InsightBox title={LESSON[shownCase].title}>{LESSON[shownCase].text}</InsightBox> : null}
 
       <p className="visually-hidden" aria-live="polite" aria-atomic="true">
         {announced}
