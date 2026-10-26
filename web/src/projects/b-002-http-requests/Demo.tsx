@@ -13,7 +13,7 @@ const HINT: Record<number, string> = {
   200: 'Alles gut: Die Antwort enthält, was du angefragt hast.',
   201: 'Etwas Neues wurde angelegt. Der Header location nennt, wo es jetzt liegt.',
   204: 'Es hat geklappt, aber es gibt nichts zurückzugeben: Der Body ist leer.',
-  400: 'Die Anfrage selbst stimmt nicht, hier fehlt der Name. Korrigiere sie, bevor du sie noch einmal schickst.',
+  400: 'Die Anfrage selbst stimmt nicht, etwa weil ein Pflichtfeld wie der Name fehlt oder der Body kein gültiges JSON ist. Korrigiere sie, bevor du sie noch einmal schickst.',
   401: 'Der Server weiß nicht, wer du bist. Füge den Header authorization mit dem Wert Bearer demo hinzu.',
   404: 'Diesen Pfad oder dieses Produkt gibt es nicht. Neu senden ändert daran nichts.',
   500: 'Der Fehler liegt beim Server. Ein neuer Versuch kann klappen.',
@@ -80,7 +80,7 @@ export default function Demo() {
 
       {result ? (
         result.error ? (
-          <p className="http-problem" role="alert">
+          <p className="http-problem">
             {result.error}
           </p>
         ) : (

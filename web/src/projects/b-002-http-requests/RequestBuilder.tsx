@@ -113,7 +113,7 @@ export function RequestBuilder({ draft, onChange, onSend, disabled }: RequestBui
               <Button
                 variant="quiet"
                 className="http-remove"
-                aria-label={`Header ${name.trim() || i + 1} entfernen`}
+                aria-label={`Header ${name.trim() || 'ohne Namen'} (Zeile ${i + 1}) entfernen`}
                 onClick={() => {
                   focusAfter.current = 'add';
                   set({ headers: draft.headers.filter((_, j) => j !== i) });

@@ -132,6 +132,26 @@ describe('B-002 Prüfungen erkennen typische Fehler', () => {
     );
   });
 
+  it('Aufgabe 2: wiederholt auch bei 429', async () => {
+    await fails(
+      checks02,
+      [
+        'async function fetchWithRetry(url, tries) {',
+        '  let res;',
+        '  for (let i = 0; i < tries; i++) {',
+        '    try {',
+        '      res = await fetch(url);',
+        '      if (res.status < 500 && res.status !== 429) return res;',
+        '    } catch (e) {}',
+        '  }',
+        '  return res;',
+        '}',
+        'return { fetchWithRetry };',
+      ].join('\n'),
+      /429/,
+    );
+  });
+
   it('Aufgabe 2: ein Versuch zu viel', async () => {
     await fails(
       checks02,

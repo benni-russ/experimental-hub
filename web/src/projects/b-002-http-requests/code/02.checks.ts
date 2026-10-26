@@ -68,6 +68,10 @@ const module: CheckModule = {
       },
     },
     {
+      name: '`429` mit `tries = 3`: ein Aufruf, `429` wird hier nicht wiederholt',
+      run: (ctx) => expectAnswer(ctx, [429], 3, 1, 429),
+    },
+    {
       name: '`503` mit `tries = 1`: nur ein Aufruf, die Antwort kommt zurück',
       run: (ctx) => expectAnswer(ctx, [503], 1, 1, 503),
     },

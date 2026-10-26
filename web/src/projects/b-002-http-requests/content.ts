@@ -182,7 +182,7 @@ export const meta: ContentMeta = {
         'Noch einmal versucht wird nur bei einer Antwort der Klasse 5xx (`res.status >= 500`) und bei einem Netzwerkausfall (`fetch` wirft). ' +
         'Jede andere Antwort, auch ein 404, kommt sofort zurück.\n\n' +
         'Gibt die Funktion nach dem letzten Versuch auf, liefert sie die letzte Antwort zurück. Scheitert der letzte Versuch am Netzwerk, gibt es keine Antwort: Dann wirf den Fehler weiter. ' +
-        'Zwischen den Versuchen wird nicht gewartet.\n\n' +
+        'Zwischen den Versuchen wird nicht gewartet. Auch `429` wird hier bewusst nicht wiederholt: Dafür müsste man den Header `retry-after` beachten.\n\n' +
         'Das `fetch` hier ist nachgebaut; `/item` antwortet mit 200. Die Funktion ist `async`; der Code endet mit `return { fetchWithRetry };`.',
       starter: lines('async function fetchWithRetry(url, tries) {', '  // dein Code', '}', '', 'return { fetchWithRetry };'),
       hints: [

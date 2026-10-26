@@ -15,18 +15,10 @@ location: /products/3
 
 {"id": 3, "name": "Lineal", "price": 2}`;
 
-const RETRY = `async function fetchWithRetry(url, tries) {
-  let lastError;
-  for (let attempt = 1; attempt <= tries; attempt++) {
-    try {
-      const res = await fetch(url);
-      if (res.status < 500 || attempt === tries) return res;
-    } catch (err) {
-      lastError = err;
-    }
-    // in echt: hier kurz warten, bei jedem Versuch etwas länger
-  }
-  throw lastError;
+const RETRY = `for (let versuch = 1; versuch <= tries; versuch++) {
+  const res = await fetch(url);
+  if (res.status < 500) return res; // Erfolg oder Fehler des Clients: fertig
+  // hier kurz warten, bei jedem Versuch etwas länger
 }`;
 
 const METHODS: { name: string; use: string; body: string; again: string }[] = [
@@ -151,9 +143,9 @@ export default function UnderTheHood() {
         Netzwerk, das wieder da ist. Bei den übrigen <code>4xx</code> bekommst du immer wieder dieselbe Antwort. Dazu
         gehört eine Obergrenze, sonst hämmert dein Programm endlos auf einen angeschlagenen Server. In echt wartet man
         zwischen den Versuchen, jedes Mal etwas länger. Und Anfragen, die etwas anlegen, wiederholt man nur, wenn man
-        sicher ist, dass kein Duplikat entsteht. Die Aufgabe „Mit Wiederholung laden“ ist das Gerüst dazu:
+        sicher ist, dass kein Duplikat entsteht. Die Aufgabe „Mit Wiederholung laden“ verlangt mehr als dieses Gerüst, etwa den Netzwerkausfall und die letzte Antwort. Die Grundidee sieht so aus:
       </p>
-      <CodeBlock code={RETRY} label="Wiederholen" />
+      <CodeBlock code={RETRY} label="Skizze: Wiederholen" />
 
       <h3>Zum Weiterlesen</h3>
       <ul className="http-list">
