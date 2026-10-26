@@ -74,7 +74,7 @@ describe('D-003 Unter der Haube: zitierte Zahlen', () => {
   it('Verweise und vorsichtige Aussagen', () => {
     expect(html).toContain('href="/projekt/A-001"');
     expect(html).toContain('href="/projekt/A-004"');
-    expect(prose).toContain('D-003.1');
+    expect(html).toMatch(/<a href="\/projekt\/D-003\.1"[^>]*>UX-Beobachtung als Hypothese \(D-003\.1\)<\/a>/);
     for (const term of ['Funnel Exploration', 'Sessions', 'Conversion Rate', 'AOV', 'RPV']) expect(prose).toContain(term);
     expect(prose).toContain('nicht warum');
     expect(prose).not.toMatch(/Google|GA4|Shopify|Branchen|garantiert|immer/i);

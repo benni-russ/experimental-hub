@@ -87,6 +87,35 @@ describe('Suchspiel im Browser-Modell', () => {
     expect(tip?.textContent).toContain('Tipp, am besten im Blickwinkel');
   });
 
+  it('„Alle zeigen“ behält den Fokus und ist danach nur aria-disabled', async () => {
+    const el = await render();
+    const reveal = byText(el, 'Alle zeigen')!;
+    const tip = byText(el, 'Tipp')!;
+    reveal.focus();
+    await click(reveal);
+    expect(el.textContent).toContain('gefunden 8 von 8');
+    expect(document.activeElement).toBe(reveal);
+    expect(document.activeElement).not.toBe(document.body);
+    for (const b of [reveal, tip]) {
+      expect(b.disabled).toBe(false);
+      expect(b.getAttribute('aria-disabled')).toBe('true');
+    }
+    // Der Handler kehrt früh zurück: Ein Tipp erscheint nicht mehr.
+    await click(tip);
+    expect(el.querySelector('.a11y-tip')?.textContent).toBe('');
+    expect(document.activeElement).toBe(reveal);
+  });
+
+  it('„Automatisch prüfen“ sagt die Zusammenfassung über eine immer vorhandene Live-Region an', async () => {
+    const el = await render();
+    const status = el.querySelector('.a11y-audit-status');
+    expect(status?.getAttribute('aria-live')).toBe('polite');
+    expect(status?.textContent).toBe('');
+    await click(byText(el, 'Automatisch prüfen'));
+    expect(el.querySelector('.a11y-audit-status')).toBe(status);
+    expect(status?.textContent).toBe('Der Prüfer findet 5 der 8 Barrieren. Die 3 übrigen merkst du nur, wenn du die Seite selbst bedienst.');
+  });
+
   it('der Suchschalter ist mit dem Hinweis verknüpft', async () => {
     const el = await render();
     const toggle = byText(el, 'Barrieren suchen')!;

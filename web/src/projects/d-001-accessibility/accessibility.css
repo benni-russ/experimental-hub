@@ -44,6 +44,9 @@
 .a11y-counter > span { display: inline-flex; align-items: center; gap: var(--abstand-1); }
 .a11y-actions { display: flex; flex-wrap: wrap; gap: var(--abstand-1); }
 .a11y-actions .btn { display: inline-flex; align-items: center; gap: var(--abstand-2); }
+/* Tipp und „Alle zeigen“, wenn alles gefunden ist: aria-disabled statt disabled, damit der Fokus bleibt; gleich aussehen wie deaktiviert. */
+.a11y-actions .btn[aria-disabled="true"] { opacity: 0.5; cursor: not-allowed; }
+.a11y-actions .btn-quiet[aria-disabled="true"]:hover { background: transparent; }
 .a11y-tip { display: flex; align-items: baseline; gap: var(--abstand-2); margin: 0; }
 .a11y-tip svg { flex: none; align-self: center; }
 /* Leere Live-Regionen bleiben im Baum (kein display: none) und schlucken nur die Lücke des Rasters. */

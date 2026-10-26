@@ -11,20 +11,31 @@ import { auditSummary, badAltChoice } from './game';
 export function AuditPanel({ fixes }: { fixes: Fixes }) {
   const id = useId();
   const [ran, setRan] = useState(false);
+  // Ansage des Laufs: beim Klick gesetzt, damit spätere Behebungen (die der Fokus schon ansagt) nicht doppelt kommen.
+  const [announcement, setAnnouncement] = useState('');
   const reports = audit(buildPage(fixes));
   const reportedIds = new Set(reports.map((r) => r.barrierId));
   const summary = auditSummary(fixes);
   const badAlt = badAltChoice(fixes);
+
+  function run() {
+    setRan(true);
+    setAnnouncement(summary.text);
+  }
 
   return (
     <section className="a11y-panel a11y-audit" aria-labelledby={`${id}-title`}>
       <h3 id={`${id}-title`}>Automatisch prüfen</h3>
       <p className="a11y-hint">Ein automatischer Prüfer liest nur Eigenschaften der Seite: Farben, Attribute, Überschriftenebenen. Bedienen kann er sie nicht.</p>
       <div>
-        <Button variant="secondary" onClick={() => setRan(true)}>
+        <Button variant="secondary" onClick={run}>
           Automatisch prüfen
         </Button>
       </div>
+      {/* Die Live-Region steht immer im Baum und wird nur gefüllt, damit die erste Ansage nicht verloren geht. */}
+      <p className="visually-hidden a11y-audit-status" aria-live="polite" aria-atomic="true">
+        {announcement}
+      </p>
       {ran ? (
         <>
           <p className="a11y-hint">Das Ergebnis folgt dem aktuellen Stand der Seite: Behebst du etwas, ändert sich die Liste mit.</p>

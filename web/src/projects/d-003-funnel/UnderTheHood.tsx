@@ -65,7 +65,8 @@ export default function UnderTheHood() {
       <h3>Wo der Funnel aufhört</h3>
       <p>
         Ein Funnel zeigt, wo Menschen gehen, aber nicht warum. Ob ein Versandhinweis an der Kasse abschreckt oder ein Knopf schwer zu finden ist, verrät erst eine
-        Beobachtung, etwa ein Gespräch oder ein Usability-Test. Wie aus so einer Beobachtung eine prüfbare Vermutung wird, ist das Thema von D-003.1.
+        Beobachtung, etwa ein Gespräch oder ein Usability-Test. Wie aus so einer Beobachtung eine prüfbare Vermutung wird, ist das Thema von{' '}
+        <Link to="/projekt/D-003.1">UX-Beobachtung als Hypothese (D-003.1)</Link>.
       </p>
     </div>
   );

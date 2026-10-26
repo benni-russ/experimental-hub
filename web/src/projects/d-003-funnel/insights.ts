@@ -192,6 +192,13 @@ export function overallLift(lifts: Lifts): number {
 
 const EPS = 1e-9;
 
+/** Wie viele Quoten (Quelle × Übergang) mit den Reglerwerten über 100 % lägen und gekappt werden. */
+export function cappedRates(lifts: Lifts): number {
+  return SOURCES.reduce((n, s) => n + s.rates.filter((r, i) => r * (1 + lifts[i]!) > 1 + EPS).length, 0);
+}
+
+const COUNT_WORDS = ['keine', 'eine', 'zwei', 'drei', 'vier', 'fünf', 'sechs', 'sieben', 'acht', 'neun', 'zehn', 'elf', 'zwölf'];
+
 /** Erkenntnis zur Multiplikation, an die eingestellten Regler gebunden; null, wenn alle auf 0 stehen. */
 export function liftInsight(lifts: Lifts): string | null {
   const active = lifts.map((l, i) => ({ l, i })).filter((x) => x.l !== 0);
@@ -209,12 +216,40 @@ export function liftInsight(lifts: Lifts): string | null {
   if (Math.abs(actual - product) < EPS) {
     text += `Das ergibt ${more(product)}: ${formatCount(after)} statt ${formatCount(BASE_KPIS.orders)}.`;
   } else {
+    const capped = cappedRates(lifts);
+    const quotes = capped === 1 ? 'eine Quote' : `${COUNT_WORDS[capped] ?? capped} Quoten`;
     text +=
-      `Ohne Grenze wären das ${more(product)}. Weil einige Quoten nicht über 100 % steigen können, sind es tatsächlich ` +
-      `${more(actual)}: ${formatCount(after)} statt ${formatCount(BASE_KPIS.orders)}.`;
+      `Ohne Grenze wären das ${more(product)}. Weil ${quotes} nicht über 100 % steigen ${capped === 1 ? 'kann' : 'können'}, ` +
+      `sind es tatsächlich ${more(actual)}: ${formatCount(after)} statt ${formatCount(BASE_KPIS.orders)}.`;
   }
-  if (active.length === 1) text += ' Dieselbe relative Änderung an einem anderen Übergang ergäbe dieselbe Zahl.';
+  if (active.length === 1) text += ` ${sameChangeElsewhere(active[0]!.i, active[0]!.l, actual, product)}`;
   return text;
+}
+
+/**
+ * Satz zum Vergleich mit den anderen Übergängen bei genau einem Regler. „Dieselbe Zahl“ steht nur da, wo die
+ * Rechnung sie wirklich ergibt; stößt eine Quote an 100 %, sagt der Satz das statt einer Gleichheit.
+ */
+function sameChangeElsewhere(index: number, lift: number, actual: number, product: number): string {
+  const others = TRANSITIONS.map((name, j) => {
+    const lifts: Lifts = [0, 0, 0, 0];
+    lifts[j] = lift;
+    return { name, j, exact: Math.abs(liftedState(lifts).kpis.orders / BASE_KPIS.orders - product) < EPS };
+  }).filter((o) => o.j !== index);
+  const exact = others.filter((o) => o.exact).map((o) => o.name);
+  const capped = others.filter((o) => !o.exact).map((o) => o.name);
+  const factor = `${formatPercent1(Math.abs(product - 1))} ${product > 1 ? 'mehr' : 'weniger'} Käufe`;
+
+  if (Math.abs(actual - product) < EPS) {
+    if (capped.length === 0) return 'Dieselbe relative Änderung an einem anderen Übergang ergäbe dieselbe Zahl.';
+    if (exact.length === 0) return `An ${listWords(capped)} ergäbe dieselbe Änderung weniger, weil dort eine Quote an 100 % stößt.`;
+    return (
+      `Dieselbe relative Änderung ergäbe an ${listWords(exact)} dieselbe Zahl, an ${listWords(capped)} weniger, ` +
+      'weil dort eine Quote an 100 % stößt.'
+    );
+  }
+  if (exact.length === 0) return `An einem Übergang, an dem keine Quote an 100 % stößt, ergäbe dieselbe Änderung genau ${factor}.`;
+  return `An ${listWords(exact)} stößt keine Quote an 100 %; dort ergäbe dieselbe Änderung genau ${factor}.`;
 }
 
 /** Stichprobe je Variante (α 0,05, Power 0,8) und Laufzeit in Wochen; null bei Lift ≤ 0 oder ungültigen Werten. */

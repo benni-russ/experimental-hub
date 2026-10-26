@@ -41,6 +41,7 @@ export function SearchGame() {
 
   const page = buildPage(state.fixes);
   const { found, fixed, total } = counts(state);
+  const allFound = found === total;
   const pick = state.lastPick;
   const picked = pick?.barrierId ? barrier(pick.barrierId) : null;
   const badAlt = badAltChoice(state.fixes);
@@ -58,6 +59,15 @@ export function SearchGame() {
   function chooseAlt(text: string) {
     dispatch({ type: 'chooseAlt', text });
     setFocusTick((t) => t + 1);
+  }
+  // Ist alles gefunden, sind Tipp und „Alle zeigen“ nur aria-disabled und kehren hier früh zurück.
+  function showHint() {
+    if (allFound) return;
+    dispatch({ type: 'hint' });
+  }
+  function revealAll() {
+    if (allFound) return;
+    dispatch({ type: 'revealAll' });
   }
   function reset() {
     dispatch({ type: 'reset' });
@@ -131,10 +141,11 @@ export function SearchGame() {
           </span>
         </p>
         <div className="a11y-actions">
-          <Button variant="quiet" onClick={() => dispatch({ type: 'hint' })} disabled={found === total}>
+          {/* aria-disabled statt disabled: Sonst fiele der Fokus nach „Alle zeigen“ mit dem deaktivierten Knopf auf <body>. */}
+          <Button variant="quiet" onClick={showHint} aria-disabled={allFound ? true : undefined}>
             Tipp
           </Button>
-          <Button variant="quiet" onClick={() => dispatch({ type: 'revealAll' })} disabled={found === total}>
+          <Button variant="quiet" onClick={revealAll} aria-disabled={allFound ? true : undefined}>
             Alle zeigen
           </Button>
           <Button variant="quiet" onClick={reset}>

@@ -6,6 +6,7 @@ import {
   BASE_KPIS,
   NO_LIFTS,
   TRANSITIONS,
+  cappedRates,
   formatChange,
   formatCount,
   formatEuro,
@@ -138,6 +139,71 @@ describe('liftInsight', () => {
     expect(text).toContain('Ohne Grenze wären das 406,3 % mehr Käufe');
     expect(text).toContain('nicht über 100 % steigen');
     expect(text).toContain(`${formatCount(liftedState([0.5, 0.5, 0.5, 0.5]).kpis.orders)} statt 520`);
+  });
+
+  it.each([
+    [[0.5, 0, 0, 0] as Lifts, 'Besuch → Produktseite'],
+    [[0, 0, 0, 0.5] as Lifts, 'Kasse → Kauf'],
+  ])('%j: gekappt, also keine Gleichheit, sondern die Zahl ohne Grenze', (lifts) => {
+    const text = liftInsight(lifts)!;
+    expect(text).not.toContain('dieselbe Zahl');
+    expect(text).toContain('Weil eine Quote nicht über 100 % steigen kann, sind es tatsächlich 48,4 % mehr Käufe');
+    expect(text).toContain(
+      `An ${TRANSITIONS[1]} und ${TRANSITIONS[2]} stößt keine Quote an 100 %; dort ergäbe dieselbe Änderung genau 50 % mehr Käufe.`,
+    );
+    for (const j of [1, 2]) {
+      const other: Lifts = [0, 0, 0, 0];
+      other[j] = 0.5;
+      expect(overallLift(other)).toBeCloseTo(0.5, 9);
+    }
+  });
+
+  it('[0, 0,5, 0, 0]: dieselbe Zahl nur dort, wo nichts gekappt wird', () => {
+    const text = liftInsight([0, 0.5, 0, 0])!;
+    expect(text).toContain('Das ergibt 50 % mehr Käufe');
+    expect(text).toContain(
+      `Dieselbe relative Änderung ergäbe an ${TRANSITIONS[2]} dieselbe Zahl, an ${TRANSITIONS[0]} und ${TRANSITIONS[3]} weniger, ` +
+        'weil dort eine Quote an 100 % stößt.',
+    );
+    // Gegenprobe: +50 % an den gekappten Übergängen ergibt wirklich weniger.
+    expect(overallLift([0.5, 0, 0, 0])).toBeLessThan(0.5);
+    expect(overallLift([0, 0, 0, 0.5])).toBeLessThan(0.5);
+  });
+
+  it('[0, 0, 0,2, 0]: nichts gekappt, die Gleichheit stimmt für alle Übergänge', () => {
+    const text = liftInsight([0, 0, 0.2, 0])!;
+    expect(text).toContain('Dieselbe relative Änderung an einem anderen Übergang ergäbe dieselbe Zahl.');
+    for (const j of [0, 1, 3]) {
+      const other: Lifts = [0, 0, 0, 0];
+      other[j] = 0.2;
+      expect(overallLift(other)).toBeCloseTo(0.2, 9);
+    }
+  });
+
+  it('Gleichheit wird über alle Einzelregler nur behauptet, wenn sie stimmt', () => {
+    for (let step = -10; step <= 10; step++) {
+      if (step === 0) continue;
+      const lift = step / 20;
+      const results = [0, 1, 2, 3].map((i) => {
+        const l: Lifts = [0, 0, 0, 0];
+        l[i] = lift;
+        return overallLift(l);
+      });
+      for (let i = 0; i < 4; i++) {
+        const l: Lifts = [0, 0, 0, 0];
+        l[i] = lift;
+        const text = liftInsight(l)!;
+        const allSame = results.every((r) => Math.abs(r - lift) < 1e-9);
+        expect(text.includes('an einem anderen Übergang ergäbe dieselbe Zahl')).toBe(allSame);
+      }
+    }
+  });
+
+  it('nennt die Zahl der gekappten Quoten', () => {
+    expect(cappedRates([0.5, 0, 0, 0])).toBe(1);
+    expect(cappedRates([0.5, 0, 0, 0.5])).toBe(2);
+    expect(liftInsight([0.5, 0, 0, 0.5])).toContain('Weil zwei Quoten nicht über 100 % steigen können');
+    expect(cappedRates([0.4, 0.5, 0.5, 0.4])).toBe(0);
   });
 });
 

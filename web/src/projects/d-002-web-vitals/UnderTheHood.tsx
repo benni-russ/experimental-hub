@@ -1,3 +1,4 @@
+import { Link } from 'react-router';
 import { CodeBlock } from '../../design/components/CodeBlock';
 import { FIELD_VISITS, REFERENCE, THRESHOLDS, clsFromShifts, fieldResults, percentile75, simulateLoad } from '../../experience/vitals';
 import { formatMetric, formatNumber, shiftsOf } from './insights';
@@ -74,8 +75,9 @@ export default function UnderTheHood() {
 
       <h3>Wo die Kennzahlen aufhören</h3>
       <p>
-        Gute Werte heißen nicht, dass Menschen die Seite gut bedienen können: Ein schnell gezeichneter Knopf ohne Namen bleibt für ein Vorleseprogramm stumm (siehe
-        D-001). Und gute Werte heißen nicht, dass jemand kauft. Wo Menschen auf dem Weg zum Kauf aussteigen, zeigt erst der Funnel (D-003).
+        Gute Werte heißen nicht, dass Menschen die Seite gut bedienen können: Ein schnell gezeichneter Knopf ohne Namen bleibt für ein Vorleseprogramm stumm (siehe{' '}
+        <Link to="/projekt/D-001">Accessibility Playground (D-001)</Link>). Und gute Werte heißen nicht, dass jemand kauft. Wo Menschen auf dem Weg zum Kauf
+        aussteigen, zeigt erst der <Link to="/projekt/D-003">Conversion Funnel Simulator (D-003)</Link>.
       </p>
     </div>
   );

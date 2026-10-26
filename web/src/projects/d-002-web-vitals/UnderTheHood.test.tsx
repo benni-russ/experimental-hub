@@ -1,13 +1,20 @@
 import { renderToStaticMarkup } from 'react-dom/server';
+import { MemoryRouter } from 'react-router';
 import { describe, expect, it } from 'vitest';
 import { FIELD_VISITS, REFERENCE, THRESHOLDS, clsFromShifts, fieldResults, percentile75, simulateLoad } from '../../experience/vitals';
 import { shiftsOf } from './insights';
 import UnderTheHood from './UnderTheHood';
 
-const html = renderToStaticMarkup(<UnderTheHood />);
+const render = () =>
+  renderToStaticMarkup(
+    <MemoryRouter>
+      <UnderTheHood />
+    </MemoryRouter>,
+  );
+const html = render();
 const text = html.replace(/<[^>]+>/g, '').replace(/&#x27;/g, "'").replace(/\s+/g, ' ');
 // Fließtext ohne den Code-Block
-const prose = renderToStaticMarkup(<UnderTheHood />)
+const prose = render()
   .replace(/<pre>[\s\S]*?<\/pre>/g, '')
   .replace(/<[^>]+>/g, '')
   .replace(/\s+/g, ' ');
@@ -57,7 +64,7 @@ describe('D-002 Unter der Haube: zitierte Zahlen', () => {
     expect(text).toContain("observe({ type: 'event', durationThreshold: 40, buffered: true })");
     expect(prose).toContain('nach eigenen Angaben als eines von vielen Signalen');
     expect(text).not.toMatch(/lighthouse|pagespeed|search console|crux|ranking|garantiert/i);
-    expect(prose).toContain('D-001');
-    expect(prose).toContain('D-003');
+    expect(html).toMatch(/<a href="\/projekt\/D-001"[^>]*>Accessibility Playground \(D-001\)<\/a>/);
+    expect(html).toMatch(/<a href="\/projekt\/D-003"[^>]*>Conversion Funnel Simulator \(D-003\)<\/a>/);
   });
 });
