@@ -23,6 +23,8 @@ import { meta as eventLoopMeta } from './b-003-event-loop/content';
 import EventLoopSketch from './b-003-event-loop/Sketch';
 import { meta as ga4EventBuilderMeta } from './b-004-ga4-event-builder/content';
 import Ga4EventBuilderSketch from './b-004-ga4-event-builder/Sketch';
+import { meta as purchaseVsCartMeta } from './b-004.1-purchase-vs-cart/content';
+import { meta as dataQualityMeta } from './b-004.2-data-quality/content';
 import SampleSketch from './000-sample/Sketch';
 
 export interface ProjectModule {
@@ -88,6 +90,8 @@ export const projects: ProjectModule[] = [
     Demo: lazy(() => import('./b-004-ga4-event-builder/Demo')),
     UnderTheHood: lazy(() => import('./b-004-ga4-event-builder/UnderTheHood')),
   },
+  { meta: purchaseVsCartMeta, UnderTheHood: lazy(() => import('./b-004.1-purchase-vs-cart/Explanation')) },
+  { meta: dataQualityMeta, UnderTheHood: lazy(() => import('./b-004.2-data-quality/Explanation')) },
 ];
 
 if (import.meta.env.DEV) {

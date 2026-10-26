@@ -1,0 +1,13 @@
+/* B-004.2 Datenqualität: statische Tabelle und Liste, keine Bedienung. */
+.dq-explain { display: grid; gap: var(--abstand-4); min-width: 0; }
+.dq-explain p, .dq-explain h3 { margin: 0; }
+.dq-explain h3 { margin-top: var(--abstand-2); }
+.dq-explain ul, .dq-explain ol { margin: 0; padding-left: var(--abstand-5); display: grid; gap: var(--abstand-2); }
+.dq-wrap { overflow-x: auto; }
+.dq-table { width: 100%; border-collapse: collapse; }
+.dq-table caption { text-align: left; color: var(--farbe-text-gedaempft); font-size: 0.85rem; margin-bottom: var(--abstand-1); }
+.dq-table th, .dq-table td { padding: var(--abstand-2); border-bottom: 1px solid var(--farbe-rahmen-stark); text-align: left; vertical-align: top; }
+.dq-table thead th { font-size: 0.85rem; color: var(--farbe-text-gedaempft); font-weight: 600; }
+.dq-table tbody th { font-weight: 400; }
+.dq-table td:last-child { min-width: 14rem; }
+.dq-table code { white-space: nowrap; }

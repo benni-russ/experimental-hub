@@ -1,0 +1,19 @@
+/* B-004.1 Purchase vs. Add-to-Cart: statische Tabelle und Codeblöcke, keine Bedienung. */
+.pvc-explain { display: grid; gap: var(--abstand-4); min-width: 0; container-type: inline-size; }
+.pvc-explain p, .pvc-explain h3 { margin: 0; }
+.pvc-explain h3 { margin-top: var(--abstand-2); }
+.pvc-explain ul { margin: 0; padding-left: var(--abstand-5); display: grid; gap: var(--abstand-2); }
+.pvc-pair { display: grid; gap: var(--abstand-3); min-width: 0; }
+.pvc-pair > div { display: grid; gap: var(--abstand-1); min-width: 0; align-content: start; }
+.pvc-label { font-size: 0.9rem; font-weight: var(--gewicht-mittel); color: var(--farbe-text-gedaempft); }
+.pvc-wrap { overflow-x: auto; }
+.pvc-table { width: 100%; border-collapse: collapse; }
+.pvc-table caption { text-align: left; color: var(--farbe-text-gedaempft); font-size: 0.85rem; margin-bottom: var(--abstand-1); }
+.pvc-table th, .pvc-table td { padding: var(--abstand-2); border-bottom: 1px solid var(--farbe-rahmen-stark); text-align: left; vertical-align: top; }
+.pvc-table thead th { font-size: 0.85rem; color: var(--farbe-text-gedaempft); font-weight: 600; }
+.pvc-table tbody th { font-weight: 400; }
+.pvc-table code { white-space: nowrap; }
+.pvc-calc { overflow-wrap: anywhere; }
+@container (min-width: 40rem) {
+  .pvc-pair { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
