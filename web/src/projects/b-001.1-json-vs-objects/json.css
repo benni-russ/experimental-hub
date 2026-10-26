@@ -1,0 +1,13 @@
+/* B-001.1 JSON vs. JS-Objekte: statische Tabellen, keine Bedienung. */
+.jvo-explain { display: grid; gap: var(--abstand-4); min-width: 0; }
+.jvo-explain p, .jvo-explain h3 { margin: 0; }
+.jvo-explain ul { margin: 0; padding-left: 1.25rem; display: grid; gap: var(--abstand-2); }
+.jvo-wrap { overflow-x: auto; }
+.jvo-table { width: 100%; border-collapse: collapse; }
+.jvo-table caption { text-align: left; color: var(--farbe-text-gedaempft); font-size: 0.85rem; margin-bottom: var(--abstand-1); }
+.jvo-table th, .jvo-table td { padding: var(--abstand-2); border-bottom: 1px solid var(--farbe-rahmen-stark); text-align: left; vertical-align: top; }
+.jvo-table thead th { font-size: 0.85rem; color: var(--farbe-text-gedaempft); font-weight: 600; }
+.jvo-table tbody th { font-weight: 400; }
+.jvo-table code { white-space: nowrap; }
+.jvo-table td code.jvo-leer { color: var(--farbe-text-gedaempft); }
+.jvo-error { white-space: normal; overflow-wrap: anywhere; }

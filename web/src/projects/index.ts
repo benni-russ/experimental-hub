@@ -16,6 +16,7 @@ import { meta as simpsonMeta } from './a-004-simpson/content';
 import SimpsonSketch from './a-004-simpson/Sketch';
 import { meta as jsonApiMeta } from './b-001-json-api/content';
 import JsonApiSketch from './b-001-json-api/Sketch';
+import { meta as jsonVsObjectsMeta } from './b-001.1-json-vs-objects/content';
 import SampleSketch from './000-sample/Sketch';
 
 export interface ProjectModule {
@@ -62,6 +63,7 @@ export const projects: ProjectModule[] = [
     Demo: lazy(() => import('./b-001-json-api/Demo')),
     UnderTheHood: lazy(() => import('./b-001-json-api/UnderTheHood')),
   },
+  { meta: jsonVsObjectsMeta, UnderTheHood: lazy(() => import('./b-001.1-json-vs-objects/Explanation')) },
 ];
 
 if (import.meta.env.DEV) {
