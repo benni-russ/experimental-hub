@@ -1,0 +1,17 @@
+/* C-001.1 Segmentierung vs. Personalisierung: statische Tabelle und Zeichnung, keine Bedienung. */
+.seg-explain { display: grid; gap: var(--abstand-4); min-width: 0; }
+.seg-explain p, .seg-explain h3 { margin: 0; }
+.seg-explain h3 { margin-top: var(--abstand-2); }
+.seg-wrap { overflow-x: auto; }
+.seg-table { width: 100%; border-collapse: collapse; }
+.seg-table caption { text-align: left; color: var(--farbe-text-gedaempft); font-size: 0.85rem; margin-bottom: var(--abstand-1); }
+.seg-table th, .seg-table td { padding: var(--abstand-2); border-bottom: 1px solid var(--farbe-rahmen-stark); text-align: left; vertical-align: top; min-width: 11rem; }
+.seg-table thead th { font-size: 0.85rem; color: var(--farbe-text-gedaempft); font-weight: 600; }
+.seg-table tbody th { font-weight: var(--gewicht-mittel); min-width: 8rem; }
+.seg-figure { margin: 0; display: grid; gap: var(--abstand-1); min-width: 0; }
+.seg-figure svg { width: 100%; height: auto; max-width: 40rem; color: var(--farbe-text); }
+.seg-figure figcaption { font-size: 0.85rem; color: var(--farbe-text-gedaempft); }
+.seg-fill { fill: var(--farbe-flaeche); stroke: currentColor; }
+.seg-fill-b { fill: var(--farbe-sekundaer-weich); stroke: var(--farbe-sekundaer-tief); }
+.seg-text { fill: currentColor; font-size: 12px; font-family: inherit; }
+.seg-text-muted { fill: var(--farbe-text-gedaempft); font-size: 11px; font-family: inherit; }

@@ -31,6 +31,7 @@ import { meta as testingPlaygroundMeta } from './b-006-testing-playground/conten
 import TestingPlaygroundSketch from './b-006-testing-playground/Sketch';
 import { meta as ruleBuilderMeta } from './c-001-rule-builder/content';
 import RuleBuilderSketch from './c-001-rule-builder/Sketch';
+import { meta as segmentationMeta } from './c-001.1-segmentation/content';
 import SampleSketch from './000-sample/Sketch';
 
 export interface ProjectModule {
@@ -116,6 +117,7 @@ export const projects: ProjectModule[] = [
     Demo: lazy(() => import('./c-001-rule-builder/Demo')),
     UnderTheHood: lazy(() => import('./c-001-rule-builder/UnderTheHood')),
   },
+  { meta: segmentationMeta, UnderTheHood: lazy(() => import('./c-001.1-segmentation/Explanation')) },
 ];
 
 if (import.meta.env.DEV) {
