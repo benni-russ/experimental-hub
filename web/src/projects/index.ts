@@ -38,6 +38,8 @@ import { meta as recommendationsMeta } from './c-003-recommendations/content';
 import RecommendationsSketch from './c-003-recommendations/Sketch';
 import { meta as affinityMeta } from './c-003.1-affinity/content';
 import { meta as whenNotMeta } from './c-003.2-when-not/content';
+import { meta as accessibilityMeta } from './d-001-accessibility/content';
+import AccessibilitySketch from './d-001-accessibility/Sketch';
 import SampleSketch from './000-sample/Sketch';
 
 export interface ProjectModule {
@@ -138,6 +140,12 @@ export const projects: ProjectModule[] = [
   },
   { meta: affinityMeta, UnderTheHood: lazy(() => import('./c-003.1-affinity/Explanation')) },
   { meta: whenNotMeta, UnderTheHood: lazy(() => import('./c-003.2-when-not/Explanation')) },
+  {
+    meta: accessibilityMeta,
+    Sketch: AccessibilitySketch,
+    Demo: lazy(() => import('./d-001-accessibility/Demo')),
+    UnderTheHood: lazy(() => import('./d-001-accessibility/UnderTheHood')),
+  },
 ];
 
 if (import.meta.env.DEV) {

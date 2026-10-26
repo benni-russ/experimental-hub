@@ -1,0 +1,264 @@
+/* D-001 Accessibility Playground. Die Lernseite nutzt nur Tokens; Zustände tragen Zeichen und Wort.
+   Ausnahme ist die Beispielseite (.a11y-sample): siehe unten. */
+
+.a11y-demo,
+.a11y-game,
+.a11y-perspectives,
+.a11y-hood { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--abstand-5); min-width: 0; }
+.a11y-demo { container-type: inline-size; }
+.a11y-hood > p,
+.a11y-hood > h3 { margin: 0; }
+.a11y-hood h3 { margin-top: var(--abstand-2); }
+
+.a11y-label { font-size: 0.9rem; font-weight: var(--gewicht-mittel); color: var(--farbe-text-gedaempft); }
+.a11y-hint { margin: 0; font-size: 0.9rem; color: var(--farbe-text-gedaempft); }
+.a11y-field { display: grid; gap: var(--abstand-2); min-width: 0; }
+.a11y-field .segmented { max-width: 100%; flex-wrap: wrap; }
+
+.a11y-panel {
+  display: grid;
+  align-content: start;
+  gap: var(--abstand-3);
+  min-width: 0;
+  padding: var(--abstand-4);
+  background: var(--farbe-flaeche);
+  border: var(--linie);
+  border-radius: var(--radius-klein);
+}
+.a11y-panel h3 { margin: 0; font-size: 1rem; }
+.a11y-panel h4 { margin: 0; font-size: 0.95rem; }
+
+/* Werkzeugleiste des Suchspiels */
+.a11y-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: var(--abstand-3) var(--abstand-4); }
+.a11y-toolbar .btn { display: inline-flex; align-items: center; gap: var(--abstand-2); }
+.a11y-counter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--abstand-1);
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: var(--gewicht-mittel);
+  font-variant-numeric: tabular-nums;
+}
+.a11y-counter > span { display: inline-flex; align-items: center; gap: var(--abstand-1); }
+.a11y-actions { display: flex; flex-wrap: wrap; gap: var(--abstand-1); }
+.a11y-actions .btn { display: inline-flex; align-items: center; gap: var(--abstand-2); }
+.a11y-tip { display: flex; align-items: baseline; gap: var(--abstand-2); margin: 0; }
+.a11y-tip svg { flex: none; align-self: center; }
+
+/* Ergebnis eines Funds */
+.a11y-result { display: grid; gap: var(--abstand-3); min-width: 0; }
+.a11y-result:empty { display: none; }
+.a11y-result > p { margin: 0; }
+.a11y-result-line { padding: var(--abstand-2) 0; }
+.a11y-choices { display: flex; flex-wrap: wrap; align-items: center; gap: var(--abstand-2); }
+.a11y-choices .a11y-label { flex-basis: 100%; }
+
+.a11y-found,
+.a11y-all { display: grid; gap: var(--abstand-2); margin: 0; padding: 0; list-style: none; }
+.a11y-found li,
+.a11y-all li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--abstand-1) var(--abstand-3);
+  padding: var(--abstand-2) 0;
+  border-bottom: var(--linie);
+}
+.a11y-found li:last-child,
+.a11y-all li:last-child { border-bottom: 0; }
+.a11y-found-title { flex: 1 1 12rem; min-width: 0; overflow-wrap: anywhere; }
+.a11y-found .a11y-hint { flex-basis: 100%; }
+
+/* Hören */
+.a11y-hear { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--abstand-4); }
+@container (min-width: 44rem) {
+  .a11y-hear { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); align-items: start; }
+}
+.a11y-lines { display: grid; gap: var(--abstand-1); margin: 0; padding: 0; list-style: none; }
+.a11y-lines li { display: grid; grid-template-columns: 1.75rem minmax(0, 1fr); align-items: center; gap: var(--abstand-2); }
+.a11y-line-no { color: var(--farbe-text-gedaempft); font-variant-numeric: tabular-nums; text-align: right; font-size: 0.85rem; }
+.a11y-line-text { padding: var(--abstand-1) 0; overflow-wrap: anywhere; }
+.a11y-line-pick {
+  min-height: 44px;
+  padding: var(--abstand-1) var(--abstand-3);
+  text-align: left;
+  font: inherit;
+  color: var(--farbe-text);
+  background: var(--farbe-flaeche);
+  border: 1px dashed var(--farbe-rahmen-stark);
+  border-radius: var(--radius-klein);
+  cursor: pointer;
+  overflow-wrap: anywhere;
+}
+.a11y-line-pick:hover { background: var(--farbe-hover-neutral); border-color: var(--farbe-akzent); }
+.a11y-outline { display: grid; gap: var(--abstand-2); margin: 0; padding: 0; list-style: none; }
+.a11y-outline li { display: flex; flex-wrap: wrap; align-items: center; gap: var(--abstand-1) var(--abstand-2); }
+.a11y-outline-level { font-size: 0.85rem; color: var(--farbe-text-gedaempft); font-variant-numeric: tabular-nums; }
+.a11y-skip { background: var(--farbe-warnung-weich); border-color: transparent; color: var(--farbe-warnung); }
+
+/* Tastatur und Sehschwäche */
+.a11y-keyboard,
+.a11y-vision { display: grid; gap: var(--abstand-4); min-width: 0; }
+.a11y-summary { margin: 0; font-weight: var(--gewicht-mittel); }
+.a11y-filters { position: absolute; width: 0; height: 0; overflow: hidden; }
+.a11y-filtered { min-width: 0; }
+
+/* Prüfer */
+.a11y-audit-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--abstand-4); }
+@container (min-width: 44rem) {
+  .a11y-audit-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; }
+}
+.a11y-audit-col { display: grid; gap: var(--abstand-2); min-width: 0; }
+.a11y-reports { display: grid; gap: var(--abstand-2); margin: 0; padding-left: 1.4em; }
+.a11y-verdict { display: inline-flex; align-items: center; gap: var(--abstand-1); font-size: 0.85rem; font-weight: var(--gewicht-mittel); white-space: nowrap; }
+.a11y-verdict.is-yes { color: var(--farbe-erfolg); }
+.a11y-verdict.is-no { color: var(--farbe-text-gedaempft); }
+
+/* Unter der Haube */
+.a11y-worked {
+  display: grid;
+  gap: var(--abstand-1);
+  margin: 0;
+  padding: var(--abstand-3);
+  background: var(--farbe-flaeche-neutral);
+  border-radius: var(--radius-klein);
+  overflow-wrap: anywhere;
+}
+.a11y-calc { font-family: var(--schrift-code); font-variant-numeric: tabular-nums; }
+.a11y-list { display: grid; gap: var(--abstand-2); margin: 0; padding-left: 1.2em; }
+
+/* ------------------------------------------------------------------------------------------------
+   Beispielseite. Absichtlich mit eigenen, festen Farben und auch im dunklen Modus hell: Die
+   Kontrast-Barriere braucht genau #9a9a9a bzw. #595959 auf #ffffff, und die Größen genau Rot und
+   Grün. Die Werte stehen nur hier als lokale Konstanten; die Lernseite drumherum nutzt Tokens.
+   ------------------------------------------------------------------------------------------------ */
+.a11y-sample {
+  --a11y-papier: #ffffff;
+  --a11y-tinte: #1f1f1f;
+  --a11y-linie: #d6d6d6;
+  --a11y-knopf: #1f3f8f;
+  --a11y-knopf-text: #ffffff;
+  --a11y-gruen: #1d7a3a;
+  --a11y-rot: #c62828;
+  --a11y-gedaempft: #6b6b6b;
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+  padding: 16px;
+  color: var(--a11y-tinte);
+  background: var(--a11y-papier);
+  border: 1px solid var(--farbe-rahmen-stark);
+  border-radius: var(--radius-mittel);
+  color-scheme: light;
+  container-type: inline-size;
+}
+.a11y-page { display: grid; gap: 10px; min-width: 0; }
+.a11y-slot { position: relative; min-width: 0; }
+.a11y-slot-body { min-width: 0; }
+.a11y-head { padding-bottom: 10px; border-bottom: 1px solid var(--a11y-linie); }
+.a11y-logo { font-weight: 700; color: var(--a11y-tinte); text-decoration: none; letter-spacing: 0.02em; }
+.a11y-sample .a11y-h { margin: 0; color: var(--a11y-tinte); line-height: 1.25; }
+.a11y-sample .a11y-h1 { font-size: 1.35rem; }
+.a11y-sample .a11y-h2,
+.a11y-sample .a11y-h4 { font-size: 1.05rem; margin-top: 8px; }
+.a11y-image { max-width: 16rem; }
+.a11y-shoe { display: block; width: 100%; height: auto; color: var(--a11y-tinte); background: #f2f2f2; border-radius: 8px; }
+.a11y-price { margin: 0; font-size: 1.2rem; font-weight: 700; }
+.a11y-note { margin: 0; font-size: 0.9rem; }
+.a11y-text { margin: 0; }
+.a11y-row { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px; }
+.a11y-inline { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.a11y-link { color: var(--a11y-knopf); }
+
+.a11y-sizes { margin: 0; padding: 0; border: 0; min-width: 0; }
+.a11y-sizes legend { padding: 0; margin-bottom: 6px; font-size: 0.9rem; font-weight: 600; }
+.a11y-size-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.a11y-size-cell { display: inline-flex; align-items: center; gap: 4px; }
+.a11y-size {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 2px 8px;
+  font: inherit;
+  font-weight: 600;
+  background: var(--a11y-papier);
+  border: 2px solid currentColor;
+  border-radius: 6px;
+  cursor: pointer;
+}
+/* Barriere: Rot und Grün sind der einzige Unterschied. */
+.a11y-size.is-available { color: var(--a11y-gruen); }
+.a11y-size.is-soldout { color: var(--a11y-rot); }
+/* Behoben: durchgestrichen, mit Wort und deaktiviert. */
+.a11y-size.is-marked.is-soldout { color: var(--a11y-gedaempft); border-style: dashed; cursor: not-allowed; }
+.a11y-size-word { font-size: 0.7rem; font-weight: 500; }
+
+.a11y-qty { display: grid; gap: 4px; justify-items: start; }
+.a11y-qty-label { font-size: 0.9rem; font-weight: 600; }
+.a11y-input {
+  width: 6rem;
+  min-height: 44px;
+  padding: 6px 10px;
+  font: inherit;
+  color: var(--a11y-tinte);
+  background: var(--a11y-papier);
+  border: 1px solid #8a8a8a;
+  border-radius: 6px;
+}
+.a11y-input::placeholder { color: #9a9a9a; }
+.a11y-cart {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 18px;
+  font: inherit;
+  font-weight: 600;
+  color: var(--a11y-knopf-text);
+  background: var(--a11y-knopf);
+  border: 0;
+  border-radius: 6px;
+  cursor: pointer;
+  user-select: none;
+}
+.a11y-added { font-size: 0.9rem; }
+
+/* Die Fokus-Barriere gilt nur innerhalb der Beispielseite und nie für die Suchknöpfe darüber,
+   die zur Lernseite gehören. */
+.a11y-sample--nofocus :focus:not(.a11y-pick) { outline: none; box-shadow: none; }
+
+/* Tab-Nummern der Tastatur-Ansicht */
+.a11y-marker {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 5px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--a11y-papier);
+  background: var(--a11y-tinte);
+  border-radius: 999px;
+}
+
+/* Suchmodus: ein durchsichtiger Knopf über jedem Element. Er gehört zur Lernseite und behält
+   den Fokusring der App. */
+.a11y-pick {
+  position: absolute;
+  inset: -4px;
+  min-height: 44px;
+  padding: 0;
+  background: transparent;
+  border: 1px dashed transparent;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.a11y-sample.is-searching .a11y-pick { border-color: var(--a11y-linie); }
+.a11y-pick:hover { border-color: var(--a11y-knopf); background: rgb(31 63 143 / 0.06); }
+.a11y-sample.is-searching .a11y-slot { min-height: 36px; }
