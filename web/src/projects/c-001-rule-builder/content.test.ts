@@ -28,6 +28,13 @@ describe('C-001 Inhalte: Aufbau', () => {
   });
 });
 
+describe('C-001 Inhalte: Antwortpositionen', () => {
+  it('die richtige Option steht nicht immer an derselben Stelle', () => {
+    const idx = ['C-001-quiz-02', 'C-001-quiz-03', 'C-001-quiz-04'].map((id) => choice(id).correctIndex);
+    expect(idx).toEqual([0, 2, 1]);
+  });
+});
+
 describe('C-001 Inhalte: zitierte Zahlen', () => {
   it('der Text nennt nur geprüfte Zahlen', () => {
     // 48 und die vier Wertezahlen 3, 2, 4, 2 aus der Schätzfrage; sonst keine Ziffern.
@@ -55,6 +62,7 @@ describe('C-001 Inhalte: Aussagen stimmen mit rules.ts überein', () => {
     expect(q.prompt).toContain(nameOf('cart-reminder'));
     expect(q.prompt).toContain(nameOf('free-shipping'));
     expect(q.options[q.correctIndex]).toBe(nameOf('cart-reminder'));
+    expect(START_EXPERIENCES.find((e) => e.id === 'free-shipping')?.conditions.map((c) => `${c.attribute}:${c.operator}:${c.value}`)).toEqual(['customer:is:new']);
     const traits = { device: 'desktop', customer: 'new', source: 'search', cart: 'filled' } as const;
     expect(decide(START_EXPERIENCES, traits, 'priority').winnerId).toBe('cart-reminder');
     // Beide passen, nur die Reihenfolge entscheidet (gleich viele Bedingungen).
@@ -70,7 +78,9 @@ describe('C-001 Inhalte: Aussagen stimmen mit rules.ts überein', () => {
     expect(q.prompt).toContain(nameOf('newsletter-discount'));
     expect(q.prompt).toContain(nameOf('cart-reminder'));
     const discount = START_EXPERIENCES.find((e) => e.id === 'newsletter-discount');
-    expect(discount?.conditions.map((c) => `${c.attribute}:${c.operator}:${c.value}`)).toContain('cart:is:filled');
+    const keys = discount?.conditions.map((c) => `${c.attribute}:${c.operator}:${c.value}`);
+    expect(keys).toContain('cart:is:filled');
+    expect(keys).toContain('source:is:newsletter');
     const r = reach(START_EXPERIENCES, 'priority')['newsletter-discount'];
     expect(r?.matches).toBeGreaterThan(0);
     expect(r?.wins).toBe(0);

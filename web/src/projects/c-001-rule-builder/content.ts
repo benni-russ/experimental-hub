@@ -53,12 +53,12 @@ export const meta: ContentMeta = {
         'Der Newsletter-Rabatt verlangt Newsletter als Quelle und einen gefüllten Warenkorb. Die Warenkorb-Erinnerung steht davor und verlangt nur den gefüllten Warenkorb. ' +
         'Warum gewinnt der Rabatt bei „Erste passende“ nie?',
       options: [
-        'Wer ihn erfüllt, erfüllt auch die Erinnerung, und die steht weiter oben.',
         'Er hat mehr Bedingungen und wird deshalb aussortiert.',
         'Newsletter-Besucher haben nie einen gefüllten Warenkorb.',
+        'Wer ihn erfüllt, erfüllt auch die Erinnerung, und die steht weiter oben.',
         'Der Standard geht immer vor.',
       ],
-      correctIndex: 0,
+      correctIndex: 2,
       explanation:
         'Der Rabatt ist überdeckt: Er passt bei manchen Besuchern, aber vor ihm greift immer schon die Erinnerung. ' +
         'Bei „Spezifischste“ gewinnt er dagegen, weil er mehr Bedingungen hat. Die Reichweiten-Tabelle zeigt solche Erlebnisse, bevor man sie im Betrieb vermisst.',
@@ -68,12 +68,12 @@ export const meta: ContentMeta = {
       type: 'choice',
       prompt: 'Wann gewinnt der Standard?',
       options: [
-        'Nur wenn nichts anderes passt.',
         'Immer, wenn er in der Liste ganz oben steht.',
+        'Nur wenn nichts anderes passt.',
         'Bei jedem Besucher, der neu ist.',
         'Sobald zwei Erlebnisse gleich viele Bedingungen haben.',
       ],
-      correctIndex: 0,
+      correctIndex: 1,
       explanation:
         'Der Standard steht immer ganz unten und passt auf jeden Besucher. Er gewinnt also genau bei den Besucherarten, bei denen kein anderes Erlebnis passt. ' +
         'Er ist das Sicherheitsnetz: Kein Besucher bleibt ohne Banner.',
@@ -128,8 +128,8 @@ export const meta: ContentMeta = {
     },
     {
       id: 'C-001-card-07',
-      front: 'Wie nennen Werkzeuge die Bausteine?',
-      back: 'Meist Audience für die Zielgruppe, Experience für das Erlebnis, Priority für die Reihenfolge und Fallback oder Default für den Standard.',
+      front: 'Was zeigt die Reichweite eines Erlebnisses?',
+      back: 'Auf wie viele Besucherarten es passt und bei wie vielen es tatsächlich gewinnt. Passt es auf viele und gewinnt nie, ist es überdeckt.',
     },
   ],
 };

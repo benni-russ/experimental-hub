@@ -62,7 +62,7 @@ export default function UnderTheHood() {
       <p>
         Merkmale wie „Neukunde“ oder „mobil“ sind Annahmen über Menschen: Wer mobil kommt, will nicht unbedingt eine App, und wer neu ist, will
         nicht unbedingt Gratisversand. Und eine Regel ohne Test bleibt eine Vermutung. Ob ein Erlebnis wirklich besser ist als der Standard,
-        zeigt erst ein Experiment mit Vergleichsgruppe, wie es der Track Experimentation beschreibt.
+        zeigt erst ein Experiment mit Vergleichsgruppe, wie es der Track „Experimentation & Data“ beschreibt.
       </p>
     </div>
   );

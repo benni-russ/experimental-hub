@@ -28,6 +28,11 @@ const STRATEGY_HINT: Record<Strategy, string> = {
   specificity: 'Es gewinnt das passende Erlebnis mit den meisten Bedingungen; bei Gleichstand das weiter oben stehende.',
 };
 
+// „A“, „A und B“, „A, B und C“
+function joinNames(names: string[]): string {
+  return names.length <= 1 ? (names[0] ?? '') : `${names.slice(0, -1).join(', ')} und ${names[names.length - 1]}`;
+}
+
 export default function Demo() {
   const id = useId();
   const [experiences, dispatch] = useReducer(ruleReducer, START_EXPERIENCES);
@@ -147,9 +152,11 @@ export default function Demo() {
 
       {shadowed.length > 0 ? (
         <InsightBox title="Überdeckt: vorhanden, aber ohne Wirkung">
-          {shadowed.map((e) => `„${e.name}“`).join(' und ')} passt auf einen Teil der {kinds} Besucherarten, wird aber bei keiner ausgespielt:
-          Davor greift immer schon ein anderes Erlebnis. Schieb die Regel nach oben, mach ihre Bedingungen enger oder probier die Konfliktregel
-          „Spezifischste“.
+          {joinNames(shadowed.map((e) => `„${e.name}“`))} {shadowed.length === 1 ? 'passt' : 'passen'} auf einen Teil der {kinds}{' '}
+          Besucherarten, {shadowed.length === 1 ? 'wird' : 'werden'} aber bei keiner ausgespielt:{' '}
+          {strategy === 'priority'
+            ? 'Davor greift immer schon ein anderes Erlebnis. Schieb die Regel nach oben, mach ihre Bedingungen enger oder probier die Konfliktregel „Spezifischste“.'
+            : 'Immer gewinnt ein anderes Erlebnis mit mehr oder gleich vielen Bedingungen. Gib der Regel mehr Bedingungen oder stell sie weiter nach oben.'}
         </InsightBox>
       ) : null}
 
