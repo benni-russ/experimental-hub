@@ -3,6 +3,8 @@
 // Die Regeln folgen der Google-Doku (Stand: Oktober 2026, Quellen in UnderTheHood.tsx).
 // Meldungen sind reiner Text ohne Backticks: Die Demo zeigt sie unformatiert.
 
+import { MAX_NAME_LENGTH } from './limits';
+
 export type IssueCode =
   | 'name_format'
   | 'name_too_long'
@@ -29,8 +31,7 @@ export const issueKey = (issue: Issue) => `${issue.code}@${issue.path}`;
 
 /** Erlaubte Abweichung zwischen value und der Summe der Items, wegen Rundung */
 export const VALUE_TOLERANCE = 0.01;
-/** Höchstlänge eines Eventnamens in GA4 */
-export const MAX_NAME_LENGTH = 40;
+export { MAX_NAME_LENGTH };
 
 /** Beginnt mit einem Buchstaben, danach Buchstaben, Ziffern, Unterstrich. Klein ist Konvention, keine Regel. */
 export const NAME_PATTERN = /^[A-Za-z][A-Za-z0-9_]*$/;

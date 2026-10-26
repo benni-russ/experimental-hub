@@ -1,5 +1,5 @@
 import type { ContentMeta } from '@hub/shared';
-import { MAX_NAME_LENGTH } from './validateEvent';
+import { MAX_NAME_LENGTH } from './limits';
 
 // Jede Zahl in diesen Texten ist in content.test.ts nachgerechnet, die Preise
 // in Quiz 3 stammen aus VALID_PURCHASE. Wer etwas ändert, ändert dort mit.

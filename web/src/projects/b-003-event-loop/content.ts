@@ -1,5 +1,5 @@
 import type { ContentMeta } from '@hub/shared';
-import { SNIPPETS } from './traces';
+import { SNIPPET_CODE } from './snippets';
 
 // Jede Zahl und jede Reihenfolge in diesen Texten ist in content.test.ts durch
 // echtes Ausführen geprüft. Wer etwas ändert, ändert dort mit.
@@ -9,7 +9,7 @@ import { SNIPPETS } from './traces';
 const lines = (...l: string[]) => `${l.join('\n')}\n`;
 
 // Das gemischte Beispiel der Demo, als Kommentar für Aufgabe 1.
-const mixedCode = SNIPPETS.find((s) => s.id === 'mixed')?.code ?? '';
+const mixedCode = SNIPPET_CODE.mixed;
 const mixedAsComment = mixedCode.split('\n').map((l) => `// ${l}`);
 
 export const meta: ContentMeta = {

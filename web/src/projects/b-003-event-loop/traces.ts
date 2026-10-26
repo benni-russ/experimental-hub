@@ -1,7 +1,12 @@
 // Fünf Schnipsel für den Event Loop Visualizer, je mit handgeschriebenen
 // Schritten. traces.test.ts führt jeden Schnipsel echt aus und vergleicht die
 // letzte Konsole der Schritte mit der echten Ausgabe. Kein React hier: Die
-// Prüfmodule der Code-Aufgaben laden diese Datei im Worker.
+// Prüfmodule der Code-Aufgaben laden diese Datei im Worker. Die Quelltexte
+// stehen in snippets.ts.
+
+import { SNIPPET_CODE, type SnippetId } from './snippets';
+
+export type { SnippetId };
 
 export interface TraceStep {
   /** markierte Zeile im Code, ab 1 gezählt */
@@ -17,8 +22,6 @@ export interface TraceStep {
   /** Erklärzeile zum Schritt */
   note: string;
 }
-
-export type SnippetId = 'sync' | 'timeout' | 'promise' | 'await' | 'mixed';
 
 export interface Snippet {
   id: SnippetId;
@@ -44,14 +47,7 @@ export const SNIPPETS: Snippet[] = [
   {
     id: 'sync',
     title: 'Synchron',
-    code: code(
-      "console.log('A');",
-      'function greet() {',
-      "  console.log('B');",
-      '}',
-      'greet();',
-      "console.log('C');",
-    ),
+    code: SNIPPET_CODE.sync,
     steps: [
       step(1, [SCRIPT], [], [], ['A'], 'Das Skript liegt als Erstes auf dem Call Stack. Zeile 1 läuft sofort: A.'),
       step(5, [SCRIPT, 'greet()'], [], [], ['A'], 'Der Aufruf legt greet() oben auf den Call Stack.'),
@@ -63,7 +59,7 @@ export const SNIPPETS: Snippet[] = [
   {
     id: 'timeout',
     title: 'setTimeout',
-    code: code("console.log('A');", 'setTimeout(() => {', "  console.log('B');", '}, 0);', "console.log('C');"),
+    code: SNIPPET_CODE.timeout,
     steps: [
       step(1, [SCRIPT], [], [], ['A'], 'Synchroner Code läuft sofort: A.'),
       step(
@@ -90,13 +86,7 @@ export const SNIPPETS: Snippet[] = [
   {
     id: 'promise',
     title: 'Promise.then',
-    code: code(
-      "console.log('A');",
-      'Promise.resolve().then(() => {',
-      "  console.log('B');",
-      '});',
-      "console.log('C');",
-    ),
+    code: SNIPPET_CODE.promise,
     steps: [
       step(1, [SCRIPT], [], [], ['A'], 'Synchroner Code läuft sofort: A.'),
       step(
@@ -116,16 +106,7 @@ export const SNIPPETS: Snippet[] = [
   {
     id: 'await',
     title: 'await',
-    code: code(
-      'async function run() {',
-      "  console.log('B');",
-      '  await null;',
-      "  console.log('D');",
-      '}',
-      "console.log('A');",
-      'run();',
-      "console.log('C');",
-    ),
+    code: SNIPPET_CODE.await,
     steps: [
       step(6, [SCRIPT], [], [], ['A'], 'Die Funktion ist nur angelegt, noch nicht aufgerufen. Zuerst Zeile 6: A.'),
       step(7, [SCRIPT, 'run()'], [], [], ['A'], 'Der Aufruf legt run() auf den Call Stack.'),
@@ -147,22 +128,7 @@ export const SNIPPETS: Snippet[] = [
   {
     id: 'mixed',
     title: 'Alles gemischt',
-    code: code(
-      "console.log('Start');",
-      'setTimeout(() => {',
-      "  console.log('Timer');",
-      '}, 0);',
-      'Promise.resolve().then(() => {',
-      "  console.log('then');",
-      '});',
-      'async function load() {',
-      "  console.log('vor await');",
-      '  await null;',
-      "  console.log('nach await');",
-      '}',
-      'load();',
-      "console.log('Ende');",
-    ),
+    code: SNIPPET_CODE.mixed,
     steps: [
       step(1, [SCRIPT], [], [], ['Start'], 'Synchroner Code läuft sofort, Zeile für Zeile: Start.'),
       step(2, [SCRIPT], [], ['Timer-Funktion'], ['Start'], 'setTimeout gibt die Funktion ab. Nach 0 ms wartet sie in der Macrotask-Queue.'),
