@@ -21,6 +21,8 @@ import { meta as httpRequestsMeta } from './b-002-http-requests/content';
 import HttpRequestsSketch from './b-002-http-requests/Sketch';
 import { meta as eventLoopMeta } from './b-003-event-loop/content';
 import EventLoopSketch from './b-003-event-loop/Sketch';
+import { meta as ga4EventBuilderMeta } from './b-004-ga4-event-builder/content';
+import Ga4EventBuilderSketch from './b-004-ga4-event-builder/Sketch';
 import SampleSketch from './000-sample/Sketch';
 
 export interface ProjectModule {
@@ -79,6 +81,12 @@ export const projects: ProjectModule[] = [
     Sketch: EventLoopSketch,
     Demo: lazy(() => import('./b-003-event-loop/Demo')),
     UnderTheHood: lazy(() => import('./b-003-event-loop/UnderTheHood')),
+  },
+  {
+    meta: ga4EventBuilderMeta,
+    Sketch: Ga4EventBuilderSketch,
+    Demo: lazy(() => import('./b-004-ga4-event-builder/Demo')),
+    UnderTheHood: lazy(() => import('./b-004-ga4-event-builder/UnderTheHood')),
   },
 ];
 

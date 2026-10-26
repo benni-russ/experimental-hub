@@ -1,0 +1,130 @@
+/* B-004 GA4 Event Builder. Weinrot nur für Knöpfe und das gewählte Issue.
+   Die markierte JSON-Zeile ist neutral (Tinte und Kartenweiß) und trägt ▶ und Hervorhebung;
+   das Urteil des Prüfers trägt ✓/✗ und Wort: Farbe allein sagt nichts. */
+
+.ga4-demo,
+.ga4-hood { display: grid; gap: var(--abstand-5); min-width: 0; }
+.ga4-demo { container-type: inline-size; }
+.ga4-hood > p,
+.ga4-hood > h3 { margin: 0; }
+.ga4-hood h3 { margin-top: var(--abstand-2); }
+
+.ga4-label { font-size: 0.9rem; font-weight: var(--gewicht-mittel); color: var(--farbe-text-gedaempft); }
+.ga4-hint { margin: 0; font-size: 0.9rem; color: var(--farbe-text-gedaempft); }
+.ga4-mono { font-family: var(--schrift-code); font-size: 0.9rem; }
+
+/* Schnellwahl */
+.ga4-examples { display: grid; gap: var(--abstand-2); min-width: 0; }
+.ga4-example-buttons { display: flex; flex-wrap: wrap; gap: var(--abstand-2); }
+
+/* Formular links, JSON und Prüfer rechts; schmal untereinander */
+.ga4-columns { display: grid; gap: var(--abstand-5); min-width: 0; }
+@container (min-width: 52rem) {
+  .ga4-columns { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; }
+}
+.ga4-side { display: grid; gap: var(--abstand-4); min-width: 0; }
+
+.ga4-form,
+.ga4-panel {
+  display: grid;
+  align-content: start;
+  gap: var(--abstand-4);
+  min-width: 0;
+  padding: var(--abstand-4);
+  border: var(--linie);
+  border-radius: var(--radius-klein);
+}
+.ga4-panel { background: var(--farbe-flaeche); gap: var(--abstand-3); }
+.ga4-panel h3 { margin: 0; font-size: 1rem; }
+
+.ga4-field { display: grid; gap: var(--abstand-1); min-width: 0; align-content: start; }
+.ga4-field > label { font-weight: var(--gewicht-mittel); }
+.ga4-field .segmented { max-width: 100%; }
+@container (max-width: 35.99rem) {
+  .ga4-field .segmented { display: grid; }
+  .ga4-field .segmented-item { text-align: left; }
+  .ga4-field .segmented-item + .segmented-item { border-left: 0; border-top: var(--linie); }
+}
+.ga4-pair { display: grid; gap: var(--abstand-4); min-width: 0; }
+@container (min-width: 30rem) {
+  .ga4-pair { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* Items */
+.ga4-items,
+.ga4-item { display: grid; gap: var(--abstand-3); min-width: 0; margin: 0; padding: 0; border: 0; }
+.ga4-items > legend,
+.ga4-item > legend { padding: 0; font-weight: var(--gewicht-mittel); margin-bottom: var(--abstand-2); }
+.ga4-item-list { display: grid; gap: var(--abstand-3); margin: 0; padding: 0; list-style: none; }
+.ga4-item {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  padding: var(--abstand-3);
+  border: var(--linie);
+  border-radius: var(--radius-klein);
+}
+.ga4-item > legend { padding: 0 var(--abstand-1); margin-bottom: 0; }
+.ga4-item-remove { grid-column: 1 / -1; }
+.ga4-item-remove .btn { min-height: 44px; }
+
+/* Code mit markierter Zeile */
+.ga4-code {
+  margin: 0;
+  padding: var(--abstand-3) 0;
+  max-height: 32rem;
+  overflow: auto;
+  background: var(--farbe-flaeche-neutral);
+  border-radius: var(--radius-klein);
+  font-family: var(--schrift-code);
+  font-size: 0.85rem;
+}
+.ga4-line {
+  display: grid;
+  grid-template-columns: 2ch auto;
+  justify-content: start;
+  gap: var(--abstand-1);
+  padding: 0 var(--abstand-3) 0 var(--abstand-1);
+  border-left: 3px solid transparent;
+  white-space: pre;
+}
+.ga4-line.is-marked {
+  border-left-color: var(--farbe-text);
+  background: var(--farbe-flaeche);
+  font-weight: var(--gewicht-halbfett);
+}
+.ga4-line mark { background: none; color: inherit; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+.ga4-line-marker { text-align: center; }
+
+/* Prüfer */
+.ga4-summary { margin: 0; font-weight: var(--gewicht-mittel); }
+.ga4-summary.is-ok { color: var(--farbe-erfolg); }
+.ga4-summary.is-bad { color: var(--farbe-fehler); }
+.ga4-issues { display: grid; gap: var(--abstand-2); margin: 0; padding: 0; list-style: none; }
+.ga4-issue {
+  display: grid;
+  gap: var(--abstand-1);
+  width: 100%;
+  min-height: 44px;
+  padding: var(--abstand-2) var(--abstand-3);
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  background: var(--farbe-flaeche);
+  border: var(--linie);
+  border-left: 4px solid var(--farbe-fehler);
+  border-radius: var(--radius-klein);
+  cursor: pointer;
+}
+.ga4-issue:hover { background: var(--farbe-hover-neutral); }
+.ga4-issue[aria-pressed="true"] { border-color: var(--farbe-akzent); border-left-color: var(--farbe-fehler); background: var(--farbe-akzent-weich); }
+.ga4-issue-head { display: flex; flex-wrap: wrap; gap: var(--abstand-1) var(--abstand-3); }
+.ga4-issue-code { font-weight: var(--gewicht-halbfett); }
+.ga4-issue-path { color: var(--farbe-text-gedaempft); overflow-wrap: anywhere; }
+.ga4-issue-message { overflow-wrap: anywhere; }
+
+/* Unter der Haube */
+.ga4-list { margin: 0; padding-left: var(--abstand-5); display: grid; gap: var(--abstand-2); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .ga4-line,
+  .ga4-issue { transition: background-color var(--animation-kurz) var(--animation-kurve), border-color var(--animation-kurz) var(--animation-kurve); }
+}

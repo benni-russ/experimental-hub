@@ -13,4 +13,5 @@ export const CHECKS: Record<string, () => Promise<{ default: CheckModule }>> = {
   'B-002-code-02': () => import('../projects/b-002-http-requests/code/02.checks'),
   'B-003-code-01': () => import('../projects/b-003-event-loop/code/01.checks'),
   'B-003-code-02': () => import('../projects/b-003-event-loop/code/02.checks'),
+  'B-004-code-01': () => import('../projects/b-004-ga4-event-builder/code/01.checks'),
 };
