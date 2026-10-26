@@ -3,7 +3,7 @@ import type { Product } from '../../personalization/catalog';
 import type { FeedEntry, FeedIssue } from '../../personalization/inspectFeed';
 import { PRESETS, rankProducts } from '../../personalization/recommend';
 import { EXAMPLE_VISITOR_ID, NOW, VISITORS } from '../../personalization/visitors';
-import { naiveFlaws } from './effects';
+import { naiveFlaws } from '../../personalization/feedFlaws';
 
 const OPTIONS = { hideOutOfStock: true, hidePurchased: true, n: 5 };
 

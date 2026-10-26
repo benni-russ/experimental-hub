@@ -9,10 +9,11 @@ import { cleanFeed, inspectFeed, readFeedNaively } from '../../personalization/i
 import { FEED_DATE, RAW_FEED } from '../../personalization/rawFeed';
 import { PRESETS, rankChanges, rankProducts, type PresetId, type Weights } from '../../personalization/recommend';
 import { EXAMPLE_VISITOR_ID, NOW, VISITORS } from '../../personalization/visitors';
-import { naiveFlaws } from '../c-002-feed-inspector/effects';
+import { naiveFlaws } from '../../personalization/feedFlaws';
 import { insightsFor } from './insights';
 import { ProfileBars } from './ProfileBars';
 import { RankList } from './RankList';
+import { VisitorSelect } from './VisitorSelect';
 import './recommendations.css';
 
 const TOP = 8;
@@ -98,18 +99,7 @@ export default function Demo() {
       <div className="rc-controls">
         <section className="rc-panel" aria-labelledby={`${id}-visitor`}>
           <h3 id={`${id}-visitor`}>Besucher</h3>
-          <div className="rc-field">
-            <label htmlFor={`${id}-select`} className="rc-label">
-              Wer schaut sich den Shop an?
-            </label>
-            <select id={`${id}-select`} className="input" value={visitorId} onChange={(e) => setVisitorId(e.target.value)}>
-              {VISITORS.map((v) => (
-                <option key={v.id} value={v.id}>
-                  {v.events.length === 0 ? `${v.name} (neu, ohne Verlauf)` : v.name}
-                </option>
-              ))}
-            </select>
-          </div>
+          <VisitorSelect id={`${id}-select`} label="Wer schaut sich den Shop an?" value={visitorId} onChange={setVisitorId} />
           <ProfileBars profile={profile} headingId={`${id}-profile`} />
         </section>
 
@@ -191,7 +181,7 @@ export default function Demo() {
         )}
         {insights.includes('coldStart') ? (
           <InsightBox title="Kaltstart">
-            {visitor.name} hat noch nichts getan. Affinität und Ähnlichkeit haben keinen Anhaltspunkt, es wirkt nur die Beliebtheit. Alle Neuen sehen dieselbe Liste.
+            {visitor.name} hat noch nichts getan. Affinität und Ähnlichkeit haben keinen Anhaltspunkt, es kann nur die Beliebtheit wirken (bei Beliebtheit 0 ist auch sie aus). Alle Neuen sehen dieselbe Liste.
           </InsightBox>
         ) : null}
         {insights.includes('monotone') ? (

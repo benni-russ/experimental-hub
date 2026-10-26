@@ -108,10 +108,12 @@ describe('C-003 Inhalte: zitierte Zahlen', () => {
 
 describe('C-003 Inhalte: Aussagen über das Ranking', () => {
   it('Kaltstart: ohne Verlauf sieht jeder Neue dieselbe Liste, nur die Beliebtheit wirkt', () => {
-    const lists = VISITORS.filter((v) => v.events.length === 0).map((v) =>
+    const second = { ...newcomer, id: 'VX', name: 'Neu 2', events: [] };
+    expect(second.id).not.toBe(newcomer.id);
+    const lists = [...VISITORS.filter((v) => v.events.length === 0), second].map((v) =>
       rankProducts(CATALOG, v, PRESETS.personal.weights, options, NOW).map((r) => r.product.id),
     );
-    expect(lists.length).toBeGreaterThan(0);
+    expect(lists.length).toBeGreaterThan(1);
     expect(new Set(lists.map((l) => l.join())).size).toBe(1);
     const ranked = rankProducts(CATALOG, newcomer, PRESETS.balanced.weights, options, NOW);
     expect(ranked.every((r) => r.parts.affinity === 0 && r.parts.similarity === 0)).toBe(true);
@@ -128,7 +130,8 @@ describe('C-003 Inhalte: Aussagen über das Ranking', () => {
 
   it('Ähnlich: die vorderen Plätze kommen fast nur aus einer Kategorie', () => {
     const list = rankProducts(CATALOG, anna, PRESETS.similar.weights, options, NOW);
-    const lastViewed = CATALOG.find((p) => p.id === 'P01')!;
+    const lastView = anna.events.filter((e) => e.type === 'view').reduce((a, b) => (b.at > a.at ? b : a));
+    const lastViewed = CATALOG.find((p) => p.id === lastView.productId)!;
     expect(list.slice(0, 4).every((r) => r.product.category === lastViewed.category)).toBe(true);
     expect(text).not.toContain('aus einer einzigen');
   });

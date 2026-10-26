@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { cleanFeed, inspectFeed, readFeedNaively } from '../../personalization/inspectFeed';
-import { FEED_DATE, RAW_FEED } from '../../personalization/rawFeed';
-import { PRESETS, rankProducts } from '../../personalization/recommend';
-import { EXAMPLE_VISITOR_ID, NOW, VISITORS } from '../../personalization/visitors';
-import { flawWords, naiveEntries, naiveFlaws } from './effects';
+import { cleanFeed, inspectFeed, readFeedNaively } from './inspectFeed';
+import { FEED_DATE, RAW_FEED } from './rawFeed';
+import { PRESETS, rankProducts } from './recommend';
+import { EXAMPLE_VISITOR_ID, NOW, VISITORS } from './visitors';
+import { flawWords, naiveEntries, naiveFlaws } from './feedFlaws';
 
 const { products, issues } = inspectFeed(RAW_FEED, FEED_DATE);
 const naive = readFeedNaively(RAW_FEED);
@@ -11,7 +11,7 @@ const clean = cleanFeed(products, issues);
 const flaws = naiveFlaws(naive, products, issues);
 const OPTIONS = { hideOutOfStock: true, hidePurchased: true, n: 5 };
 
-describe('C-002 Zuordnung der naiven Liste zu den Feedeinträgen', () => {
+describe('Zuordnung der naiven Liste zu den Feedeinträgen', () => {
   it('jedes naive Produkt hat einen Eintrag mit gleicher id', () => {
     const entries = naiveEntries(products);
     expect(entries).toHaveLength(naive.length);
@@ -39,7 +39,7 @@ describe('C-002 Zuordnung der naiven Liste zu den Feedeinträgen', () => {
   });
 });
 
-describe('C-002 Wirkung auf die Empfehlung', () => {
+describe('Wirkung auf die Empfehlung', () => {
   const top = (list: typeof naive, visitorId: string) =>
     rankProducts(list, VISITORS.find((v) => v.id === visitorId)!, PRESETS.personal.weights, OPTIONS, NOW).map((r) => r.product);
 

@@ -1,7 +1,7 @@
 // Verbindung zwischen Feedprüfung und Empfehlungsvergleich (C-002): welches Produkt der
 // naiv gelesenen Liste stammt aus welchem Feedeintrag, und was ist an diesem Eintrag kaputt.
-import type { Product } from '../../personalization/catalog';
-import type { FeedEntry, FeedIssue, IssueCode } from '../../personalization/inspectFeed';
+import type { Product } from './catalog';
+import type { FeedEntry, FeedIssue, IssueCode } from './inspectFeed';
 
 // Wort für die Markierung einer kaputten Empfehlung, je Fehlerart.
 export const FLAW_WORDS: Partial<Record<IssueCode, string>> = {

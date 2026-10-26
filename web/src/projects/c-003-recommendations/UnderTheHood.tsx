@@ -4,6 +4,7 @@ import { CATALOG } from '../../personalization/catalog';
 import { PRESETS, rankProducts } from '../../personalization/recommend';
 import { EXAMPLE_VISITOR_ID, NOW, VISITORS } from '../../personalization/visitors';
 import { de2 } from './RankList';
+import { VisitorSelect } from './VisitorSelect';
 import './recommendations.css';
 
 const FORMULA = `// Punkte eines Produkts: gewichtete Summe der drei Signale
@@ -42,18 +43,7 @@ export default function UnderTheHood() {
         Produkt mit der höchsten Summe steht oben.
       </p>
       <CodeBlock code={FORMULA} label="Die Formel" />
-      <div className="rc-field">
-        <label htmlFor={`${id}-visitor`} className="rc-label">
-          Besucher für das Beispiel
-        </label>
-        <select id={`${id}-visitor`} className="input" value={visitorId} onChange={(e) => setVisitorId(e.target.value)}>
-          {VISITORS.map((v) => (
-            <option key={v.id} value={v.id}>
-              {v.events.length === 0 ? `${v.name} (neu, ohne Verlauf)` : v.name}
-            </option>
-          ))}
-        </select>
-      </div>
+      <VisitorSelect id={`${id}-visitor`} label="Besucher für das Beispiel" value={visitorId} onChange={setVisitorId} />
       {first && s ? (
         <p className="rc-worked">
           <strong>

@@ -21,6 +21,12 @@ describe('C-003 Erkenntnis-Kästen', () => {
     expect(insightsFor({ affinity: 0.8, popularity: 0.8, similarity: 0.8 }, true)).not.toContain('monotone');
   });
 
+  it('ohne Verlauf ist die Ähnlichkeit überall 0: kein „eintönig“, nur Kaltstart', () => {
+    const r = insightsFor(PRESETS.similar.weights, false);
+    expect(r).not.toContain('monotone');
+    expect(r).toContain('coldStart');
+  });
+
   it('alle Gewichte null: Hinweis, kein „eintönig“', () => {
     const r = insightsFor(none, true);
     expect(r).toContain('allZero');

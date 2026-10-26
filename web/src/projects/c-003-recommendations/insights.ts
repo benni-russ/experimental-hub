@@ -12,6 +12,6 @@ export function insightsFor(weights: Weights, hasHistory: boolean): InsightId[] 
   const result: InsightId[] = [];
   if (!hasHistory) result.push('coldStart');
   if (sum === 0) result.push('allZero');
-  else if (weights.similarity / sum >= MONOTONE_SHARE - 1e-9) result.push('monotone');
+  else if (hasHistory && weights.similarity / sum >= MONOTONE_SHARE - 1e-9) result.push('monotone');
   return result;
 }
