@@ -8,6 +8,7 @@ import Demo from './Demo';
 
 // Vitest liest CSS-Importe als leer ein; deshalb die Datei direkt von der Platte.
 const css = readFileSync(join(__dirname, 'accessibility.css'), 'utf8');
+const tokens = readFileSync(join(__dirname, '../../design/tokens.css'), 'utf8');
 
 (globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -56,6 +57,8 @@ describe('Suchspiel im Browser-Modell', () => {
     expect(line?.textContent).toContain('Gefunden: Zu schwacher Kontrast');
     expect(document.activeElement).toBe(line);
     expect(el.textContent).toContain('gefunden 1 von 8');
+    // Der Fokus sagt die Zeile an; läge sie in einer Live-Region, käme die Ansage doppelt.
+    expect(line?.closest('[aria-live]')).toBeNull();
 
     await click(byText(el, 'Dunklere Textfarbe wählen'));
     const after = el.querySelector('.a11y-result-line');
@@ -69,6 +72,37 @@ describe('Suchspiel im Browser-Modell', () => {
     await click(byText(el, 'Barrieren suchen'));
     await click(buttons(el).find((b) => b.getAttribute('aria-label')?.startsWith('Preis:')));
     expect(el.querySelector('.a11y-result-line')?.textContent).toContain('Hier ist nichts falsch.');
+    expect(el.querySelector('[role="status"]')?.textContent).toBe('Hier ist nichts falsch.');
+  });
+
+  it('Live-Regionen: Tipp und Status stehen immer im Baum, der Fokusbereich ist keine Live-Region', async () => {
+    const el = await render();
+    const tip = el.querySelector('.a11y-tip');
+    expect(tip?.getAttribute('aria-live')).toBe('polite');
+    expect(tip?.textContent).toBe('');
+    expect(el.querySelector('[role="status"]')?.textContent).toBe('');
+    expect(el.querySelector('.a11y-result')?.hasAttribute('aria-live')).toBe(false);
+    await click(byText(el, 'Tipp'));
+    expect(el.querySelector('.a11y-tip')).toBe(tip);
+    expect(tip?.textContent).toContain('Tipp, am besten im Blickwinkel');
+  });
+
+  it('der Suchschalter ist mit dem Hinweis verknüpft', async () => {
+    const el = await render();
+    const toggle = byText(el, 'Barrieren suchen')!;
+    const hint = document.getElementById(toggle.getAttribute('aria-describedby') ?? '');
+    expect(hint?.textContent).toContain('Barrieren suchen');
+  });
+
+  it('Sehschwäche: der Filter liegt auf dem Inhalt, nicht auf den Suchknöpfen', async () => {
+    const el = await render();
+    await click(byText(el, 'Barrieren suchen'));
+    await click(byText(el, 'Sehschwäche'));
+    await click(byText(el, 'Unschärfe'));
+    const bodies = [...el.querySelectorAll<HTMLElement>('.a11y-slot-body')];
+    expect(bodies.length).toBeGreaterThan(0);
+    for (const b of bodies) expect(b.style.filter).toBe('blur(2px)');
+    for (const p of el.querySelectorAll<HTMLElement>('.a11y-pick')) expect(p.closest('[style*="filter"]')).toBeNull();
   });
 
   it('nutzloser Alternativtext: gefunden, nicht behoben, mit eigenem Hinweis im Prüfer', async () => {
@@ -80,6 +114,19 @@ describe('Suchspiel im Browser-Modell', () => {
     await click(byText(el, 'Automatisch prüfen') ?? buttons(el).find((b) => b.textContent?.includes('prüfen lassen')));
     expect(el.textContent).toContain('Zufriedener Prüfer, nutzloser Text');
     expect(el.textContent).toContain('Der Prüfer findet 4 der 8 Barrieren.');
+  });
+});
+
+describe('Fokusring auf der immer hellen Beispielseite', () => {
+  it('nimmt die Werte des hellen Themes aus tokens.css', () => {
+    const light = tokens.match(/:root\s*\{[\s\S]*?\}/)?.[0] ?? '';
+    const fokus = light.match(/--farbe-fokus:\s*([^;]+);/)?.[1];
+    const ring = tokens.match(/--fokus-ring:\s*([^;]+);/)?.[1];
+    expect(fokus).toBe('#946419');
+    expect(ring).toBe('0 0 0 3px rgb(148 100 25 / 0.24)');
+    const sample = css.match(/\.a11y-sample\s*\{([^}]*)\}/)?.[1] ?? '';
+    expect(sample).toContain(`--farbe-fokus: ${fokus};`);
+    expect(sample).toContain(`--fokus-ring: ${ring};`);
   });
 });
 

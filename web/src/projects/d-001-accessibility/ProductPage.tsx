@@ -29,9 +29,11 @@ interface ProductPageProps {
   onPick: (nodeId: string) => void;
   /** Tab-Nummern je Knoten bzw. je Größe (`sizes-42`) */
   markers?: Record<string, number>;
+  /** CSS-Filter für den Inhalt jedes Platzes (Sehschwäche); die Suchknöpfe darüber bleiben scharf. */
+  filter?: string;
 }
 
-export function ProductPage({ page, searchMode, onPick, markers }: ProductPageProps) {
+export function ProductPage({ page, searchMode, onPick, markers, filter }: ProductPageProps) {
   const id = useId();
   const [added, setAdded] = useState(false);
   const byId = (nodeId: string) => page.find((n) => n.id === nodeId)!;
@@ -49,7 +51,7 @@ export function ProductPage({ page, searchMode, onPick, markers }: ProductPagePr
   // durchsichtiger Knopf mit Namen: So ist jedes Element per Tab und Enter auswählbar.
   const slot = (node: PageNode, children: ReactNode, className = '') => (
     <div className={`a11y-slot ${className}`.trim()} key={node.id}>
-      <div className="a11y-slot-body" inert={searchMode}>
+      <div className="a11y-slot-body" inert={searchMode} style={filter ? { filter } : undefined}>
         {children}
       </div>
       {searchMode ? <button type="button" className="a11y-pick" aria-label={pickLabel(node)} onClick={() => onPick(node.id)} /> : null}

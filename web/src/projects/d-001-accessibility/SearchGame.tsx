@@ -118,7 +118,7 @@ export function SearchGame() {
   return (
     <div className="a11y-game">
       <div className="a11y-toolbar">
-        <Button variant="secondary" aria-pressed={searchMode} onClick={() => setSearchMode((on) => !on)}>
+        <Button variant="secondary" aria-pressed={searchMode} aria-describedby={`${id}-mode`} onClick={() => setSearchMode((on) => !on)}>
           <Icon name="search" /> Barrieren suchen
         </Button>
         <p className="a11y-counter" aria-live="polite" aria-atomic="true">
@@ -147,17 +147,24 @@ export function SearchGame() {
           ? 'Suchmodus an: Jedes Element der Seite und jede Ansagezeile ist jetzt ein Knopf. Wähl aus, was dir verdächtig vorkommt.'
           : 'Schalte „Barrieren suchen“ ein und wähle dann Elemente der Seite oder Zeilen der Ansage aus.'}
       </p>
-      {hint ? (
-        <p className="a11y-tip" aria-live="polite">
-          <Icon name="info" size={16} /> Tipp, am besten im Blickwinkel {perspectiveLabel(hint)}: {hint.hint}
-        </p>
-      ) : null}
+      {/* Die Live-Region steht immer im Baum und wird nur gefüllt, damit die erste Ansage nicht verloren geht. */}
+      <p className="a11y-tip" aria-live="polite">
+        {hint ? (
+          <>
+            <Icon name="info" size={16} /> Tipp, am besten im Blickwinkel {perspectiveLabel(hint)}: {hint.hint}
+          </>
+        ) : null}
+      </p>
 
       <Perspectives page={page} searchMode={searchMode} onPick={onPick} />
 
-      <div className="a11y-result" aria-live="polite">
-        {result}
-      </div>
+      {/* Bei Fund, Behebung und Alt-Wahl springt der Fokus auf die Ergebniszeile; das sagt sie an.
+          Deshalb ist der Ergebnisbereich keine Live-Region (sonst doppelte Ansage). Nur „Hier ist
+          nichts falsch“ bewegt den Fokus nicht und geht über die eigene, immer vorhandene Statuszeile. */}
+      <div className="a11y-result">{result}</div>
+      <p className="visually-hidden" role="status" aria-live="polite" aria-atomic="true">
+        {pick && !picked ? 'Hier ist nichts falsch.' : ''}
+      </p>
 
       {foundList.length > 0 ? (
         <section className="a11y-panel" aria-labelledby={`${id}-found`}>

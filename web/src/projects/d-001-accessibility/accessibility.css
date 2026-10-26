@@ -46,10 +46,12 @@
 .a11y-actions .btn { display: inline-flex; align-items: center; gap: var(--abstand-2); }
 .a11y-tip { display: flex; align-items: baseline; gap: var(--abstand-2); margin: 0; }
 .a11y-tip svg { flex: none; align-self: center; }
+/* Leere Live-Regionen bleiben im Baum (kein display: none) und schlucken nur die Lücke des Rasters. */
+.a11y-game > .a11y-tip:empty,
+.a11y-game > .a11y-result:empty { margin-top: calc(-1 * var(--abstand-5)); }
 
 /* Ergebnis eines Funds */
 .a11y-result { display: grid; gap: var(--abstand-3); min-width: 0; }
-.a11y-result:empty { display: none; }
 .a11y-result > p { margin: 0; }
 .a11y-result-line { padding: var(--abstand-2) 0; }
 .a11y-choices { display: flex; flex-wrap: wrap; align-items: center; gap: var(--abstand-2); }
@@ -143,6 +145,10 @@
   --a11y-gruen: #1d7a3a;
   --a11y-rot: #c62828;
   --a11y-gedaempft: #6b6b6b;
+  /* Auch der Fokusring nimmt die Werte des hellen Themes (tokens.css), weil die Seite immer hell
+     ist; der Goldton des dunklen Themes käme auf Weiß nur auf etwa 2,1 : 1. Absicht. */
+  --farbe-fokus: #946419;
+  --fokus-ring: 0 0 0 3px rgb(148 100 25 / 0.24);
   display: grid;
   gap: 12px;
   min-width: 0;
@@ -259,6 +265,6 @@
   border-radius: 6px;
   cursor: pointer;
 }
-.a11y-sample.is-searching .a11y-pick { border-color: var(--a11y-linie); }
-.a11y-pick:hover { border-color: var(--a11y-knopf); background: rgb(31 63 143 / 0.06); }
+.a11y-sample.is-searching .a11y-pick { border-color: var(--farbe-rahmen-stark); }
+.a11y-pick:hover { border-color: var(--farbe-akzent); /* durchscheinend, sonst verdeckt der Knopf das Element darunter */ background: color-mix(in srgb, var(--farbe-akzent) 8%, transparent); }
 .a11y-sample.is-searching .a11y-slot { min-height: 36px; }

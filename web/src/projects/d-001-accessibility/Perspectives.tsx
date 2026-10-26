@@ -147,8 +147,10 @@ export function Perspectives({ page, searchMode, onPick }: PerspectivesProps) {
               </filter>
             ))}
           </svg>
-          <div className="a11y-filtered" style={{ filter }}>
-            <ProductPage page={page} searchMode={searchMode} onPick={onPick} />
+          {/* Der Filter liegt auf dem Inhalt der Plätze, nicht auf der ganzen Seite: So bleibt der
+              Fokusring der Suchknöpfe scharf und farbecht. */}
+          <div className="a11y-filtered">
+            <ProductPage page={page} searchMode={searchMode} onPick={onPick} filter={filter} />
           </div>
           <p className="a11y-hint">Näherung: Wie stark sich eine Sehschwäche auswirkt, ist von Mensch zu Mensch verschieden.</p>
         </div>
