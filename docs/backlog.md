@@ -5,7 +5,7 @@ ausdünnen. Was danach übrig bleibt, wird
 einmal vollständig umgesetzt.
 
 Stand: 26.10.2026 · Status: **kuratiert** – alle Vorschläge übernommen,
-Track A, B und C fertig
+Track A, B, C und D fertig
 
 Vorgaben aus der Abstimmung:
 
@@ -116,8 +116,8 @@ Karten) an einem Projekt.
 
 ## 2. Backlog
 
-**18 Projekte und 12 Mini-Einheiten**, davon fertig: Track A, B und C mit 13 Projekten
-und 10 Mini-Einheiten. Als Nächstes dran: **Track D**, beginnend mit **D-001**. Gebaut wird Track für Track in der Reihenfolge
+**18 Projekte und 12 Mini-Einheiten**, davon fertig: Track A, B, C und D mit 16 Projekten
+und 11 Mini-Einheiten. Als Nächstes dran: **Track AI**, beginnend mit **AI-001**. Gebaut wird Track für Track in der Reihenfolge
 A → B → C → D → AI, je Track ein Durchgang mit eigener Spezifikation
 (Teilprojekt 3+). Die Kernfrage ist ein Entwurf und wird beim Bau geschärft.
 Verweise in „Baut auf“ und „Führt zu“ nutzen die neue Zählung.
@@ -129,7 +129,7 @@ Verweise in „Baut auf“ und „Führt zu“ nutzen die neue Zählung.
 | A-001 ✓ | 001 | MDE | Wie viele Menschen braucht ein A/B-Test, um einen kleinen Unterschied zuverlässig zu erkennen? | A/B-Praxis | A-002 | A-001.1 Priorisierung (026) ✓ |
 | A-002 ✓ | 006 | Confidence Interval Visualizer | Was sagt ein Konfidenzintervall über das Ergebnis – und was nicht? | A-001 | A-003 | A-002.1 Zufall & Varianz (002) ✓, A-002.2 Bayes (009) ✓, A-002.3 Signifikant ≠ relevant (031) ✓ |
 | A-003 ✓ | 013 | Sample Ratio Mismatch Checker | Woran erkenne ich, dass ein Test kaputt ist, bevor ich sein Ergebnis lese? | A-001, A-002 | A-004 | – |
-| A-004 ✓ | 004 | Simpson's Paradox Visualizer | Wie kann ein Effekt in jedem Segment steigen und insgesamt fallen? | A-002 | D-003 | – |
+| A-004 ✓ | 004 | Simpson's Paradox Visualizer | Wie kann ein Effekt in jedem Segment steigen und insgesamt fallen? | A-002 | D-003 ✓ | – |
 
 ### Track B – Web & APIs ■ ✓
 
@@ -154,13 +154,13 @@ Selbstschreiben.
 | C-002 ✓ | 030 | Product Feed Inspector | Woran erkenne ich, dass ein Produktfeed Empfehlungen verdirbt? | C-001, B-001 | C-003 ✓ | – |
 | C-003 ✓ | 008 | Recommendation Demo | Wie entsteht aus Signalen und Gewichten ein Ranking? | C-002 | – | C-003.1 Affinitätsprofil (019) ✓, C-003.2 Wann Personalisierung keinen Sinn ergibt ✓ |
 
-### Track D – Digital Experience ▲
+### Track D – Digital Experience ▲ ✓
 
 | Nr. | Alte ID | Projekt | Kernfrage | Baut auf | Führt zu | Mini-Einheiten |
 |---|---|---|---|---|---|---|
-| D-001 | 017 | Accessibility Playground | Woran scheitert eine Seite für Menschen mit Einschränkung – und wie prüfe ich das? | HTML/CSS | D-002 | – |
-| D-002 | 023 | Core Web Vitals Playground | Was messen LCP, CLS und INP, und was verschlechtert sie? | HTML/CSS/JS | D-003 | – |
-| D-003 | 007 | Conversion Funnel Simulator | Wie hängen Funnel-Schritte, Conversion und Umsatz zusammen – und wann widersprechen sie sich? | Analytics-Praxis | A-001 | D-003.1 UX-Beobachtung als Hypothese |
+| D-001 ✓ | 017 | Accessibility Playground | Woran scheitert eine Seite für Menschen mit Einschränkung – und wie prüfe ich das? | HTML/CSS | D-002 ✓ | – |
+| D-002 ✓ | 023 | Core Web Vitals Playground | Was messen LCP, CLS und INP, und was verschlechtert sie? | D-001 | D-003 ✓ | – |
+| D-003 ✓ | 007 | Conversion Funnel Simulator | Wie hängen Funnel-Schritte, Conversion und Umsatz zusammen – und wann widersprechen sie sich? | A-004 | A-001 ✓ | D-003.1 UX-Beobachtung als Hypothese ✓ |
 
 ### Track AI & Automation ★
 
@@ -176,9 +176,9 @@ Selbstschreiben.
 | A Experimentation & Data | 4 | 4 | 4 | 4 |
 | B Web & APIs | 6 | 6 | 3 | 3 |
 | C Personalization | 3 | 3 | 3 | 3 |
-| D Digital Experience | 3 | 0 | 1 | 0 |
+| D Digital Experience | 3 | 3 | 1 | 1 |
 | AI & Automation | 2 | 0 | 1 | 0 |
-| **Summe** | **18** | **13** | **12** | **10** |
+| **Summe** | **18** | **16** | **12** | **11** |
 
 Gestrichen oder aufgegangen (alte IDs): 002, 003, 009, 015, 016, 018, 019, 020, 021,
 025, 026, 029 (davon 002, 009, 019, 026 als Mini-Einheit erhalten).
