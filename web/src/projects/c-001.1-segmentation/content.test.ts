@@ -1,5 +1,6 @@
 import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
+import { MemoryRouter } from 'react-router';
 import { describe, expect, it } from 'vitest';
 import { allText, checkStructure } from '../contentChecks';
 import { projects } from '../index';
@@ -30,7 +31,7 @@ describe('C-001.1 Inhalte: Aufbau', () => {
 });
 
 describe('C-001.1 Erklärung', () => {
-  const html = renderToStaticMarkup(createElement(Explanation));
+  const html = renderToStaticMarkup(createElement(MemoryRouter, null, createElement(Explanation)));
 
   it('zeigt die Tabelle mit Beschriftung und den sechs Zeilen', () => {
     expect(html).toContain('<caption>');
@@ -44,8 +45,9 @@ describe('C-001.1 Erklärung', () => {
     expect(html).toMatch(/<svg[^>]*role="img"[^>]*aria-label="[^"]+"/);
   });
 
-  it('verweist auf das spätere Projekt ohne Link', () => {
+  it('verweist auf das Projekt Recommendation Demo mit Link', () => {
     expect(html).toContain('Recommendation Demo');
-    expect(html).not.toMatch(/href="[^"]*C-003/);
+    expect(html).toContain('href="/projekt/C-003"');
+    expect(html).not.toContain('zeigt später');
   });
 });

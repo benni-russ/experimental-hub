@@ -34,6 +34,8 @@ import RuleBuilderSketch from './c-001-rule-builder/Sketch';
 import { meta as segmentationMeta } from './c-001.1-segmentation/content';
 import { meta as feedInspectorMeta } from './c-002-feed-inspector/content';
 import FeedInspectorSketch from './c-002-feed-inspector/Sketch';
+import { meta as recommendationsMeta } from './c-003-recommendations/content';
+import RecommendationsSketch from './c-003-recommendations/Sketch';
 import SampleSketch from './000-sample/Sketch';
 
 export interface ProjectModule {
@@ -125,6 +127,12 @@ export const projects: ProjectModule[] = [
     Sketch: FeedInspectorSketch,
     Demo: lazy(() => import('./c-002-feed-inspector/Demo')),
     UnderTheHood: lazy(() => import('./c-002-feed-inspector/UnderTheHood')),
+  },
+  {
+    meta: recommendationsMeta,
+    Sketch: RecommendationsSketch,
+    Demo: lazy(() => import('./c-003-recommendations/Demo')),
+    UnderTheHood: lazy(() => import('./c-003-recommendations/UnderTheHood')),
   },
 ];
 

@@ -1,3 +1,4 @@
+import { Link } from 'react-router';
 import './segmentation.css';
 
 // Zeilen der Gegenüberstellung: Segmentierung links, Personalisierung rechts.
@@ -145,8 +146,8 @@ export default function Explanation() {
 
       <h3>Wie es weitergeht</h3>
       <p>
-        Wie aus Ereignissen eine eigene Reihenfolge entsteht, zeigt später das Projekt Recommendation Demo: Signale, ein
-        Profil je Besucher und eine Rangliste, deren Gewichte du selbst einstellst.
+        Wie aus Ereignissen eine eigene Reihenfolge entsteht, zeigt das Projekt <Link to="/projekt/C-003">Recommendation Demo</Link>:
+        Signale, ein Profil je Besucher und eine Rangliste, deren Gewichte du selbst einstellst.
       </p>
 
       <h3>Einordnung</h3>

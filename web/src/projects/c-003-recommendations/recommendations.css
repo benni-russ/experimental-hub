@@ -1,0 +1,108 @@
+/* C-003 Recommendation Demo. Die drei Signale tragen Muster (voll, schraffiert, gepunktet) und
+   Beschriftung, nicht nur Farbe. Zustände (Platzänderung, Mangel) tragen Zeichen und Wort. */
+
+.rc-demo,
+.rc-hood { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--abstand-5); min-width: 0; }
+.rc-demo { container-type: inline-size; }
+.rc-hood > p,
+.rc-hood > h3 { margin: 0; }
+.rc-hood h3 { margin-top: var(--abstand-2); }
+
+.rc-label { font-size: 0.9rem; font-weight: var(--gewicht-mittel); color: var(--farbe-text-gedaempft); }
+.rc-hint { margin: 0; font-size: 0.9rem; color: var(--farbe-text-gedaempft); }
+.rc-field { display: grid; gap: var(--abstand-2); min-width: 0; }
+.rc-field .segmented { max-width: 100%; flex-wrap: wrap; }
+
+.rc-controls { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--abstand-4); min-width: 0; align-content: start; }
+@container (min-width: 56rem) {
+  .rc-demo { grid-template-columns: minmax(0, 22rem) minmax(0, 1fr); align-items: start; }
+}
+
+.rc-panel {
+  display: grid;
+  align-content: start;
+  gap: var(--abstand-3);
+  min-width: 0;
+  padding: var(--abstand-4);
+  background: var(--farbe-flaeche);
+  border: var(--linie);
+  border-radius: var(--radius-klein);
+}
+.rc-panel h3 { margin: 0; font-size: 1rem; }
+.rc-panel h4 { margin: 0; font-size: 0.95rem; }
+.rc-sliders { display: grid; gap: var(--abstand-2); }
+
+/* Profil */
+.rc-profile { display: grid; gap: var(--abstand-2); }
+.rc-bars { display: grid; gap: var(--abstand-2); margin: 0; padding: 0; list-style: none; }
+.rc-bar-row { display: grid; grid-template-columns: minmax(4.5rem, 7rem) minmax(0, 1fr) auto; align-items: center; gap: var(--abstand-2); font-size: 0.9rem; }
+.rc-bar-name { overflow-wrap: anywhere; }
+.rc-bar-track { display: block; height: 10px; background: var(--farbe-daten-track); border-radius: var(--radius-rund); overflow: hidden; }
+.rc-bar-fill { display: block; height: 100%; background: var(--farbe-daten-a); border-radius: var(--radius-rund); }
+.rc-bar-value { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+/* Filter: Hauptschalter über der Liste, durch eine Linie getrennt */
+.rc-switches { display: grid; gap: var(--abstand-2); min-width: 0; margin: 0; padding: 0; border: 0; }
+.rc-master { padding-bottom: var(--abstand-2); border-bottom: var(--linie); }
+.rc-master .switch-label { font-weight: var(--gewicht-halbfett); }
+.rc-switch-list { display: grid; gap: var(--abstand-1); margin: 0; padding: 0; list-style: none; }
+.rc-switches .switch { width: 100%; text-align: left; }
+.rc-switches .switch-label { flex: 1; }
+
+/* Rangliste */
+.rc-results { gap: var(--abstand-4); }
+.rc-rank { display: grid; gap: var(--abstand-3); min-width: 0; }
+.rc-legend { display: flex; flex-wrap: wrap; gap: var(--abstand-1) var(--abstand-4); margin: 0; padding: 0; list-style: none; font-size: 0.85rem; color: var(--farbe-text-gedaempft); }
+.rc-legend li { display: inline-flex; align-items: center; gap: var(--abstand-2); }
+.rc-swatch { display: inline-block; width: 22px; height: 12px; border: var(--linie); border-radius: 2px; }
+
+.rc-list { display: grid; gap: var(--abstand-2); margin: 0; padding: 0; list-style: none; }
+.rc-item {
+  display: grid;
+  grid-template-columns: 1.5rem minmax(0, 1fr);
+  gap: var(--abstand-2);
+  padding: var(--abstand-2) var(--abstand-3);
+  border: var(--linie);
+  border-radius: var(--radius-klein);
+}
+.rc-item.is-flawed { border-color: var(--farbe-fehler); background: var(--farbe-fehler-weich); }
+.rc-place { font-weight: var(--gewicht-halbfett); color: var(--farbe-text-gedaempft); }
+.rc-body { display: grid; gap: var(--abstand-1); min-width: 0; }
+.rc-head { display: flex; justify-content: space-between; align-items: baseline; gap: var(--abstand-3); }
+.rc-title { font-weight: var(--gewicht-mittel); overflow-wrap: anywhere; min-width: 0; }
+.rc-score { font-family: var(--schrift-code); font-variant-numeric: tabular-nums; }
+.rc-meta { display: flex; flex-wrap: wrap; align-items: center; gap: var(--abstand-1) var(--abstand-3); font-size: 0.85rem; color: var(--farbe-text-gedaempft); }
+.rc-change { font-weight: var(--gewicht-halbfett); font-variant-numeric: tabular-nums; }
+.rc-change.is-up { color: var(--farbe-erfolg); }
+.rc-change.is-down { color: var(--farbe-fehler); }
+.rc-change.is-new { color: var(--farbe-sekundaer-tief); }
+.rc-flaw { background: var(--farbe-fehler-weich); border-color: transparent; color: var(--farbe-fehler); }
+.rc-item.is-flawed .rc-meta { color: var(--farbe-text); }
+
+/* Gestapelter Balken: Beitrag je Signal. Breite = Beitrag / Summe der Gewichte. */
+.rc-stack { display: flex; height: 12px; background: var(--farbe-daten-track); border-radius: 2px; overflow: hidden; }
+.rc-seg { display: block; height: 100%; flex: none; }
+.rc-seg-affinity { background: var(--farbe-daten-a); }
+.rc-seg-popularity {
+  background-color: var(--farbe-flaeche);
+  background-image: repeating-linear-gradient(45deg, var(--farbe-daten-b) 0 3px, transparent 3px 6px);
+  box-shadow: inset 0 0 0 1px var(--farbe-daten-b);
+}
+.rc-seg-similarity {
+  background-color: var(--farbe-flaeche);
+  background-image: radial-gradient(circle, var(--farbe-daten-c) 1.2px, transparent 1.6px);
+  background-size: 5px 5px;
+  box-shadow: inset 0 0 0 1px var(--farbe-daten-c);
+}
+.rc-swatch.rc-seg-affinity,
+.rc-swatch.rc-seg-popularity,
+.rc-swatch.rc-seg-similarity { flex: none; }
+
+/* Unter der Haube */
+.rc-worked { display: grid; gap: var(--abstand-1); margin: 0; padding: var(--abstand-3); background: var(--farbe-flaeche-neutral); border-radius: var(--radius-klein); overflow-wrap: anywhere; }
+.rc-calc { font-family: var(--schrift-code); font-variant-numeric: tabular-nums; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .rc-bar-fill,
+  .rc-seg { transition: width var(--animation-kurz) var(--animation-kurve); }
+}
