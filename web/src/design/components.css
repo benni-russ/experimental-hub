@@ -344,15 +344,16 @@
   background: var(--farbe-hover-neutral);
 }
 
-/* Codeblock mit Kopierknopf */
+/* Codeblock mit Kopierknopf: nur das Symbol, rechts oben im Block wie im Editor */
 .code-block {
   position: relative;
   margin-block: var(--abstand-3) var(--abstand-4);
 }
 .code-block pre {
   margin: 0;
+  min-height: 44px;
   padding: var(--abstand-3);
-  padding-right: calc(var(--abstand-3) + 7.5rem);
+  padding-right: calc(var(--abstand-1) + 44px);
   overflow-x: auto;
   background: var(--farbe-flaeche-neutral);
   border-radius: var(--radius-klein);
@@ -361,26 +362,17 @@
 }
 .btn.code-block-copy {
   position: absolute;
-  top: var(--abstand-1);
-  right: var(--abstand-1);
-  min-height: 44px;
-  font-size: 0.85rem;
+  top: 0;
+  right: 0;
+  width: 44px;
+  padding: 0;
+  color: var(--farbe-text-gedaempft);
+  /* Deckend: beim waagerechten Scrollen läuft der Code unter dem Knopf durch */
+  background: var(--farbe-flaeche-neutral);
 }
-/* Schmal: kein Platz neben dem Code, der Knopf steht rechtsbündig darüber. */
-@media (max-width: 479px) {
-  .code-block {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-  }
-  .btn.code-block-copy {
-    position: static;
-    order: -1;
-  }
-  .code-block pre {
-    align-self: stretch;
-    padding-right: var(--abstand-3);
-  }
+.btn.code-block-copy:hover:not(:disabled) {
+  color: var(--farbe-text);
+  background: linear-gradient(var(--farbe-hover-neutral) 0 0) var(--farbe-flaeche-neutral);
 }
 
 /* Karte zum Umdrehen (FlipCard). Beide Seiten liegen übereinander, die Höhe

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Button } from './Button';
 import { copyText } from './copyText';
-import { Icon } from './Icon';
+import { Icon, type IconName } from './Icon';
 
 type CopyState = 'idle' | 'copied' | 'failed';
 
@@ -9,6 +9,12 @@ const TEXT: Record<CopyState, string> = {
   idle: 'Kopieren',
   copied: 'Kopiert',
   failed: 'Nicht kopiert',
+};
+
+const ICON: Record<CopyState, IconName> = {
+  idle: 'copy',
+  copied: 'check',
+  failed: 'cross',
 };
 
 const MESSAGE: Record<CopyState, string> = {
@@ -44,15 +50,15 @@ export function CodeBlock({ code, label }: { code: string; label?: string }) {
       <pre>
         <code>{code}</code>
       </pre>
+      {/* Nur das Symbol, wie im Editor; der Zustand steht im Tooltip und wird über die Live-Region angesagt */}
       <Button
         variant="quiet"
         className="code-block-copy"
-        aria-label={label ? `${label} kopieren` : undefined}
+        aria-label={label ? `${label} kopieren` : 'Kopieren'}
+        title={TEXT[state]}
         onClick={copy}
       >
-        {state === 'idle' ? <Icon name="copy" /> : null}
-        {state === 'copied' ? <Icon name="check" /> : null}
-        {TEXT[state]}
+        <Icon name={ICON[state]} />
       </Button>
       <span className="visually-hidden" aria-live="polite">
         {MESSAGE[state]}
