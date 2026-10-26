@@ -38,6 +38,17 @@ const purchase = VALID_PURCHASE.ecommerce;
 /** 0,005 über der Summe: innerhalb der Toleranz von 0,01 */
 const withinTolerance = { ...VALID_PURCHASE, ecommerce: { ...purchase, value: purchase.value + 0.005 } };
 
+/** add_to_cart ohne value und currency: dann darf currency fehlen */
+const { value: _value, currency: _currency, ...cartRest } = VALID_ADD_TO_CART.ecommerce;
+const withoutValueAndCurrency = { ...VALID_ADD_TO_CART, ecommerce: cartRest };
+
+/** Der zweite Artikel ohne quantity: zählt als 1, die Summe bleibt gleich. */
+const [cup, tin] = purchase.items;
+const { quantity: _quantity, ...tinWithoutQuantity } = tin!;
+const withoutQuantity = { ...VALID_PURCHASE, ecommerce: { ...purchase, items: [cup!, tinWithoutQuantity] } };
+/** Dasselbe mit falschem value: muss value_mismatch ergeben, nicht durch NaN durchrutschen. */
+const withoutQuantityWrongValue = { ...withoutQuantity, ecommerce: { ...withoutQuantity.ecommerce, value: purchase.value + 5 } };
+
 const module: CheckModule = {
   exportsNeeded: ['validateEvent'],
   checks: [
@@ -51,6 +62,9 @@ const module: CheckModule = {
       'transaction_id_missing',
     ]),
     expectCodes('Toleranz: `value` 0,005 über der Summe ergibt `[]`', withinTolerance, []),
+    expectCodes('Ein `add_to_cart` ohne `value` und `currency` ergibt `[]`', withoutValueAndCurrency, []),
+    expectCodes('Ein Item ohne `quantity` zählt einmal: der Kauf ergibt `[]`', withoutQuantity, []),
+    expectCodes('Item ohne `quantity` und `value` 5 zu hoch: nur `value_mismatch`', withoutQuantityWrongValue, ['value_mismatch']),
   ],
 };
 

@@ -78,6 +78,9 @@ describe('validateEvent: Eventname', () => {
     expect(codes(cart({}, ''))).toEqual(['name_format']);
     expect(codes({ ecommerce: cart().ecommerce })).toEqual(['name_format']);
     expect(codes({ event: 42 })).toEqual(['name_format']);
+    // Objekt ohne Prototyp: String() darauf würde werfen.
+    expect(codes({ event: Object.create(null) })).toEqual(['name_format']);
+    expect(codes({ event: { toString: () => { throw new Error('x'); } } })).toEqual(['name_format']);
   });
 
   it('reservierte Präfixe und Namen → name_reserved', () => {
@@ -164,6 +167,10 @@ describe('validateEvent: transaction_id', () => {
 });
 
 describe('validateEvent: kein Objekt', () => {
+  it('ein Objekt ohne Prototyp wirft nicht', () => {
+    expect(codes(Object.create(null))).toEqual(['name_format']);
+  });
+
   for (const event of [null, undefined, 'purchase', 42, ['purchase']]) {
     it(`${JSON.stringify(event) ?? 'undefined'} → ein Issue mit leerem Pfad, kein Wurf`, () => {
       const issues = validateEvent(event);

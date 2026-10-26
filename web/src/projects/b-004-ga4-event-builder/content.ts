@@ -165,7 +165,7 @@ export const meta: ContentMeta = {
       ),
       hints: [
         "Für die Preise reicht eine Schleife über `items`: `typeof item.price !== 'number'` erkennt einen Text. Bei der Währung genügt `ecommerce.value !== undefined && !ecommerce.currency`.",
-        "Summiere in derselben Schleife `item.price * item.quantity` und merk dir, ob alle Preise Zahlen waren. Danach `Math.abs(ecommerce.value - sum) > 0.01`. Für den Kauf: `event.event === 'purchase' && !ecommerce.transaction_id`.",
+        "Summiere in derselben Schleife Preis mal Menge, wobei eine fehlende `quantity` als eins zählt, und merk dir, ob alle Preise Zahlen waren. Danach `Math.abs(ecommerce.value - sum) > 0.01`. Für den Kauf: `event.event === 'purchase' && !ecommerce.transaction_id`.",
       ],
       solution: lines(
         ...head,
@@ -180,7 +180,8 @@ export const meta: ContentMeta = {
         '      allPricesNumbers = false;',
         "      issues.push({ path: `ecommerce.items[${i}].price`, code: 'price_not_number', message: 'Preis ist keine Zahl' });",
         '    }',
-        '    sum += item.price * item.quantity;',
+        '    const quantity = item.quantity ?? 1;',
+        '    sum += item.price * quantity;',
         '  });',
         '',
         '  if (allPricesNumbers && Math.abs(ecommerce.value - sum) > 0.01) {',

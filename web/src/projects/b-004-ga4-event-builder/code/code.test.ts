@@ -71,10 +71,19 @@ describe('B-004 Prüfungen erkennen typische Fehler', () => {
 
   it('Summe trotz Preis als Text: nur Zahlen summiert, ohne Schutz', async () => {
     const code = mutate('allPricesNumbers && ', '').replace(
-      'sum += item.price * item.quantity;',
-      "if (typeof item.price === 'number') sum += item.price * item.quantity;",
+      'sum += item.price * quantity;',
+      "if (typeof item.price === 'number') sum += item.price * quantity;",
     );
     await fails(code, /Preis als Text/);
+  });
+
+  it('currency_missing schon, wenn nur currency fehlt', async () => {
+    await fails(mutate('ecommerce.value !== undefined && !ecommerce.currency', '!ecommerce.currency'), /ohne `value` und `currency`/);
+  });
+
+  it('fehlende quantity nicht als 1 gezählt: price * quantity wird NaN', async () => {
+    const failed = await failedNames(mutate('const quantity = item.quantity ?? 1;', 'const quantity = item.quantity;'));
+    expect(failed.some((n) => /ohne `quantity`/.test(n)), failed.join(' | ')).toBe(true);
   });
 
   it('value_mismatch fehlt ganz', async () => {

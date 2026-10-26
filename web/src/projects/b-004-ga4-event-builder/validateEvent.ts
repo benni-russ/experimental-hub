@@ -110,7 +110,9 @@ export function validateEvent(event: unknown): Issue[] {
   checkName(event.event, issues);
 
   const ecommerceGiven = event.ecommerce !== undefined && event.ecommerce !== null;
-  if (!ecommerceGiven && !ECOMMERCE_EVENTS.includes(String(event.event))) return issues;
+  // Kein String(): Ein Objekt ohne Prototyp oder mit werfendem toString soll nicht werfen.
+  const isEcommerceName = typeof event.event === 'string' && ECOMMERCE_EVENTS.includes(event.event);
+  if (!ecommerceGiven && !isEcommerceName) return issues;
   const ec: Obj = isObject(event.ecommerce) ? event.ecommerce : {};
 
   if (event.event === 'purchase' && !isPresent(ec.transaction_id)) {
