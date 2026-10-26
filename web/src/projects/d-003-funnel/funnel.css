@@ -1,0 +1,84 @@
+/* D-003 Conversion Funnel Simulator. Nur Tokens; jeder Zustand trägt Zeichen und Wort, die Farbe hilft
+   nur beim Überfliegen. */
+
+.fn-demo,
+.fn-section,
+.fn-hood,
+.fn-funnel,
+.fn-lifts,
+.fn-scenarios,
+.fn-test { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--abstand-4); min-width: 0; }
+.fn-demo { container-type: inline-size; gap: var(--abstand-6); }
+.fn-section > h3,
+.fn-section > p,
+.fn-hood > h3,
+.fn-hood > p,
+.fn-test > p { margin: 0; }
+.fn-hood h3 { margin-top: var(--abstand-2); }
+.fn-hint { margin: 0; font-size: 0.9rem; color: var(--farbe-text-gedaempft); }
+/* Leere Live-Region bleibt im Baum und schluckt nur die Lücke des Rasters. */
+.fn-section > [aria-live]:empty { margin-top: calc(-1 * var(--abstand-4)); }
+.fn-num { font-family: var(--schrift-code); font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+/* Zeichen in Pillen */
+.fn-mark { flex: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.fn-leak,
+.fn-conflict { background: var(--farbe-warnung-weich); border-color: transparent; color: var(--farbe-warnung); }
+.fn-agree { background: var(--farbe-erfolg-weich); border-color: transparent; color: var(--farbe-erfolg); }
+.fn-direction { background: var(--farbe-flaeche-neutral); color: var(--farbe-text); }
+.fn-invented { background: var(--farbe-flaeche-neutral); border-color: var(--farbe-rahmen-stark); color: var(--farbe-text); }
+
+/* Umschalter mit sichtbarem Namen; schmal stehen die Knöpfe untereinander. */
+.fn-control { display: grid; gap: var(--abstand-1); min-width: 0; }
+.fn-control-label { font-size: 0.85rem; font-weight: var(--gewicht-mittel); color: var(--farbe-text-gedaempft); }
+.fn-control .segmented { max-width: 100%; flex-wrap: wrap; }
+@container (max-width: 47.99rem) {
+  .fn-control .segmented { display: grid; }
+  .fn-control .segmented-item { text-align: left; }
+  .fn-control .segmented-item + .segmented-item { border-left: 0; border-top: var(--linie); }
+}
+
+/* Funnel-Balken */
+.fn-bars { display: grid; gap: var(--abstand-2); margin: 0; padding: 0; list-style: none; }
+.fn-step { display: grid; gap: var(--abstand-1); min-width: 0; }
+.fn-step-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--abstand-1) var(--abstand-3); }
+.fn-step-name { font-weight: var(--gewicht-halbfett); }
+.fn-track { display: block; height: 14px; background: var(--farbe-daten-track); border-radius: var(--radius-rund); overflow: hidden; }
+.fn-bar { display: block; height: 100%; background: var(--farbe-daten-a); border-radius: var(--radius-rund); }
+.fn-transition {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--abstand-1);
+  margin: 0;
+  padding: var(--abstand-1) 0 var(--abstand-2) var(--abstand-4);
+  font-size: 0.9rem;
+  color: var(--farbe-text-gedaempft);
+}
+.fn-transition.is-leak { color: var(--farbe-text); }
+.fn-overall { margin: 0; }
+
+/* Regler und Kennzahlen */
+.fn-sliders { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--abstand-3) var(--abstand-5); }
+@container (min-width: 40rem) {
+  .fn-sliders { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+.fn-kpis { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 9.5rem), 1fr)); gap: var(--abstand-3); margin: 0; padding: 0; list-style: none; }
+.fn-kpi { min-width: 0; padding: var(--abstand-3) var(--abstand-4); background: var(--farbe-flaeche); border: var(--linie); border-radius: var(--radius-klein); }
+.fn-kpi .metric-value { font-variant-numeric: tabular-nums; }
+
+/* Test */
+.fn-test-result { font-weight: var(--gewicht-mittel); }
+
+/* Szenarien */
+.fn-scenario-head { display: grid; gap: var(--abstand-2); min-width: 0; }
+.fn-scenario-text { margin: 0; }
+.fn-scenario-tags { display: flex; flex-wrap: wrap; gap: var(--abstand-2); }
+.fn-table table { width: 100%; min-width: 30rem; font-size: 0.9rem; }
+.fn-table th,
+.fn-table td { padding: var(--abstand-2) var(--abstand-3); border-bottom: var(--linie); text-align: left; vertical-align: middle; }
+.fn-table thead th { font-weight: var(--gewicht-mittel); color: var(--farbe-text-gedaempft); }
+.fn-table tbody th { font-weight: var(--gewicht-normal); }
+.fn-change { display: inline-flex; flex-wrap: wrap; align-items: center; gap: var(--abstand-2); }
+.fn-insight-text { margin: 0; }
+.fn-insight-text + .fn-insight-text { margin-top: var(--abstand-2); }

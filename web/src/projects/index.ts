@@ -42,6 +42,8 @@ import { meta as accessibilityMeta } from './d-001-accessibility/content';
 import AccessibilitySketch from './d-001-accessibility/Sketch';
 import { meta as webVitalsMeta } from './d-002-web-vitals/content';
 import WebVitalsSketch from './d-002-web-vitals/Sketch';
+import { meta as funnelMeta } from './d-003-funnel/content';
+import FunnelSketch from './d-003-funnel/Sketch';
 import SampleSketch from './000-sample/Sketch';
 
 export interface ProjectModule {
@@ -153,6 +155,12 @@ export const projects: ProjectModule[] = [
     Sketch: WebVitalsSketch,
     Demo: lazy(() => import('./d-002-web-vitals/Demo')),
     UnderTheHood: lazy(() => import('./d-002-web-vitals/UnderTheHood')),
+  },
+  {
+    meta: funnelMeta,
+    Sketch: FunnelSketch,
+    Demo: lazy(() => import('./d-003-funnel/Demo')),
+    UnderTheHood: lazy(() => import('./d-003-funnel/UnderTheHood')),
   },
 ];
 
