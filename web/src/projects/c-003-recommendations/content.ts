@@ -137,7 +137,7 @@ export const meta: ContentMeta = {
     {
       id: 'C-003-card-06',
       front: 'Warum wird die Liste bei hoher Ähnlichkeit eintönig?',
-      back: 'Die Ähnlichkeit misst nur den Abstand zu einem einzigen Produkt, dem zuletzt angesehenen. Zählt sie fast allein, folgt die ganze Liste den Merkmalen dieses einen Produkts und wiederholt, was der Besucher gerade angesehen hat.',
+      back: 'Die Ähnlichkeit misst nur den Abstand zu einem einzigen Produkt, dem zuletzt angesehenen. Zählt sie fast allein, folgt die ganze Liste den Merkmalen dieses einen Produkts und zeigt fast nur Abwandlungen dessen, was der Besucher gerade angesehen hat.',
     },
     {
       id: 'C-003-card-07',

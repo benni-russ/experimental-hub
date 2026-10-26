@@ -187,7 +187,7 @@ export default function Demo() {
         {insights.includes('monotone') ? (
           <InsightBox title="Eintönig">
             Zählt die Ähnlichkeit fast allein, folgt die Liste den Merkmalen eines einzigen Produkts: Mindestens drei der ersten vier Plätze stammen hier aus derselben Kategorie.
-            Die Liste wiederholt, was der Besucher gerade angesehen hat.
+            Die Liste zeigt fast nur Abwandlungen dessen, was der Besucher gerade angesehen hat.
           </InsightBox>
         ) : null}
         {insights.includes('allZero') ? (
