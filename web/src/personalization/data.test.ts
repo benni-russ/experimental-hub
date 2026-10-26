@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { CATALOG, CATEGORIES } from './catalog';
 import { EXAMPLE_VISITOR_ID, NOW, VISITORS } from './visitors';
 import { FEED_DATE, RAW_FEED } from './rawFeed';
+import { cleanFeed, inspectFeed, readFeedNaively } from './inspectFeed';
 
 const DAY = 24 * 60 * 60 * 1000;
 
@@ -87,5 +88,14 @@ describe('RAW_FEED', () => {
     expect(ids.length - new Set(ids).size).toBe(1);
     const stale = p.filter((x) => Date.parse(FEED_DATE) - Date.parse(String(x.updatedAt)) > 7 * DAY);
     expect(stale.length).toBe(1);
+  });
+
+  it('bereinigt zum Katalog zurück', () => {
+    const { products, issues } = inspectFeed(RAW_FEED, FEED_DATE);
+    expect(cleanFeed(products, issues)).toEqual(CATALOG);
+  });
+
+  it('naives Lesen behält 26 Einträge (28 ohne Preis und ohne Preis als Zahl)', () => {
+    expect(readFeedNaively(RAW_FEED).length).toBe(26);
   });
 });
