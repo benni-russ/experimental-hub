@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react';
+import { Icon } from '../../design/components/Icon';
 import type { StationId, StationState } from './stations';
 
 export const STATION_NAMES: Record<StationId, string> = {
@@ -20,9 +22,9 @@ const STATION_CODE: Record<StationId, string> = {
 type ShownStatus = StationState['status'] | 'pending';
 
 // Status nie über Farbe allein: Zeichen und Wort stehen immer dabei.
-const STATUS: Record<ShownStatus, { symbol: string; label: string }> = {
-  done: { symbol: '✓', label: 'geklappt' },
-  failed: { symbol: '✗', label: 'gerissen' },
+const STATUS: Record<ShownStatus, { symbol: ReactNode; label: string }> = {
+  done: { symbol: <Icon name="check" />, label: 'geklappt' },
+  failed: { symbol: <Icon name="cross" />, label: 'gerissen' },
   skipped: { symbol: '–', label: 'nicht erreicht' },
   pending: { symbol: '…', label: 'wartet' },
 };

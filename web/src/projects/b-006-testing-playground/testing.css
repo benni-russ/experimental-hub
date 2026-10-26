@@ -1,5 +1,5 @@
 /* B-006 First Testing Playground. Schalterliste, darunter die Matrix als
-   Tabelle. Zellen tragen immer Zeichen und Wort (✓ bestanden / ✗ erwischt);
+   Tabelle. Zellen tragen immer Icon und Wort (check: bestanden / cross: erwischt);
    die Farbe kommt nur dazu. Schmal scrollt allein die Tabelle. */
 
 .testing-demo,

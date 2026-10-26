@@ -135,7 +135,9 @@ export function CodeTask({ task }: { task: CodeTaskMeta }) {
               <ul className="code-task-checks">
                 {view.items.map((item, i) => (
                   <li key={i} className={item.passed ? 'is-pass' : 'is-fail'}>
-                    <span aria-hidden="true">{item.passed ? '✓' : '✗'}</span>
+                    <span className="code-task-mark">
+                      <Icon name={item.passed ? 'check' : 'cross'} />
+                    </span>
                     <span>
                       <span className="visually-hidden">{item.passed ? 'Bestanden: ' : 'Nicht bestanden: '}</span>
                       <InlineCode text={item.name} />

@@ -1,3 +1,4 @@
+import { Icon } from '../../design/components/Icon';
 import { MUTANT_IDS, MUTANTS, type MutantId } from './mutants';
 import type { MatrixRow, PresetTest } from './presetTests';
 
@@ -20,13 +21,23 @@ export function verdict(matrix: Record<string, MatrixRow>, tests: PresetTest[]) 
 
 function Cell({ passed, original }: { passed: boolean | undefined; original: boolean }) {
   if (passed === undefined) return <td>–</td>;
-  if (passed) return <td className="testing-cell">✓ bestanden</td>;
+  if (passed) {
+    return (
+      <td className="testing-cell">
+        <Icon name="check" /> bestanden
+      </td>
+    );
+  }
   // Am Original heißt Scheitern: Der Test selbst ist falsch.
   return original ? (
-    <td className="testing-cell is-broken">✗ gescheitert</td>
+    <td className="testing-cell is-broken">
+      <Icon name="cross" /> gescheitert
+    </td>
   ) : (
     <td className="testing-cell is-caught">
-      <strong>✗ erwischt</strong>
+      <strong>
+        <Icon name="cross" /> erwischt
+      </strong>
     </td>
   );
 }

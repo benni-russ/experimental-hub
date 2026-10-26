@@ -1,6 +1,6 @@
 /* B-004 GA4 Event Builder. Weinrot nur für Knöpfe und das gewählte Issue.
    Die markierte JSON-Zeile ist neutral (Tinte und Kartenweiß) und trägt ▶ und Hervorhebung;
-   das Urteil des Prüfers trägt ✓/✗ und Wort: Farbe allein sagt nichts. */
+   das Urteil des Prüfers trägt Icon (check/cross) und Wort: Farbe allein sagt nichts. */
 
 .ga4-demo,
 .ga4-hood { display: grid; gap: var(--abstand-5); min-width: 0; }

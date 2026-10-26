@@ -67,11 +67,15 @@ describe('Matrix', () => {
     for (const row of rows) expect(row.querySelector('th')?.getAttribute('scope')).toBe('row');
   });
 
-  it('Zellen tragen Zeichen und Text, nicht nur Farbe', async () => {
+  it('Zellen tragen Icon und Wort, nicht nur Farbe', async () => {
     const el = await render(<Matrix matrix={matrix} tests={byId('valid-purchase')} />);
-    const cells = [...el.querySelectorAll('tbody td')].map((td) => td.textContent);
+    const tds = [...el.querySelectorAll('tbody td')];
     // Original, no-tolerance, ignore-quantity, lax-name, no-transaction-id
-    expect(cells).toEqual(['✓ bestanden', '✓ bestanden', '✗ erwischt', '✓ bestanden', '✓ bestanden']);
+    expect(tds.map((td) => td.textContent?.trim())).toEqual(['bestanden', 'bestanden', 'erwischt', 'bestanden', 'bestanden']);
+    // Das Icon ist Schmuck neben dem Wort, keine Schriftglyphe.
+    for (const td of tds) {
+      expect(td.querySelector('svg.icon')?.getAttribute('aria-hidden')).toBe('true');
+    }
   });
 
   it('markiert Tests, die keine Variante erwischen', async () => {

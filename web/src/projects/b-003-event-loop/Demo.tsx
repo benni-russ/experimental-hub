@@ -1,5 +1,6 @@
 import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
 import { Button } from '../../design/components/Button';
+import { Icon } from '../../design/components/Icon';
 import { InsightBox } from '../../design/components/InsightBox';
 import { SegmentedControl } from '../../design/components/SegmentedControl';
 import { LoopView } from './LoopView';
@@ -142,7 +143,7 @@ export default function Demo() {
                 <code className="loop-guess-line">{line}</code>
                 {revealed ? (
                   <span className="loop-verdict">
-                    <span aria-hidden="true">{right ? '✓' : '✗'}</span>{' '}
+                    <Icon name={right ? 'check' : 'cross'} />{' '}
                     {right ? 'richtig' : `falsch, hier erscheint „${real[i]}“`}
                   </span>
                 ) : (

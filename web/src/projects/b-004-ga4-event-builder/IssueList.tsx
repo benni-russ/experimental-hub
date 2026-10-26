@@ -1,3 +1,4 @@
+import { Icon } from '../../design/components/Icon';
 import { issueKey, type Issue } from './validateEvent';
 
 interface IssueListProps {
@@ -19,7 +20,7 @@ export function IssueList({ issues, marked, onMark, headingId }: IssueListProps)
     <section className="ga4-panel" aria-labelledby={headingId}>
       <h3 id={headingId}>Prüfer</h3>
       <p className={`ga4-summary ${ok ? 'is-ok' : 'is-bad'}`} role="status" aria-atomic="true">
-        <span aria-hidden="true">{ok ? '✓' : '✗'}</span> {summary}
+        <Icon name={ok ? 'check' : 'cross'} /> {summary}
       </p>
       {ok ? null : (
         <>

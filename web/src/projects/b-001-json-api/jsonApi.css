@@ -1,5 +1,5 @@
 /* B-001 JSON API Explorer. Weinrot nur für die Auswahl (Fall, Knopf), Gold nur in der InsightBox.
-   Stationsstatus: Farbe plus Zeichen und Wort (✓ geklappt, ✗ gerissen, – nicht erreicht, … wartet). */
+   Stationsstatus: Farbe plus Zeichen und Wort (Icon check: geklappt, Icon cross: gerissen, – nicht erreicht, … wartet). */
 
 .json-demo,
 .json-hood { display: grid; gap: var(--abstand-5); min-width: 0; }
