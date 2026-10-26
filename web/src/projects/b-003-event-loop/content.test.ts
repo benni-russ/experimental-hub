@@ -46,18 +46,6 @@ describe('B-003 Inhalte: Aufbau', () => {
     expect(await runSnippet(body(task?.solution ?? ''))).toEqual(['A', 'B', 'C']);
     expect(text).toContain('`B`, `A`, `C`');
   });
-
-  // Quiz, Karten, Reflexion und Einstieg zeigen Text ohne Formatierung.
-  it('Backticks nur in Code-Aufgaben', () => {
-    const plain = [
-      meta.intro.text,
-      meta.question,
-      ...meta.quiz.flatMap((q) => [q.prompt, q.explanation, ...(q.type === 'choice' ? q.options : [])]),
-      ...meta.reflection.map((r) => r.prompt),
-      ...meta.cards.flatMap((c) => [c.front, c.back]),
-    ].join('\n');
-    expect(plain).not.toContain('`');
-  });
 });
 
 describe('B-003 Inhalte: zitierte Zahlen und Reihenfolgen', () => {

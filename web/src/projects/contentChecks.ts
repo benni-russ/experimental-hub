@@ -69,6 +69,27 @@ export function checkStructure(meta: ContentMeta, size: ContentSize): string[] {
   checkRange('Reflexionen', meta.reflection.length, size.reflection, problems);
   checkRange('Karten', meta.cards.length, size.cards, problems);
 
+  // Quiz, Karten, Reflexion, Einstieg und Code-Titel zeigen reinen Text;
+  // Backticks setzen nur Aufgabentext und Hinweise der Code-Aufgaben als Code.
+  const plain: [string, string][] = [
+    ['Einstieg', meta.intro.text],
+    ['Kernfrage', meta.question],
+    ...meta.quiz.flatMap((q): [string, string][] =>
+      [q.prompt, q.explanation, ...(q.type === 'choice' ? q.options : [])].map((t) => [q.id, t]),
+    ),
+    ...meta.reflection.map((r): [string, string] => [r.id, r.prompt]),
+    ...meta.cards.flatMap((c): [string, string][] => [
+      [c.id, c.front],
+      [c.id, c.back],
+    ]),
+  ];
+  for (const [where, text] of plain) {
+    if (text.includes('`')) problems.push(`Backtick im reinen Text: ${where}`);
+  }
+  for (const task of codeTasks) {
+    if (task.title.includes('`')) problems.push(`Backtick im Titel der Code-Aufgabe ${task.id}`);
+  }
+
   if (meta.kind === 'unit') {
     if (!meta.attachedTo) problems.push('Unit ohne attachedTo');
     if (meta.quiz.length > 0) problems.push('Unit mit Quizfragen, erwartet leeres quiz');

@@ -61,18 +61,6 @@ describe('B-006 Inhalte: Aufbau', () => {
     for (const id of MUTANT_IDS) expect(prompt).toContain(`„${MUTANTS[id].label}“`);
     expect(prompt).toContain(`${WORDS[MUTANT_IDS.length]} kaputte Fassungen`);
   });
-
-  // Quiz, Karten, Reflexion und Einstieg zeigen Text ohne Formatierung.
-  it('Backticks nur in Code-Aufgaben', () => {
-    const plain = [
-      meta.intro.text,
-      meta.question,
-      ...meta.quiz.flatMap((q) => [q.prompt, q.explanation, ...(q.type === 'choice' ? q.options : [])]),
-      ...meta.reflection.map((r) => r.prompt),
-      ...meta.cards.flatMap((c) => [c.front, c.back]),
-    ].join('\n');
-    expect(plain).not.toContain('`');
-  });
 });
 
 describe('B-006 Inhalte: zitierte Zahlen', () => {

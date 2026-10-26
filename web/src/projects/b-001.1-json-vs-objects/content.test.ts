@@ -18,10 +18,9 @@ describe('B-001.1 Inhalte: Aufbau', () => {
     expect(ids.indexOf('B-001')).toBeGreaterThanOrEqual(0);
   });
 
-  it('Texte nennen keine Zahlen und keine Backticks', () => {
+  it('Texte nennen keine Zahlen', () => {
     // Die Tabellenwerte stehen nur in Explanation und kommen aus roundTrip.
     expect(allText(meta)).not.toMatch(/\d/);
-    expect(allText(meta)).not.toContain('`');
   });
 });
 

@@ -19,9 +19,8 @@ describe('B-004.1 Inhalte: Aufbau', () => {
     expect(ids.indexOf('B-004.1')).toBe(ids.indexOf('B-004') + 1);
   });
 
-  it('Texte nennen keine Zahlen (außer im Namen GA4) und keine Backticks', () => {
+  it('Texte nennen keine Zahlen (außer im Namen GA4)', () => {
     expect(allText(meta).replaceAll('GA4', '')).not.toMatch(/\d/);
-    expect(allText(meta)).not.toContain('`');
   });
 });
 

@@ -114,3 +114,37 @@ describe('Code-Aufgaben', () => {
     expect(text).toContain('Zweiter Hinweis zur Division.');
   });
 });
+
+describe('checkStructure: Backticks nur in Code-Aufgaben', () => {
+  const BACKTICK = 'Backtick im reinen Text';
+
+  it('meldet Backticks in Karten, Quiz, Reflexion, Einstieg und Kernfrage', () => {
+    const quiz = mdeMeta.quiz.map((q, i) => (i === 1 ? { ...q, explanation: `${q.explanation} \`x\`` } : q));
+    const cards = mdeMeta.cards.map((c, i) => (i === 0 ? { ...c, back: 'mit `code`' } : c));
+    const reflection = mdeMeta.reflection.map((r, i) => (i === 0 ? { ...r, prompt: '`a`' } : r));
+    for (const meta of [
+      { ...mdeMeta, quiz },
+      { ...mdeMeta, cards },
+      { ...mdeMeta, reflection },
+      { ...mdeMeta, intro: { ...mdeMeta.intro, text: '`x`' } },
+      { ...mdeMeta, question: 'Was macht `x`?' },
+    ]) {
+      expect(checkStructure(meta, size).some((p) => p.startsWith(BACKTICK))).toBe(true);
+    }
+  });
+
+  it('meldet Backticks im Titel einer Code-Aufgabe, nicht in Aufgabentext und Hinweisen', () => {
+    const task = {
+      id: 'A-001-code-01',
+      title: 'Schreib `mean`',
+      prompt: 'Gib `mean` zurück.',
+      starter: '',
+      hints: ['Nutze `reduce`.'],
+      solution: '',
+    };
+    const problems = checkStructure({ ...mdeMeta, codeTasks: [task] }, size);
+    expect(problems).toEqual(['Backtick im Titel der Code-Aufgabe A-001-code-01']);
+    const plainTitle = checkStructure({ ...mdeMeta, codeTasks: [{ ...task, title: 'Schreib mean' }] }, size);
+    expect(plainTitle).toEqual([]);
+  });
+});
