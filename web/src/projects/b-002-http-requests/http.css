@@ -1,0 +1,123 @@
+/* B-002 HTTP Request Visualizer. Weinrot nur für Auswahl und Knöpfe.
+   Die Einordnung trägt Klasse, Wessen-Fehler-Wort und Farbe zusammen: Farbe allein sagt nichts. */
+
+.http-demo,
+.http-hood { display: grid; gap: var(--abstand-5); min-width: 0; }
+.http-demo { container-type: inline-size; }
+.http-hood > p,
+.http-hood > h3 { margin: 0; }
+.http-hood h3 { margin-top: var(--abstand-2); }
+
+.http-label { font-size: 0.9rem; font-weight: var(--gewicht-mittel); color: var(--farbe-text-gedaempft); }
+.http-muted { margin: 0; color: var(--farbe-text-gedaempft); }
+.http-mono { font-family: var(--schrift-code); font-size: 0.9rem; }
+
+/* Szenarien: fünf Namen passen schmal nicht in eine Zeile, dort untereinander. */
+.http-scenarios { display: grid; gap: var(--abstand-1); min-width: 0; }
+@container (max-width: 47.99rem) {
+  .http-scenarios .segmented { display: grid; }
+  .http-scenarios .segmented-item { text-align: left; }
+  .http-scenarios .segmented-item + .segmented-item { border-left: 0; border-top: var(--linie); }
+}
+
+/* Baukasten */
+.http-builder {
+  display: grid;
+  gap: var(--abstand-4);
+  min-width: 0;
+  padding: var(--abstand-4);
+  border: var(--linie);
+  border-radius: var(--radius-klein);
+}
+.http-line { display: grid; gap: var(--abstand-3); }
+@container (min-width: 36rem) {
+  .http-line { grid-template-columns: 9rem minmax(0, 1fr); }
+}
+.http-field { display: grid; gap: var(--abstand-1); min-width: 0; align-content: start; }
+.http-field > label { font-weight: var(--gewicht-mittel); }
+
+.http-headers { display: grid; gap: var(--abstand-3); min-width: 0; margin: 0; padding: 0; border: 0; justify-items: start; }
+.http-headers > legend { padding: 0; font-weight: var(--gewicht-mittel); margin-bottom: var(--abstand-2); }
+.http-header-list { display: grid; gap: var(--abstand-3); width: 100%; margin: 0; padding: 0; list-style: none; }
+/* schmal: Name über Wert, daneben der Knopf; breit: alles in einer Zeile */
+.http-header-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--abstand-2);
+  align-items: start;
+}
+.http-header-row .input { grid-column: 1; }
+.http-remove { grid-column: 2; grid-row: 1 / span 2; min-width: 44px; padding: 0 var(--abstand-3); }
+@container (min-width: 36rem) {
+  .http-header-row { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) auto; }
+  .http-header-row .input { grid-column: auto; }
+  .http-remove { grid-column: auto; grid-row: auto; }
+}
+
+/* Anfrage und Antwort nebeneinander, schmal untereinander */
+.http-panels { display: grid; gap: var(--abstand-4); }
+@container (min-width: 40rem) {
+  .http-panels { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+.http-panel {
+  display: grid;
+  align-content: start;
+  gap: var(--abstand-2);
+  min-width: 0;
+  padding: var(--abstand-4);
+  border: var(--linie);
+  border-radius: var(--radius-klein);
+}
+.http-panel h3 { margin: 0; font-size: 1rem; }
+.http-raw {
+  margin: 0;
+  max-height: 20rem;
+  overflow: auto;
+  padding: var(--abstand-3);
+  background: var(--farbe-flaeche-neutral);
+  border-radius: var(--radius-klein);
+  font-size: 0.8rem;
+}
+
+.http-problem {
+  margin: 0;
+  padding: var(--abstand-3) var(--abstand-4);
+  border: 1px solid var(--farbe-fehler);
+  border-radius: var(--radius-klein);
+  background: var(--farbe-fehler-weich);
+  color: var(--farbe-fehler);
+  font-weight: var(--gewicht-mittel);
+  overflow-wrap: anywhere;
+}
+
+/* Einordnung */
+.http-verdict {
+  display: grid;
+  gap: var(--abstand-3);
+  min-width: 0;
+  padding: var(--abstand-4);
+  border: var(--linie);
+  border-left-width: 4px;
+  border-radius: var(--radius-klein);
+}
+.http-verdict-2xx { border-left-color: var(--farbe-erfolg); }
+.http-verdict-4xx { border-left-color: var(--farbe-warnung); }
+.http-verdict-5xx { border-left-color: var(--farbe-fehler); }
+.http-verdict h3 { margin: 0; font-size: 1rem; }
+.http-verdict-code { margin: 0; font-size: 1.15rem; }
+.http-facts { display: grid; gap: var(--abstand-3); margin: 0; }
+.http-facts dt { font-size: 0.85rem; color: var(--farbe-text-gedaempft); }
+.http-facts dd { margin: 0; font-weight: var(--gewicht-mittel); }
+@container (min-width: 40rem) {
+  .http-facts { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+.http-hint { margin: 0; }
+
+/* Unter der Haube */
+.http-table-wrap { overflow-x: auto; }
+.http-table { border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.http-table th,
+.http-table td { padding: var(--abstand-2) var(--abstand-4); border-bottom: 1px solid var(--farbe-rahmen-stark); text-align: left; }
+.http-table thead th { font-size: 0.85rem; color: var(--farbe-text-gedaempft); font-weight: var(--gewicht-halbfett); }
+.http-table tbody th { font-weight: var(--gewicht-normal); }
+.http-list { margin: 0; padding-left: var(--abstand-5); display: grid; gap: var(--abstand-2); }

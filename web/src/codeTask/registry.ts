@@ -9,4 +9,6 @@ export const CHECKS: Record<string, () => Promise<{ default: CheckModule }>> = {
   'B-001-code-01': () => import('../projects/b-001-json-api/code/01.checks'),
   'B-001-code-02': () => import('../projects/b-001-json-api/code/02.checks'),
   'B-001-code-03': () => import('../projects/b-001-json-api/code/03.checks'),
+  'B-002-code-01': () => import('../projects/b-002-http-requests/code/01.checks'),
+  'B-002-code-02': () => import('../projects/b-002-http-requests/code/02.checks'),
 };

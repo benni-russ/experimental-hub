@@ -17,6 +17,8 @@ import SimpsonSketch from './a-004-simpson/Sketch';
 import { meta as jsonApiMeta } from './b-001-json-api/content';
 import JsonApiSketch from './b-001-json-api/Sketch';
 import { meta as jsonVsObjectsMeta } from './b-001.1-json-vs-objects/content';
+import { meta as httpRequestsMeta } from './b-002-http-requests/content';
+import HttpRequestsSketch from './b-002-http-requests/Sketch';
 import SampleSketch from './000-sample/Sketch';
 
 export interface ProjectModule {
@@ -64,6 +66,12 @@ export const projects: ProjectModule[] = [
     UnderTheHood: lazy(() => import('./b-001-json-api/UnderTheHood')),
   },
   { meta: jsonVsObjectsMeta, UnderTheHood: lazy(() => import('./b-001.1-json-vs-objects/Explanation')) },
+  {
+    meta: httpRequestsMeta,
+    Sketch: HttpRequestsSketch,
+    Demo: lazy(() => import('./b-002-http-requests/Demo')),
+    UnderTheHood: lazy(() => import('./b-002-http-requests/UnderTheHood')),
+  },
 ];
 
 if (import.meta.env.DEV) {
