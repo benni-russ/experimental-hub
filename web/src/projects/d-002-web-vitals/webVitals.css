@@ -1,0 +1,121 @@
+/* D-002 Core Web Vitals Playground. Nur Tokens; jede Stufe trägt Zeichen und Wort, die Farbe hilft
+   nur beim Überfliegen. */
+
+.wv-demo,
+.wv-section,
+.wv-hood,
+.wv-field,
+.wv-feel,
+.wv-timeline { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--abstand-4); min-width: 0; }
+.wv-demo { container-type: inline-size; gap: var(--abstand-6); }
+.wv-section > h3,
+.wv-section > p,
+.wv-hood > h3,
+.wv-hood > p { margin: 0; }
+.wv-hood h3 { margin-top: var(--abstand-2); }
+.wv-hint { margin: 0; font-size: 0.9rem; color: var(--farbe-text-gedaempft); }
+/* Leere Live-Region bleibt im Baum und schluckt nur die Lücke des Rasters. */
+.wv-section > [aria-live]:empty { margin-top: calc(-1 * var(--abstand-4)); }
+
+/* Stufe: Pille mit gezeichnetem Zeichen und Wort */
+.wv-mark { flex: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.wv-rating.is-good { background: var(--farbe-erfolg-weich); border-color: transparent; color: var(--farbe-erfolg); }
+.wv-rating.is-needsImprovement { background: var(--farbe-warnung-weich); border-color: transparent; color: var(--farbe-warnung); }
+.wv-rating.is-poor { background: var(--farbe-fehler-weich); border-color: transparent; color: var(--farbe-fehler); }
+
+/* Kacheln */
+.wv-tiles { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--abstand-3); margin: 0; padding: 0; list-style: none; }
+@container (min-width: 40rem) {
+  .wv-tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+.wv-tile {
+  display: grid;
+  align-content: start;
+  justify-items: start;
+  gap: var(--abstand-2);
+  min-width: 0;
+  padding: var(--abstand-4);
+  background: var(--farbe-flaeche);
+  border: var(--linie);
+  border-radius: var(--radius-klein);
+}
+.wv-tile .metric { min-width: 0; }
+.wv-tile .metric-value { font-variant-numeric: tabular-nums; }
+
+/* Gegenmittel */
+.wv-fixes { display: grid; gap: var(--abstand-3); min-width: 0; margin: 0; padding: var(--abstand-4); border: var(--linie); border-radius: var(--radius-klein); }
+.wv-fixes legend { padding: 0 var(--abstand-1); font-weight: var(--gewicht-halbfett); }
+.wv-fixes-master { padding-bottom: var(--abstand-2); border-bottom: var(--linie); }
+.wv-fixes-master .switch-label { font-weight: var(--gewicht-halbfett); }
+.wv-fix-groups { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--abstand-4); }
+@container (min-width: 44rem) {
+  .wv-fix-groups { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+.wv-fix-group { display: grid; align-content: start; gap: var(--abstand-1); min-width: 0; }
+.wv-fix-target { margin: 0; font-size: 0.85rem; font-weight: var(--gewicht-mittel); color: var(--farbe-text-gedaempft); }
+.wv-fix-list { display: grid; gap: var(--abstand-1); margin: 0; padding: 0; list-style: none; }
+.wv-fix-list .switch { width: 100%; text-align: left; }
+.wv-fix-list .switch-label { flex: 1; min-width: 0; }
+
+/* Zeitleiste */
+.wv-timeline-controls { display: flex; flex-wrap: wrap; align-items: end; gap: var(--abstand-3) var(--abstand-4); }
+.wv-timeline-slider { flex: 1 1 14rem; min-width: 0; }
+.wv-figure { display: grid; gap: var(--abstand-2); margin: 0; min-width: 0; }
+.wv-timeline-svg,
+.wv-strip-svg { display: block; width: 100%; height: auto; overflow: visible; }
+.wv-timeline-svg { max-width: 40rem; }
+.wv-svg-label { fill: var(--farbe-text); font-size: 10px; font-family: var(--schrift-text); }
+.wv-svg-strong { font-weight: var(--gewicht-halbfett); }
+.wv-svg-muted { fill: var(--farbe-text-gedaempft); font-size: 10px; font-family: var(--schrift-text); }
+.wv-frame { fill: var(--farbe-flaeche); stroke: var(--farbe-rahmen-stark); stroke-width: 1.5; }
+.wv-ink { fill: none; stroke: var(--farbe-text); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.wv-ink .wv-fill { fill: var(--farbe-flaeche-neutral); }
+.wv-ink .wv-thick { stroke-width: 3; }
+.wv-heading { stroke-width: 3; }
+.wv-heading.is-fallback { stroke: var(--farbe-text-sehr-gedaempft); }
+.wv-reserved { fill: none; stroke: var(--farbe-rahmen-stark); stroke-width: 1; stroke-dasharray: 3 3; }
+.wv-jump { fill: none; stroke: var(--farbe-fehler); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.wv-jump text { fill: var(--farbe-fehler); stroke: none; font-size: 10px; font-family: var(--schrift-text); }
+.wv-axis { stroke: var(--farbe-rahmen-stark); stroke-width: 1; }
+.wv-tick { stroke: var(--farbe-text-gedaempft); stroke-width: 1; }
+.wv-tick-strong { stroke: var(--farbe-text); stroke-width: 1.5; }
+.wv-shift { fill: var(--farbe-flaeche); stroke: var(--farbe-fehler); stroke-width: 1.5; }
+.wv-task { fill: var(--farbe-warnung-weich); stroke: var(--farbe-warnung); stroke-width: 1; }
+.wv-cursor { stroke: var(--farbe-akzent); stroke-width: 1.5; }
+
+/* Wasserfall */
+.wv-waterfall table { width: 100%; min-width: 36rem; font-size: 0.9rem; }
+.wv-waterfall th,
+.wv-waterfall td { padding: var(--abstand-2) var(--abstand-3); border-bottom: var(--linie); text-align: left; vertical-align: middle; }
+.wv-waterfall thead th { font-weight: var(--gewicht-mittel); color: var(--farbe-text-gedaempft); }
+.wv-waterfall tbody th { font-weight: var(--gewicht-normal); }
+.wv-waterfall tbody th .tag { margin-left: var(--abstand-2); }
+.wv-num { font-family: var(--schrift-code); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.wv-waterfall-bar-col { width: 40%; min-width: 10rem; }
+.wv-track { position: relative; display: block; height: 10px; background: var(--farbe-daten-track); border-radius: var(--radius-rund); }
+.wv-bar { position: absolute; top: 0; bottom: 0; background: var(--farbe-daten-a); border-radius: var(--radius-rund); }
+.wv-bar.is-blocking { background: var(--farbe-daten-b); }
+.wv-blocking { background: var(--farbe-flaeche-neutral); color: var(--farbe-text); }
+
+/* Feld */
+.wv-strips { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--abstand-4); margin: 0; padding: 0; list-style: none; }
+.wv-strip { display: grid; gap: var(--abstand-2); min-width: 0; }
+.wv-strip-head { display: flex; flex-wrap: wrap; align-items: center; gap: var(--abstand-2) var(--abstand-3); }
+.wv-strip-name { font-weight: var(--gewicht-halbfett); }
+.wv-strip-svg { max-width: 36rem; }
+.wv-dot { fill: var(--farbe-daten-a); fill-opacity: 0.75; stroke: var(--farbe-flaeche); stroke-width: 1; }
+.wv-dot.is-clipped { fill: var(--farbe-daten-b); fill-opacity: 1; }
+.wv-p75 { stroke: var(--farbe-text); stroke-width: 1.5; }
+.wv-ref { fill: var(--farbe-akzent); }
+.wv-band { stroke-width: 3; stroke-linecap: butt; }
+.wv-band.is-good { stroke: var(--farbe-erfolg); }
+.wv-band.is-needsImprovement { stroke: var(--farbe-warnung); }
+.wv-band.is-poor { stroke: var(--farbe-fehler); }
+
+/* Fühltest */
+.wv-feel-buttons { display: flex; flex-wrap: wrap; gap: var(--abstand-2); }
+.wv-feel > [aria-live]:empty { margin-top: calc(-1 * var(--abstand-4)); }
+.wv-runs { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; }
+.wv-runs li { display: flex; flex-wrap: wrap; align-items: center; gap: var(--abstand-1) var(--abstand-3); padding: var(--abstand-2) 0; border-bottom: var(--linie); }
+.wv-runs li:last-child { border-bottom: 0; }
+.wv-run-text { flex: 1 1 14rem; min-width: 0; font-variant-numeric: tabular-nums; }

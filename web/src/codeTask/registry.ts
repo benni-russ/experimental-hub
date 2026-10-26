@@ -25,4 +25,7 @@ export const CHECKS: Record<string, () => Promise<{ default: CheckModule }>> = {
   'D-001-code-01': () => import('../projects/d-001-accessibility/code/01.checks'),
   'D-001-code-02': () => import('../projects/d-001-accessibility/code/02.checks'),
   'D-001-code-03': () => import('../projects/d-001-accessibility/code/03.checks'),
+  'D-002-code-01': () => import('../projects/d-002-web-vitals/code/01.checks'),
+  'D-002-code-02': () => import('../projects/d-002-web-vitals/code/02.checks'),
+  'D-002-code-03': () => import('../projects/d-002-web-vitals/code/03.checks'),
 };

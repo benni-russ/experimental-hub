@@ -40,6 +40,8 @@ import { meta as affinityMeta } from './c-003.1-affinity/content';
 import { meta as whenNotMeta } from './c-003.2-when-not/content';
 import { meta as accessibilityMeta } from './d-001-accessibility/content';
 import AccessibilitySketch from './d-001-accessibility/Sketch';
+import { meta as webVitalsMeta } from './d-002-web-vitals/content';
+import WebVitalsSketch from './d-002-web-vitals/Sketch';
 import SampleSketch from './000-sample/Sketch';
 
 export interface ProjectModule {
@@ -145,6 +147,12 @@ export const projects: ProjectModule[] = [
     Sketch: AccessibilitySketch,
     Demo: lazy(() => import('./d-001-accessibility/Demo')),
     UnderTheHood: lazy(() => import('./d-001-accessibility/UnderTheHood')),
+  },
+  {
+    meta: webVitalsMeta,
+    Sketch: WebVitalsSketch,
+    Demo: lazy(() => import('./d-002-web-vitals/Demo')),
+    UnderTheHood: lazy(() => import('./d-002-web-vitals/UnderTheHood')),
   },
 ];
 
