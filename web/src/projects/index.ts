@@ -32,6 +32,8 @@ import TestingPlaygroundSketch from './b-006-testing-playground/Sketch';
 import { meta as ruleBuilderMeta } from './c-001-rule-builder/content';
 import RuleBuilderSketch from './c-001-rule-builder/Sketch';
 import { meta as segmentationMeta } from './c-001.1-segmentation/content';
+import { meta as feedInspectorMeta } from './c-002-feed-inspector/content';
+import FeedInspectorSketch from './c-002-feed-inspector/Sketch';
 import SampleSketch from './000-sample/Sketch';
 
 export interface ProjectModule {
@@ -118,6 +120,12 @@ export const projects: ProjectModule[] = [
     UnderTheHood: lazy(() => import('./c-001-rule-builder/UnderTheHood')),
   },
   { meta: segmentationMeta, UnderTheHood: lazy(() => import('./c-001.1-segmentation/Explanation')) },
+  {
+    meta: feedInspectorMeta,
+    Sketch: FeedInspectorSketch,
+    Demo: lazy(() => import('./c-002-feed-inspector/Demo')),
+    UnderTheHood: lazy(() => import('./c-002-feed-inspector/UnderTheHood')),
+  },
 ];
 
 if (import.meta.env.DEV) {

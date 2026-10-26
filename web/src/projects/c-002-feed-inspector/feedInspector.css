@@ -1,0 +1,137 @@
+/* C-002 Product Feed Inspector. Fehlerzustände tragen immer Zeichen und Wort; Farbe unterstützt nur.
+   Markierte Einträge: voller Rahmen bzw. Hintergrund, nie ein einseitiger Randstreifen. */
+
+.fi-demo,
+.fi-hood { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--abstand-5); min-width: 0; }
+.fi-demo { container-type: inline-size; }
+.fi-hood > p,
+.fi-hood > h3 { margin: 0; }
+.fi-hood h3 { margin-top: var(--abstand-2); }
+
+.fi-label { font-size: 0.9rem; font-weight: var(--gewicht-mittel); color: var(--farbe-text-gedaempft); }
+.fi-hint { margin: 0; font-size: 0.9rem; color: var(--farbe-text-gedaempft); }
+.fi-summary { margin: 0; }
+
+.fi-panel {
+  display: grid;
+  align-content: start;
+  gap: var(--abstand-3);
+  min-width: 0;
+  padding: var(--abstand-4);
+  background: var(--farbe-flaeche);
+  border: var(--linie);
+  border-radius: var(--radius-klein);
+}
+.fi-panel h3 { margin: 0; font-size: 1rem; }
+.fi-panel h4 { margin: 0; font-size: 0.95rem; }
+
+/* Feed: Rohtext und Tabelle nebeneinander, schmal per Schalter umgeschaltet */
+.fi-pane-switch { display: none; }
+.fi-pane-switch .segmented { max-width: 100%; }
+.fi-panes { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--abstand-4); min-width: 0; }
+@container (min-width: 48rem) {
+  .fi-panes { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; }
+}
+@container (max-width: 47.99rem) {
+  .fi-pane-switch { display: block; }
+  .fi-feed[data-pane="raw"] .fi-pane-table,
+  .fi-feed[data-pane="table"] .fi-pane-raw { display: none; }
+}
+.fi-pane { min-width: 0; }
+
+.fi-raw {
+  margin: 0;
+  padding: var(--abstand-2) 0;
+  max-height: min(70vh, 32rem);
+  overflow: auto;
+  background: var(--farbe-flaeche-neutral);
+  border-radius: var(--radius-klein);
+  font-family: var(--schrift-code);
+  font-size: 0.8rem;
+}
+.fi-raw:focus-visible { outline: none; box-shadow: var(--fokus-ring); }
+.fi-line {
+  display: grid;
+  grid-template-columns: 3ch 2ch auto;
+  justify-content: start;
+  gap: var(--abstand-1);
+  padding: 0 var(--abstand-3) 0 var(--abstand-2);
+  white-space: pre;
+}
+.fi-line-no { text-align: right; color: var(--farbe-text-sehr-gedaempft); user-select: none; }
+.fi-line-sign { text-align: center; }
+.fi-line.is-drop .fi-line-sign { color: var(--farbe-fehler); }
+.fi-line.is-repair .fi-line-sign,
+.fi-line.is-warn .fi-line-sign { color: var(--farbe-warnung); }
+.fi-line.is-marked { background: var(--farbe-akzent-weich); font-weight: var(--gewicht-halbfett); }
+
+/* Tabelle */
+.fi-table { width: 100%; font-size: 0.85rem; }
+.fi-table th,
+.fi-table td { padding: var(--abstand-1) var(--abstand-3); text-align: left; vertical-align: top; white-space: nowrap; border-bottom: var(--linie); }
+/* relative: das verborgene Wort in der Zelle (position: absolute) bleibt sonst nicht im Scrollbereich und verbreitert die Seite */
+.fi-table td { position: relative; font-variant-numeric: tabular-nums; }
+.fi-table tr.is-marked > * { background: var(--farbe-akzent-weich); }
+.fi-table tr.is-marked > :first-child { background: var(--farbe-akzent-weich); }
+.fi-cell.is-drop { background: var(--farbe-fehler-weich); color: var(--farbe-fehler); font-weight: var(--gewicht-mittel); }
+.fi-cell.is-repair,
+.fi-cell.is-warn { background: var(--farbe-warnung-weich); color: var(--farbe-warnung); font-weight: var(--gewicht-mittel); }
+.fi-cell-sign { margin-right: var(--abstand-1); }
+
+/* Fehlerliste */
+.fi-group { display: grid; gap: var(--abstand-2); min-width: 0; }
+.fi-issues { display: grid; gap: var(--abstand-2); margin: 0; padding: 0; list-style: none; }
+.fi-issue {
+  display: grid;
+  gap: var(--abstand-1);
+  width: 100%;
+  min-height: 44px;
+  padding: var(--abstand-2) var(--abstand-3);
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  background: var(--farbe-flaeche);
+  border: var(--linie);
+  border-radius: var(--radius-klein);
+  cursor: pointer;
+}
+.fi-issue:hover { background: var(--farbe-hover-neutral); }
+.fi-issue[aria-pressed="true"] { border-color: var(--farbe-akzent); background: var(--farbe-akzent-weich); }
+.fi-issue:disabled { cursor: default; }
+.fi-issue-head { display: flex; flex-wrap: wrap; align-items: center; gap: var(--abstand-1) var(--abstand-3); }
+.fi-issue-field { color: var(--farbe-text-gedaempft); }
+.fi-issue-message { overflow-wrap: anywhere; }
+
+/* Aktionsetiketten: Zeichen und Wort */
+.fi-tag-drop { background: var(--farbe-fehler-weich); border-color: transparent; color: var(--farbe-fehler); }
+.fi-tag-repair { background: var(--farbe-warnung-weich); border-color: transparent; color: var(--farbe-warnung); }
+.fi-tag-warn { background: var(--farbe-flaeche-neutral); border-color: var(--farbe-rahmen-stark); color: var(--farbe-text); }
+
+/* Wirkung */
+.fi-field { display: grid; gap: var(--abstand-2); max-width: 16rem; }
+.fi-compare { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--abstand-5); min-width: 0; }
+@container (min-width: 44rem) {
+  .fi-compare { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; }
+}
+.fi-rank { display: grid; gap: var(--abstand-2); min-width: 0; }
+.fi-rank-list { display: grid; gap: var(--abstand-2); margin: 0; padding: 0; list-style: none; }
+.fi-rec {
+  display: grid;
+  grid-template-columns: 1.5rem minmax(0, 1fr);
+  gap: var(--abstand-2);
+  padding: var(--abstand-2) var(--abstand-3);
+  border: var(--linie);
+  border-radius: var(--radius-klein);
+}
+.fi-rec.is-flawed { border-color: var(--farbe-fehler); background: var(--farbe-fehler-weich); }
+.fi-rec-no { font-weight: var(--gewicht-halbfett); color: var(--farbe-text-gedaempft); }
+.fi-rec-body { display: grid; gap: var(--abstand-1); min-width: 0; }
+.fi-rec-title { font-weight: var(--gewicht-mittel); overflow-wrap: anywhere; }
+.fi-rec-meta { font-size: 0.85rem; color: var(--farbe-text-gedaempft); overflow-wrap: anywhere; }
+.fi-rec-flaws { display: flex; flex-wrap: wrap; gap: var(--abstand-1); }
+.fi-rec.is-flawed .fi-rec-meta { color: var(--farbe-text); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .fi-issue,
+  .fi-rec { transition: background-color var(--animation-kurz) var(--animation-kurve), border-color var(--animation-kurz) var(--animation-kurve); }
+}
