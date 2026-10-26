@@ -53,6 +53,6 @@ describe('describeResult', () => {
   });
 
   it('Timeout', () => {
-    expect(describeResult({ status: 'timeout' }).summary).toBe('Läuft zu lange – vielleicht eine Endlosschleife?');
+    expect(describeResult({ status: 'timeout' }).summary).toBe('Läuft zu lange – Endlosschleife oder zu lange Wartezeit?');
   });
 });

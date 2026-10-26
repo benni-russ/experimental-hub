@@ -18,7 +18,7 @@ const ABORTED = new Set([
 
 export function describeResult(result: RunResult): ResultView {
   if (result.status === 'timeout') {
-    return { summary: 'Läuft zu lange – vielleicht eine Endlosschleife?', errorLine: null, allPassed: false, items: [] };
+    return { summary: 'Läuft zu lange – Endlosschleife oder zu lange Wartezeit?', errorLine: null, allPassed: false, items: [] };
   }
   if (result.status === 'error') {
     if (ABORTED.has(result.message)) {

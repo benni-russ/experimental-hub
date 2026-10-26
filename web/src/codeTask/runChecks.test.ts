@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { expectEqual } from './assert';
+import { NETWORK_BLOCKED } from './network';
 import { runChecks } from './runChecks';
 import type { CheckModule } from './types';
 
@@ -129,5 +130,52 @@ describe('runChecks', () => {
     };
     await runChecks(mod, 'return { factor: typeof factor === "undefined" ? 0 : factor };');
     expect(factor).toBe(3);
+  });
+
+  it('sperrt echte Netzwerkzugriffe mit lesbarer Meldung', async () => {
+    const mod: CheckModule = { exportsNeeded: [], checks: [{ name: 'a', run: () => undefined }] };
+    expect(await runChecks(mod, "fetch('https://example.org');")).toEqual({
+      status: 'error',
+      message: NETWORK_BLOCKED('fetch'),
+      line: 1,
+    });
+    for (const code of ['new XMLHttpRequest();', "new WebSocket('wss://x');", "new EventSource('/x');", "importScripts('/x.js');", "indexedDB.open('x');", "caches.open('x');"]) {
+      const r = await runChecks(mod, code);
+      expect(r.status).toBe('error');
+      if (r.status === 'error') expect(r.message).toMatch(/ist in dieser Übung gesperrt/);
+    }
+  });
+
+  it('sperrt das Netz auch in Prüfungen, die rerun nutzen', async () => {
+    let message = '';
+    const mod: CheckModule = {
+      exportsNeeded: ['load'],
+      checks: [
+        {
+          name: 'a',
+          run: async (ctx) => {
+            const out = await ctx.rerun({});
+            try {
+              (out.exports.load as () => unknown)();
+            } catch (err) {
+              message = (err as Error).message;
+            }
+          },
+        },
+      ],
+    };
+    await runChecks(mod, "function load() { return fetch('/x'); }\nreturn { load };");
+    expect(message).toBe(NETWORK_BLOCKED('fetch'));
+  });
+
+  it('ein fetch-Fake des Moduls schlägt die Sperre', async () => {
+    let got: unknown;
+    const mod: CheckModule = {
+      exportsNeeded: ['value'],
+      globals: () => ({ fetch: () => 'fake' }),
+      checks: [{ name: 'a', run: ({ exports }) => void (got = exports.value) }],
+    };
+    await runChecks(mod, "return { value: fetch('/x') };");
+    expect(got).toBe('fake');
   });
 });

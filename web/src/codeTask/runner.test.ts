@@ -16,6 +16,10 @@ class FakeWorker implements WorkerLike {
   reply(data: RunResult) {
     this.onmessage?.({ data });
   }
+  /** Prüfmodul geladen: ab hier läuft die Zeitgrenze. */
+  ready() {
+    this.onmessage?.({ data: { status: 'ready' } });
+  }
 }
 
 function setup() {
@@ -41,9 +45,10 @@ describe('createRunner', () => {
     expect(workers[0]?.terminated).toBe(true);
   });
 
-  it('meldet timeout nach 2000 ms und beendet den Worker', async () => {
+  it('meldet timeout 2000 ms nach „ready“ und beendet den Worker', async () => {
     const { workers, runner } = setup();
     const p = runner.run('t-1', 'while (true) {}');
+    workers[0]?.ready();
     await vi.advanceTimersByTimeAsync(1999);
     expect(workers[0]?.terminated).toBe(false);
     await vi.advanceTimersByTimeAsync(1);
@@ -62,18 +67,58 @@ describe('createRunner', () => {
     await expect(second).resolves.toEqual({ status: 'ok', results: [] });
   });
 
+  it('die Ladezeit zählt nicht zur Zeitgrenze', async () => {
+    const { workers, runner } = setup();
+    const p = runner.run('t-1', 'a');
+    await vi.advanceTimersByTimeAsync(5000);
+    expect(workers[0]?.terminated).toBe(false);
+    workers[0]?.ready();
+    await vi.advanceTimersByTimeAsync(1999);
+    expect(workers[0]?.terminated).toBe(false);
+    workers[0]?.reply({ status: 'ok', results: [] });
+    await expect(p).resolves.toEqual({ status: 'ok', results: [] });
+  });
+
+  it('meldet einen Ladefehler, wenn „ready“ nach 15 s ausbleibt', async () => {
+    const { workers, runner } = setup();
+    const p = runner.run('t-1', 'a');
+    await vi.advanceTimersByTimeAsync(14_999);
+    expect(workers[0]?.terminated).toBe(false);
+    await vi.advanceTimersByTimeAsync(1);
+    await expect(p).resolves.toEqual({ status: 'error', message: 'Die Prüfung konnte nicht geladen werden.' });
+    expect(workers[0]?.terminated).toBe(true);
+  });
+
   it('der Timer des ersten Laufs trifft den zweiten nicht', async () => {
     const { workers, runner } = setup();
     void runner.run('t-1', 'a');
+    workers[0]?.ready();
     await vi.advanceTimersByTimeAsync(1500);
     const second = runner.run('t-1', 'b');
+    workers[1]?.ready();
     await vi.advanceTimersByTimeAsync(1000);
     expect(workers[1]?.terminated).toBe(false);
     workers[1]?.reply({ status: 'ok', results: [] });
     await expect(second).resolves.toEqual({ status: 'ok', results: [] });
   });
 
-  it('übersetzt onerror in eine verständliche Meldung', async () => {
+  it('ein später Fehler mit Meldung gilt als Fehler im eigenen Code', async () => {
+    const { workers, runner } = setup();
+    const p = runner.run('t-1', 'a');
+    workers[0]?.ready();
+    workers[0]?.onerror?.({ message: 'Uncaught Error: kaputt im Timer' });
+    await expect(p).resolves.toEqual({ status: 'error', message: 'kaputt im Timer' });
+    expect(workers[0]?.terminated).toBe(true);
+  });
+
+  it('behält den Fehlertyp, wenn er nicht nur „Error“ heißt', async () => {
+    const { workers, runner } = setup();
+    const p = runner.run('t-1', 'a');
+    workers[0]?.onerror?.({ message: 'Uncaught TypeError: x is not a function' });
+    await expect(p).resolves.toEqual({ status: 'error', message: 'TypeError: x is not a function' });
+  });
+
+  it('übersetzt onerror ohne Meldung in eine verständliche Startmeldung', async () => {
     const { workers, runner } = setup();
     const p = runner.run('t-1', 'a');
     workers[0]?.onerror?.(new Event('error'));

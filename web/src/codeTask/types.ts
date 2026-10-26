@@ -34,3 +34,6 @@ export type RunResult =
   | { status: 'ok'; results: CheckResult[] }
   | { status: 'error'; message: string; line?: number }
   | { status: 'timeout' };
+
+/** Was der Worker schickt: erst `ready` nach dem Laden des Prüfmoduls, dann das Ergebnis. */
+export type WorkerMessage = RunResult | { status: 'ready' };

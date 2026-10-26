@@ -1,4 +1,5 @@
 import { CheckFailure, formatValue } from './assert';
+import { blockedGlobals } from './network';
 import { findSyntaxErrorLine } from './syntaxLine';
 import type { CheckModule, CheckResult, RunOutput, RunResult } from './types';
 
@@ -25,6 +26,23 @@ function getHeaderOffset(): number {
     }
   }
   return headerOffset ?? 2;
+}
+
+/** Zeile im Editor, in der ein Fehler aus dem Nutzercode entstand, sonst undefined. */
+function userLine(err: unknown): number | undefined {
+  const raw = stackLine(err);
+  const line = raw === null ? null : raw - getHeaderOffset();
+  return line !== null && line >= 1 ? line : undefined;
+}
+
+/**
+ * Ergebnis für einen Fehler, der erst nach dem ersten Lauf auftritt, etwa in
+ * einem Timer-Callback oder einer nicht abgefangenen Promise des Nutzercodes.
+ */
+export function userErrorResult(err: unknown): RunResult {
+  const message = err instanceof Error ? err.message : String(err);
+  const line = userLine(err);
+  return line === undefined ? { status: 'error', message } : { status: 'error', message, line };
 }
 
 function formatLog(args: unknown[]): string {
@@ -58,9 +76,7 @@ function execute(code: string, globals: Record<string, unknown>): RunOutput {
     result = fn(consoleStub, ...names.map((n) => globals[n]));
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
-    const raw = stackLine(err);
-    const line = raw === null ? null : raw - getHeaderOffset();
-    throw new BuildError(message, line !== null && line >= 1 ? line : undefined);
+    throw new BuildError(message, userLine(err));
   }
   const exports =
     typeof result === 'object' && result !== null ? (result as Record<string, unknown>) : {};
@@ -69,7 +85,8 @@ function execute(code: string, globals: Record<string, unknown>): RunOutput {
 
 export async function runChecks(module: CheckModule, code: string): Promise<RunResult> {
   // Globals frisch je Aufruf, damit Nutzercode sie nicht für spätere Läufe zerstört.
-  const baseGlobals = module.globals?.() ?? {};
+  // Netzsperre zuerst, damit Fakes des Moduls (z. B. ein eigenes `fetch`) gewinnen.
+  const baseGlobals = { ...blockedGlobals(), ...module.globals?.() };
   let output: RunOutput;
   try {
     output = execute(code, baseGlobals);
@@ -95,7 +112,7 @@ export async function runChecks(module: CheckModule, code: string): Promise<RunR
     ...output,
     async rerun(extra: Record<string, unknown>): Promise<RunOutput> {
       // Frische Fakes: sonst sähe der zweite Lauf, was der erste an ihnen verändert hat.
-      return execute(code, { ...module.globals?.(), ...extra });
+      return execute(code, { ...blockedGlobals(), ...module.globals?.(), ...extra });
     },
   };
   const results: CheckResult[] = [];
