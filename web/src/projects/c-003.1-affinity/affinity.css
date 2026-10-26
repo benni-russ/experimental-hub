@@ -1,0 +1,26 @@
+/* C-003.1 Affinitätsprofil: statische Tabelle und Zeichnung, keine Bedienung. */
+.aff-explain { display: grid; gap: var(--abstand-4); min-width: 0; }
+.aff-explain p, .aff-explain h3 { margin: 0; }
+.aff-explain h3 { margin-top: var(--abstand-2); }
+.aff-wrap { overflow-x: auto; }
+.aff-table { width: 100%; border-collapse: collapse; }
+.aff-table caption { text-align: left; color: var(--farbe-text-gedaempft); font-size: 0.85rem; margin-bottom: var(--abstand-1); }
+.aff-table th, .aff-table td { padding: var(--abstand-2); border-bottom: 1px solid var(--farbe-rahmen-stark); text-align: left; vertical-align: top; white-space: nowrap; }
+.aff-table .aff-num { text-align: right; font-variant-numeric: tabular-nums; }
+.aff-table thead th { font-size: 0.85rem; color: var(--farbe-text-gedaempft); font-weight: 600; }
+.aff-table tbody th, .aff-table tfoot th { font-weight: var(--gewicht-mittel); }
+.aff-table tfoot td { font-weight: var(--gewicht-mittel); }
+.aff-profile { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--abstand-2); }
+.aff-profile li { display: grid; grid-template-columns: 7rem minmax(0, 1fr) 4.5rem; gap: var(--abstand-2); align-items: center; }
+.aff-track { height: 0.75rem; border-radius: 999px; background: var(--farbe-sekundaer-weich); overflow: hidden; }
+.aff-bar { display: block; height: 100%; background: var(--farbe-sekundaer-tief); }
+.aff-pct { text-align: right; font-variant-numeric: tabular-nums; }
+.aff-figure { margin: 0; display: grid; gap: var(--abstand-1); min-width: 0; }
+.aff-figure svg { width: 100%; height: auto; max-width: 32rem; color: var(--farbe-text); }
+.aff-figure figcaption { font-size: 0.85rem; color: var(--farbe-text-gedaempft); }
+.aff-fill { fill: var(--farbe-sekundaer-weich); stroke: var(--farbe-sekundaer-tief); }
+.aff-text { fill: currentColor; font-size: 12px; font-family: inherit; }
+.aff-text-muted { fill: var(--farbe-text-gedaempft); font-size: 11px; font-family: inherit; }
+@media (max-width: 480px) {
+  .aff-profile li { grid-template-columns: 5.5rem minmax(0, 1fr) 4rem; }
+}

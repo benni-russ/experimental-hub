@@ -36,6 +36,8 @@ import { meta as feedInspectorMeta } from './c-002-feed-inspector/content';
 import FeedInspectorSketch from './c-002-feed-inspector/Sketch';
 import { meta as recommendationsMeta } from './c-003-recommendations/content';
 import RecommendationsSketch from './c-003-recommendations/Sketch';
+import { meta as affinityMeta } from './c-003.1-affinity/content';
+import { meta as whenNotMeta } from './c-003.2-when-not/content';
 import SampleSketch from './000-sample/Sketch';
 
 export interface ProjectModule {
@@ -134,6 +136,8 @@ export const projects: ProjectModule[] = [
     Demo: lazy(() => import('./c-003-recommendations/Demo')),
     UnderTheHood: lazy(() => import('./c-003-recommendations/UnderTheHood')),
   },
+  { meta: affinityMeta, UnderTheHood: lazy(() => import('./c-003.1-affinity/Explanation')) },
+  { meta: whenNotMeta, UnderTheHood: lazy(() => import('./c-003.2-when-not/Explanation')) },
 ];
 
 if (import.meta.env.DEV) {
