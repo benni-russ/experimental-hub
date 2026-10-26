@@ -96,6 +96,7 @@ export function Timeline({ load, fixes }: TimelineProps) {
   const t = shownTime(time, end);
 
   const onPlay = () => {
+    // Am Ende ist der Sprung ohne Wirkung: aria-disabled statt disabled, damit der Fokus auf dem Knopf bleibt.
     if (reduced) {
       setTime('end');
       return;
@@ -142,7 +143,7 @@ export function Timeline({ load, fixes }: TimelineProps) {
   return (
     <div className="wv-timeline">
       <div className="wv-timeline-controls">
-        <Button variant="secondary" onClick={onPlay} disabled={reduced && t >= end}>
+        <Button variant="secondary" onClick={onPlay} aria-disabled={reduced && t >= end ? true : undefined}>
           {reduced ? 'Ans Ende springen' : playing ? 'Pause' : 'Abspielen'}
         </Button>
         <div className="wv-timeline-slider">

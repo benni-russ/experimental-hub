@@ -169,7 +169,7 @@ describe('D-002 Demo', () => {
 });
 
 describe('D-002 Zeitleiste bei reduzierter Bewegung', () => {
-  it('„Ans Ende springen“ ist am Ende deaktiviert, sonst aktiv', async () => {
+  it('„Ans Ende springen“ ist am Ende als deaktiviert markiert, Fokus bleibt', async () => {
     vi.stubGlobal('matchMedia', (query: string) => ({
       matches: query.includes('reduce'),
       media: query,
@@ -179,16 +179,18 @@ describe('D-002 Zeitleiste bei reduzierter Bewegung', () => {
     const el = await render();
     const jump = () => [...el.querySelectorAll<HTMLButtonElement>('.wv-timeline button')].find((b) => b.textContent === 'Ans Ende springen')!;
     expect(jump()).toBeDefined();
-    expect(jump().disabled).toBe(true);
+    expect(jump().getAttribute('aria-disabled')).toBe('true');
     const range = el.querySelector<HTMLInputElement>('.wv-timeline input[type="range"]')!;
     await act(async () => {
       Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!.call(range, '1');
       range.dispatchEvent(new Event('input', { bubbles: true }));
     });
-    expect(jump().disabled).toBe(false);
+    expect(jump().hasAttribute('aria-disabled')).toBe(false);
     expect(range.getAttribute('aria-valuetext')).toBe('1 s');
+    jump().focus();
     await act(async () => jump().click());
-    expect(jump().disabled).toBe(true);
+    expect(document.activeElement).toBe(jump());
+    expect(jump().getAttribute('aria-disabled')).toBe('true');
     expect(el.querySelector('.wv-timeline-svg')!.getAttribute('aria-label')).toContain('bei 5,03 s von 5,03 s');
   });
 });
