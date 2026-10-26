@@ -27,6 +27,8 @@ import { meta as purchaseVsCartMeta } from './b-004.1-purchase-vs-cart/content';
 import { meta as dataQualityMeta } from './b-004.2-data-quality/content';
 import { meta as reactRebuildMeta } from './b-005-react-rebuild/content';
 import ReactRebuildSketch from './b-005-react-rebuild/Sketch';
+import { meta as testingPlaygroundMeta } from './b-006-testing-playground/content';
+import TestingPlaygroundSketch from './b-006-testing-playground/Sketch';
 import SampleSketch from './000-sample/Sketch';
 
 export interface ProjectModule {
@@ -99,6 +101,12 @@ export const projects: ProjectModule[] = [
     Sketch: ReactRebuildSketch,
     Demo: lazy(() => import('./b-005-react-rebuild/Demo')),
     UnderTheHood: lazy(() => import('./b-005-react-rebuild/UnderTheHood')),
+  },
+  {
+    meta: testingPlaygroundMeta,
+    Sketch: TestingPlaygroundSketch,
+    Demo: lazy(() => import('./b-006-testing-playground/Demo')),
+    UnderTheHood: lazy(() => import('./b-006-testing-playground/UnderTheHood')),
   },
 ];
 

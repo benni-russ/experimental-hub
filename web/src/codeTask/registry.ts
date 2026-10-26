@@ -15,4 +15,5 @@ export const CHECKS: Record<string, () => Promise<{ default: CheckModule }>> = {
   'B-003-code-02': () => import('../projects/b-003-event-loop/code/02.checks'),
   'B-004-code-01': () => import('../projects/b-004-ga4-event-builder/code/01.checks'),
   'B-005-code-01': () => import('../projects/b-005-react-rebuild/code/01.checks'),
+  'B-006-code-01': () => import('../projects/b-006-testing-playground/code/01.checks'),
 };
