@@ -5,7 +5,7 @@
 
 export const RAIL_KEY = 'hub-seitenleiste-schmal';
 
-type StorageGetter<K extends keyof Storage> = () => Pick<Storage, K>;
+export type StorageGetter<K extends keyof Storage> = () => Pick<Storage, K>;
 
 export const browserStorage = () => window.localStorage;
 

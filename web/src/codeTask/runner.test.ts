@@ -92,3 +92,18 @@ describe('createRunner', () => {
     expect(workers[0]?.terminated).toBe(true);
   });
 });
+
+describe('createRunner, Startfehler', () => {
+  it('postMessage wirft: sofort die Startmeldung, Worker beendet', async () => {
+    const worker = new FakeWorker();
+    worker.postMessage = () => {
+      throw new Error('DataCloneError');
+    };
+    const runner = createRunner(() => worker);
+    await expect(runner.run('t-1', 'a')).resolves.toEqual({
+      status: 'error',
+      message: 'Die Prüfung konnte nicht gestartet werden.',
+    });
+    expect(worker.terminated).toBe(true);
+  });
+});

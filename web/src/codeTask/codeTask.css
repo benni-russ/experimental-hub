@@ -1,0 +1,26 @@
+.code-tasks { display: grid; gap: var(--abstand-abschnitt); }
+.code-task { display: grid; gap: var(--abstand-klein); min-width: 0; }
+.code-task > p { margin: 0; }
+.code-task-title { display: flex; align-items: center; gap: var(--abstand-eng); margin: 0; }
+.code-task-done { display: inline-flex; color: var(--farbe-erfolg); }
+.code-editor { min-width: 0; }
+.code-task-hint { margin: 0; font-size: 0.9rem; }
+.code-task-actions { display: flex; flex-wrap: wrap; gap: var(--abstand-eng); }
+.code-task-result:empty { display: none; }
+.code-task-summary { margin: 0; font-weight: var(--gewicht-mittel); }
+.code-task-summary.is-ok { color: var(--farbe-erfolg); }
+.code-task-checks { list-style: none; margin: var(--abstand-eng) 0 0; padding: 0; display: grid; gap: var(--abstand-eng); }
+.code-task-checks li { display: grid; grid-template-columns: 1.5em 1fr; align-items: start; }
+.code-task-checks .is-pass > span:first-child { color: var(--farbe-erfolg); }
+.code-task-checks .is-fail > span:first-child { color: var(--farbe-fehler); }
+.code-task-message {
+  display: block;
+  margin-top: var(--abstand-einheit);
+  padding: var(--abstand-eng) var(--abstand-klein);
+  background: var(--farbe-fehler-weich);
+  border-radius: var(--radius-klein);
+  font-family: var(--schrift-code);
+  font-size: 0.85rem;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}

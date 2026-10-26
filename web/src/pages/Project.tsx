@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useRef, useState, type ReactNode } from 'react';
+import { lazy, Suspense, useEffect, useRef, useState, type ReactNode } from 'react';
 import { Link, Navigate, useParams } from 'react-router';
 import { TRACKS } from '@hub/shared';
 import { useAppState, useOpenProject, useQuizAttempts } from '../api';
@@ -18,6 +18,8 @@ import { Breadcrumb } from '../shell/Breadcrumb';
 import { breadcrumbFor } from '../shell/breadcrumbs';
 import { findProject, LEGACY_IDS, type ProjectModule } from '../projects';
 import { projectStatus } from '../projects/status';
+
+const CodeTasks = lazy(() => import('../codeTask/CodeTasks'));
 
 function Section({ id, title, children }: { id: string; title: string; children: ReactNode }) {
   const [actions, setActions] = useState<HTMLDivElement | null>(null);
@@ -143,6 +145,14 @@ function ProjectView({ project }: { project: ProjectModule }) {
                 Gespeicherte Antworten konnten nicht geladen werden ({attempts.error.message}).
               </p>
             ) : null}
+          </Section>
+        ) : null}
+
+        {!isUnit && meta.codeTasks?.length ? (
+          <Section id="code" title="Code-Aufgabe">
+            <Suspense fallback={fallback}>
+              <CodeTasks tasks={meta.codeTasks} />
+            </Suspense>
           </Section>
         ) : null}
 

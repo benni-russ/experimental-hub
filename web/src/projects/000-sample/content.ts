@@ -41,4 +41,15 @@ export const meta: ContentMeta = {
     { id: '000-card-02', front: 'Beispielkarte 2: Wann erscheint es?', back: 'Nur im Entwicklungsmodus, nie auf dem Server.' },
     { id: '000-card-03', front: 'Beispielkarte 3: Wie viele Tage hat ein Schaltjahr?', back: '366.' },
   ],
+  codeTasks: [
+    {
+      id: '000-code-01',
+      title: 'Eine Zahl verdoppeln',
+      prompt:
+        'Schreibe die Funktion `double(n)`, die ihre Zahl verdoppelt.\n\nDer Code endet mit `return { double };`, damit die Prüfung die Funktion findet.',
+      starter: 'function double(n) {\n  return n + 2;\n}\n\nreturn { double };\n',
+      hints: ['Verdoppeln heißt: mit 2 malnehmen.', 'Der Ausdruck lautet `n * 2`.'],
+      solution: 'function double(n) {\n  return n * 2;\n}\n\nreturn { double };\n',
+    },
+  ],
 };

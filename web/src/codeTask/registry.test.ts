@@ -4,8 +4,11 @@ import { CHECKS } from './registry';
 
 describe('registry', () => {
   it('hat zu jeder Code-Aufgabe ein Prüfmodul und umgekehrt', () => {
+    // `projects` enthält 000-* nur in der Entwicklung (Vitest läuft mit DEV = true);
+    // die Registry führt dessen Eintrag immer, im Produktionsbuild ist er ungenutzt.
     const ids = projects.flatMap((p) => (p.meta.codeTasks ?? []).map((t) => t.id)).sort();
-    expect(Object.keys(CHECKS).sort()).toEqual(ids);
+    const registered = Object.keys(CHECKS).filter((id) => import.meta.env.DEV || !id.startsWith('000-'));
+    expect(registered.sort()).toEqual(ids);
   });
 
   it('lädt für jeden Eintrag ein Modul mit Prüfungen', async () => {

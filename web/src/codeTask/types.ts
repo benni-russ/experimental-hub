@@ -3,11 +3,11 @@ export interface RunOutput {
   logs: string[];
 }
 
+/**
+ * `logs` sammelt die Ausgaben des ersten Laufs über alle Prüfungen hinweg
+ * und wird zwischen den Prüfungen nicht zurückgesetzt.
+ */
 export interface CheckContext extends RunOutput {
-  /**
-   * `logs` sammelt die Ausgaben des ersten Laufs über alle Prüfungen hinweg
-   * und wird zwischen den Prüfungen nicht zurückgesetzt.
-   */
   /** Nutzercode erneut ausführen, mit zusätzlichen/ersetzten Globals (B-006) */
   rerun(globals: Record<string, unknown>): Promise<RunOutput>;
 }

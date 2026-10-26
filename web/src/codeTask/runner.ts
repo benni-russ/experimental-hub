@@ -37,11 +37,12 @@ export function createRunner(createWorker: () => WorkerLike, timeoutMs = 2000) {
   function run(taskId: string, code: string): Promise<RunResult | 'superseded'> {
     cancel();
     return new Promise((resolve) => {
+      const startFailure: RunResult = { status: 'error', message: 'Die Prüfung konnte nicht gestartet werden.' };
       let worker: WorkerLike;
       try {
         worker = createWorker();
       } catch {
-        resolve({ status: 'error', message: 'Die Prüfung konnte nicht gestartet werden.' });
+        resolve(startFailure);
         return;
       }
       const current: Active = {
@@ -51,9 +52,12 @@ export function createRunner(createWorker: () => WorkerLike, timeoutMs = 2000) {
       };
       active = current;
       worker.onmessage = (e) => finish(current, e.data as RunResult);
-      worker.onerror = () =>
-        finish(current, { status: 'error', message: 'Die Prüfung konnte nicht gestartet werden.' });
-      worker.postMessage({ taskId, code });
+      worker.onerror = () => finish(current, startFailure);
+      try {
+        worker.postMessage({ taskId, code });
+      } catch {
+        finish(current, startFailure);
+      }
     });
   }
 
