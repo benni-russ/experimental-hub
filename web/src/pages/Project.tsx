@@ -1,6 +1,7 @@
 import { lazy, Suspense, useEffect, useRef, useState, type ReactNode } from 'react';
 import { Link, Navigate, useParams } from 'react-router';
 import { TRACKS } from '@hub/shared';
+import { codeTasksTitle } from '../codeTask/codeTasksTitle';
 import { useAppState, useOpenProject, useQuizAttempts } from '../api';
 import { Disclosure } from '../design/components/Disclosure';
 import { ExperimentMark } from '../design/components/ExperimentMark';
@@ -149,7 +150,7 @@ function ProjectView({ project }: { project: ProjectModule }) {
         ) : null}
 
         {!isUnit && meta.codeTasks?.length ? (
-          <Section id="code" title="Code-Aufgabe">
+          <Section id="code" title={codeTasksTitle(meta.codeTasks.length)}>
             <Suspense fallback={fallback}>
               <CodeTasks tasks={meta.codeTasks} />
             </Suspense>
