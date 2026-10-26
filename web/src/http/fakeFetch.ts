@@ -1,5 +1,6 @@
 // Gefälschtes fetch ohne Netzwerk: liefert echte Response-Objekte.
 // Läuft im Browser, im Worker und in Node, nutzt nur Web-Globals.
+import { STATUS_TEXT } from './rawHttp';
 
 export interface FakeRoute {
   method: string;
@@ -76,11 +77,19 @@ export function createFakeFetch(
         const params = matchPath(route.path, url.pathname);
         if (!params) continue;
         const out = route.respond({ params, query: url.searchParams, headers: new Headers(headers), body });
-        if (out.status === 204) return new Response(null, { status: 204, headers: out.headers });
-        return new Response(out.body ?? '', { status: out.status, headers: out.headers });
+        if (out.status === 204) return new Response(null, { status: 204, statusText: STATUS_TEXT[204], headers: out.headers });
+        return new Response(out.body ?? '', {
+          status: out.status,
+          statusText: STATUS_TEXT[out.status] ?? '',
+          headers: out.headers,
+        });
       }
     }
-    return new Response(NOT_FOUND_HTML, { status: 404, headers: { 'content-type': 'text/html' } });
+    return new Response(NOT_FOUND_HTML, {
+      status: 404,
+      statusText: STATUS_TEXT[404],
+      headers: { 'content-type': 'text/html' },
+    });
   };
 
   return { fetch: fakeFetch, log };

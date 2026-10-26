@@ -1,8 +1,8 @@
 // Rohtext von HTTP-Anfragen und -Antworten, wie er über die Leitung ginge.
 import type { LoggedRequest } from './fakeFetch';
 
-// Englische Standardtexte; Node setzt statusText im Konstruktor nicht.
-const STATUS_TEXT: Record<number, string> = {
+// Englische Standardtexte wie im Browser; fakeFetch setzt sie, formatRawResponse ergänzt sie bei Bedarf.
+export const STATUS_TEXT: Record<number, string> = {
   200: 'OK',
   201: 'Created',
   204: 'No Content',

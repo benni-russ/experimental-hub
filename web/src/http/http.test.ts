@@ -52,6 +52,7 @@ describe('createFakeFetch', () => {
     const { fetch } = createFakeFetch(routes);
     const res = await fetch('/gibt-es-nicht');
     expect(res.status).toBe(404);
+    expect(res.statusText).toBe('Not Found');
     expect(res.headers.get('content-type')).toBe('text/html');
     expect(await res.text()).toBe('<!doctype html><title>404</title><h1>Nicht gefunden</h1>');
   });
