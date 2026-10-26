@@ -44,12 +44,12 @@ export const meta: ContentMeta = {
       prompt:
         'Ein Test ruft validateEvent mit einem gültigen Kauf auf und prüft danach nur expect(true).toBe(true). Was sagt es, dass er besteht?',
       options: [
-        'Nichts über validateEvent: Er besteht auch, wenn sie kaputt ist.',
         'Dass validateEvent für den Kauf keine Issues meldet.',
         'Dass validateEvent alle Regeln aus dem Projekt richtig umsetzt.',
+        'Nichts über validateEvent: Er besteht auch, wenn sie kaputt ist.',
         'Dass der Kauf später in den Berichten richtig gezählt wird.',
       ],
-      correctIndex: 0,
+      correctIndex: 2,
       explanation:
         'Die Erwartung vergleicht true mit true und kann nicht scheitern. Was validateEvent zurückgibt, schaut sich der Test nie an. ' +
         'Er bliebe grün, selbst wenn validateEvent jeden Kauf für fehlerhaft hielte. Ein Test sagt nur dann etwas, wenn er scheitern kann.',
@@ -74,12 +74,12 @@ export const meta: ContentMeta = {
       type: 'choice',
       prompt: 'Warum zählt ein Test nur dann als Treffer, wenn er gegen die richtige validateEvent besteht?',
       options: [
-        'Ein Test, der immer scheitert, erwischt jede Variante und sagt nichts.',
         'Sonst bricht der Testläufer ab, und die übrigen Tests laufen nicht.',
         'Weil validateEvent sonst selbst einen Fehler wirft und stehen bleibt.',
         'Weil ein gescheiterter Test die Varianten dauerhaft verändert.',
+        'Ein Test, der immer scheitert, erwischt jede Variante und sagt nichts.',
       ],
-      correctIndex: 0,
+      correctIndex: 3,
       explanation:
         'Ein Test, der schon am richtigen Code scheitert, scheitert an jeder Variante auch. Er würde alle „erwischen“, ohne eine einzige Regel zu prüfen. ' +
         'Erwischt hat ein Test eine Variante erst, wenn er am Original besteht und an ihr scheitert. Der Testläufer bricht übrigens nicht ab: Jeder Test läuft für sich.',

@@ -52,7 +52,9 @@ export default function Demo() {
       {matrix ? (
         <Matrix matrix={matrix} tests={PRESET_TESTS.filter((t) => enabled.includes(t.id))} />
       ) : (
-        <p className="testing-hint">Tests laufen …</p>
+        <p className="testing-hint" role="status">
+          Tests laufen …
+        </p>
       )}
       <p className="testing-hint">
         Ein Test hat eine Fehlervariante erwischt, wenn er an der richtigen Fassung besteht und an der Variante

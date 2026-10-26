@@ -108,6 +108,20 @@ describe('B-006 Prüfungen erkennen typische Fehler', () => {
     await fails(mutate("event: 'pur-chase'", "event: 'purchase_2'"), /richtige/);
   });
 
+  it('meldet lesbar, wenn eine Variante andere Tests registriert als das Original', async () => {
+    // Der vierte Test entsteht nur, wenn validateEvent den Bindestrich durchlässt.
+    const code = [
+      "test('a', () => expect(1).toBe(1));",
+      "test('b', () => expect(2).toBe(2));",
+      "test('c', () => expect(3).toBe(3));",
+      "if (validateEvent({ event: 'a-b' }).length === 0) test('nur bei der Variante', () => expect(1).toBe(2));",
+      '',
+    ].join('\n');
+    expect(await messageOf(code, /Namensregel/)).toBe(
+      'Gegen diese Variante registriert dein Code 4 Tests, gegen die richtige `validateEvent` aber 3. Registriere die Tests immer gleich, ohne `if` um `test(…)`.',
+    );
+  });
+
   it('weniger als drei Tests', async () => {
     const code = "test('a', () => expect(1).toBe(1));\ntest('b', () => expect(2).toBe(2));\n";
     await fails(code, /drei Tests/);

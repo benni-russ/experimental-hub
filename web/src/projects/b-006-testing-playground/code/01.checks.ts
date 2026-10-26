@@ -58,6 +58,12 @@ function mutantCheck(id: MutantId): Check {
       const original = await runUserTests(ctx, validateEvent);
       const mutant = await runUserTests(ctx, MUTANTS[id].validate);
       if (mutant.length === 0) throw new CheckFailure(NO_TESTS);
+      // Verglichen wird Test für Test nach Position; das geht nur bei gleicher Anzahl.
+      if (mutant.length !== original.length) {
+        throw new CheckFailure(
+          `Gegen diese Variante registriert dein Code ${tests(mutant.length)}, gegen die richtige \`validateEvent\` aber ${original.length}. Registriere die Tests immer gleich, ohne \`if\` um \`test(…)\`.`,
+        );
+      }
       // Erwischt hat nur ein Test, der am Original besteht und hier scheitert.
       const caught = mutant.some((o, i) => !o.passed && original[i]?.passed === true);
       if (caught) return;

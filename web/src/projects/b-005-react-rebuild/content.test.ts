@@ -149,3 +149,13 @@ describe('B-005 Inhalte: zitierte Zahlen', () => {
     expect(meta.codeTasks?.[0]?.solution).toContain('Math.round(sum * 100) / 100');
   });
 });
+
+describe('B-005 Inhalte: Antwortpositionen', () => {
+  // Das Quiz zeigt die Optionen in Quellreihenfolge; steht die richtige immer
+  // an derselben Stelle, lässt sie sich erraten.
+  it('die Auswahlfragen haben ihre richtige Antwort an verschiedenen Stellen', () => {
+    const positions = meta.quiz.flatMap((q) => (q.type === 'choice' ? [q.correctIndex] : []));
+    expect(positions.length).toBeGreaterThan(1);
+    expect(new Set(positions).size).toBe(positions.length);
+  });
+});

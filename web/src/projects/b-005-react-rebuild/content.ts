@@ -55,12 +55,12 @@ export const meta: ContentMeta = {
       type: 'choice',
       prompt: 'Im klassischen Builder ist „Fehler einbauen“ an, der Warenkorb ist leer. Du legst eine Teedose hinein. Was zeigt die klassische Seite?',
       options: [
-        'Die Zeile erscheint, die Summe bleibt bei 0,00 €.',
         'Die Summe stimmt, aber die neue Zeile fehlt.',
+        'Die Zeile erscheint, die Summe bleibt bei 0,00 €.',
         'Die Seite zeigt eine Fehlermeldung an.',
         'Zeile und Summe stimmen, nur das Event fehlt.',
       ],
-      correctIndex: 0,
+      correctIndex: 1,
       explanation:
         'Der Fehler lässt nur das Neuschreiben der Summe aus. Die Zeile erscheint, die Summe zeigt weiter den alten Wert. ' +
         'Weil das Event seinen value aus der angezeigten Summe liest, ist auch das Event falsch. Eine Fehlermeldung gibt es nicht: Die Seite weiß nicht, dass etwas fehlt.',
@@ -70,12 +70,12 @@ export const meta: ContentMeta = {
       type: 'choice',
       prompt: 'Was macht ein Reducer wie eventReducer?',
       options: [
-        'Er berechnet aus altem Zustand und Aktion den neuen Zustand.',
         'Er schreibt die geänderten Stellen direkt in die Seite.',
         'Er speichert den Warenkorb dauerhaft im Browser.',
         'Er schickt das fertige Event an das Analysewerkzeug.',
+        'Er berechnet aus altem Zustand und Aktion den neuen Zustand.',
       ],
-      correctIndex: 0,
+      correctIndex: 3,
       explanation:
         'Ein Reducer ist eine Funktion von Zustand und Aktion zum neuen Zustand. Er fasst die Seite nicht an und schickt nichts ab. ' +
         'Das Zeichnen übernimmt React, sobald es den neuen Zustand hat; das Event leitet toEvent daraus ab.',
@@ -86,12 +86,12 @@ export const meta: ContentMeta = {
       prompt:
         'Ein Reducer ändert bei setQuantity die Menge direkt im alten Item und gibt den alten Zustand zurück. Was passiert in React?',
       options: [
-        'Die Anzeige bleibt, wie sie war: React sieht kein neues Objekt.',
         'React erkennt die Änderung und zeichnet die Zeile neu.',
         'Der Browser meldet einen Fehler, weil Objekte fest sind.',
+        'Die Anzeige bleibt, wie sie war: React sieht kein neues Objekt.',
         'Die Seite lädt neu, und der Warenkorb ist danach leer.',
       ],
-      correctIndex: 0,
+      correctIndex: 2,
       explanation:
         'useReducer vergleicht den zurückgegebenen Zustand mit dem alten. Ist es dasselbe Objekt, hat sich für React nichts geändert, und die Anzeige bleibt stehen. ' +
         'Deshalb baut ein Reducer immer neue Objekte und lässt die alten in Ruhe.',

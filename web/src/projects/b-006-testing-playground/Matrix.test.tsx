@@ -1,6 +1,7 @@
 // @vitest-environment jsdom
 import { act, StrictMode, type ReactNode } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
+import { renderToStaticMarkup } from 'react-dom/server';
 import { afterEach, beforeAll, describe, expect, it } from 'vitest';
 import Demo from './Demo';
 import { Matrix, verdict } from './Matrix';
@@ -88,6 +89,12 @@ describe('Matrix', () => {
 });
 
 describe('Demo', () => {
+  it('kündigt den Ladezustand als Status an', () => {
+    // Ohne Effekte (Server-Rendering) bleibt der Zustand vor dem Ergebnis von killMatrix stehen.
+    const html = renderToStaticMarkup(<Demo />);
+    expect(html).toContain('role="status">Tests laufen …</p>');
+  });
+
   it('zeigt zehn Schalter und schaltet Zeilen und Fazit um', async () => {
     const el = await render(<Demo />);
     // killMatrix ist asynchron; ein paar Mikroaufgaben abwarten.
