@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { cleanFeed, inspectFeed, readFeedNaively } from '../../personalization/inspectFeed';
 import { FEED_DATE, RAW_FEED } from '../../personalization/rawFeed';
 import { PRESETS, rankProducts } from '../../personalization/recommend';
-import { NOW, VISITORS } from '../../personalization/visitors';
+import { EXAMPLE_VISITOR_ID, NOW, VISITORS } from '../../personalization/visitors';
 import { flawWords, naiveEntries, naiveFlaws } from './effects';
 
 const { products, issues } = inspectFeed(RAW_FEED, FEED_DATE);
@@ -20,7 +20,7 @@ describe('C-002 Zuordnung der naiven Liste zu den Feedeinträgen', () => {
 
   it('die vier Wörter: ausverkauft, doppelt, veraltet, Kategorie falsch geschrieben', () => {
     const wordsOf = (id: string, nth = 0) => flaws.get(naive.filter((p) => p.id === id)[nth]!);
-    expect(wordsOf('P03')).toEqual(['ausverkauft']);
+    expect(wordsOf('P10')).toEqual(['ausverkauft']);
     expect(wordsOf('P05', 1)).toEqual(['doppelt']);
     expect(wordsOf('P05', 0)).toEqual([]);
     expect(wordsOf('P27')).toEqual(['veraltet']);
@@ -45,9 +45,12 @@ describe('C-002 Wirkung auf die Empfehlung', () => {
 
   it('für mindestens einen Besucher steht links eine markierte Empfehlung, rechts nie', () => {
     const marked = VISITORS.filter((v) => top(naive, v.id).some((p) => (flaws.get(p) ?? []).length > 0)).map((v) => v.name);
-    expect(marked).toContain('Clara');
-    // Die Beispiel-Startauswahl der Demo zeigt sofort eine Markierung.
-    expect(top(naive, 'V3').map((p) => p.id)).toContain('P27');
+    expect(marked).toEqual(expect.arrayContaining(['Anna', 'Clara', 'David', 'Finn']));
+    // Die Startauswahl der Demo (Beispielbesucher Anna) zeigt sofort zwei Markierungen.
+    const anna = top(naive, EXAMPLE_VISITOR_ID).flatMap((p) => flaws.get(p) ?? []);
+    expect(anna.sort()).toEqual(['doppelt', 'veraltet']);
+    const words = new Set(VISITORS.flatMap((v) => top(naive, v.id).flatMap((p) => flaws.get(p) ?? [])));
+    for (const w of ['ausverkauft', 'doppelt', 'veraltet']) expect(words.has(w), w).toBe(true);
     for (const v of VISITORS) {
       const ids = top(clean, v.id).map((p) => p.id);
       expect(ids).not.toContain('P27');

@@ -2,13 +2,13 @@ import { useId, useMemo, useState } from 'react';
 import type { Product } from '../../personalization/catalog';
 import type { FeedEntry, FeedIssue } from '../../personalization/inspectFeed';
 import { PRESETS, rankProducts } from '../../personalization/recommend';
-import { NOW, VISITORS } from '../../personalization/visitors';
+import { EXAMPLE_VISITOR_ID, NOW, VISITORS } from '../../personalization/visitors';
 import { naiveFlaws } from './effects';
 
 const OPTIONS = { hideOutOfStock: true, hidePurchased: true, n: 5 };
 
-// Clara: ihre Liste aus dem rohen Feed enthält einen veralteten Eintrag, die Markierung ist sofort zu sehen.
-const START_VISITOR = 'V3';
+// Startbesucher ist der Beispielbesucher: Annas Liste aus dem rohen Feed zeigt sofort zwei Markierungen.
+const START_VISITOR = EXAMPLE_VISITOR_ID;
 
 const euro = (n: number) => `${n.toFixed(2).replace('.', ',')} €`;
 
@@ -55,7 +55,7 @@ function RankList({ title, rows, id }: { title: string; rows: Row[]; id: string 
         ))}
       </ol>
       <p className="fi-hint" aria-live="polite">
-        {broken === 0 ? 'Keine Empfehlung markiert.' : `${broken} von ${rows.length} Empfehlungen sind kaputt.`}
+        {broken === 0 ? 'Keine Empfehlung markiert.' : `${broken} von ${rows.length} Empfehlungen ${broken === 1 ? 'ist' : 'sind'} kaputt.`}
       </p>
     </div>
   );

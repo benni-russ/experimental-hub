@@ -38,6 +38,7 @@
   .fi-feed[data-pane="table"] .fi-pane-raw { display: none; }
 }
 .fi-pane { min-width: 0; }
+.fi-panel .table-scroll { --tabelle-grund: var(--farbe-flaeche); }
 
 .fi-raw {
   margin: 0;
@@ -72,7 +73,6 @@
 /* relative: das verborgene Wort in der Zelle (position: absolute) bleibt sonst nicht im Scrollbereich und verbreitert die Seite */
 .fi-table td { position: relative; font-variant-numeric: tabular-nums; }
 .fi-table tr.is-marked > * { background: var(--farbe-akzent-weich); }
-.fi-table tr.is-marked > :first-child { background: var(--farbe-akzent-weich); }
 .fi-cell.is-drop { background: var(--farbe-fehler-weich); color: var(--farbe-fehler); font-weight: var(--gewicht-mittel); }
 .fi-cell.is-repair,
 .fi-cell.is-warn { background: var(--farbe-warnung-weich); color: var(--farbe-warnung); font-weight: var(--gewicht-mittel); }

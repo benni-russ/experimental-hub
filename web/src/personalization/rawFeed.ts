@@ -18,7 +18,7 @@ const extra = (p: Product): RawProduct => ({ ...p });
 // Zusatzeinträge, je mit einem Defekt, hinter dem Katalogprodukt eingereiht.
 const extras: Record<string, RawProduct | undefined> = {
   // Dublette: gleiche id wie P05, anderer Preis
-  P05: { ...copyOf('P05'), price: 199.0, updatedAt: '2026-10-24T16:45:00Z' },
+  P05: { ...copyOf('P05'), price: 199.0, sales30d: 80, updatedAt: '2026-10-24T16:45:00Z' },
   // ohne price
   P09: (() => {
     const entry = extra({
@@ -42,7 +42,7 @@ const extras: Record<string, RawProduct | undefined> = {
   P18: extra({
     id: 'P27', title: 'Sommerwind Laufshirt', category: 'Jacken', brand: 'Kieselstein', price: 34.9,
     availability: 'in_stock', imageLink: 'https://bilder.nordlicht-sport.example/p27.jpg',
-    tags: ['laufen', 'atmungsaktiv', 'leicht'], sales30d: 6, updatedAt: '2026-10-16T03:00:00Z',
+    tags: ['laufen', 'straße', 'leicht'], sales30d: 40, updatedAt: '2026-10-16T03:00:00Z',
   }),
 };
 
@@ -51,7 +51,7 @@ for (const p of CATALOG) {
   const entry = copyOf(p.id);
   if (p.id === 'P02') entry.category = 'laufschuhe'; // reparierbar: Kleinschreibung
   if (p.id === 'P08') entry.category = 'Jacken '; // reparierbar: Leerzeichen am Ende
-  if (p.id === 'P03') entry.availability = 'Out of Stock'; // reparierbar: andere Schreibweise
+  if (p.id === 'P10') entry.availability = 'Out of Stock'; // reparierbar: andere Schreibweise (im Katalog ausverkauft)
   products.push(entry);
   const zusatz = extras[p.id];
   if (zusatz) products.push(zusatz);

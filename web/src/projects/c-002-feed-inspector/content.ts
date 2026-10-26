@@ -81,7 +81,7 @@ export const meta: ContentMeta = {
       ],
       correctIndex: 0,
       explanation:
-        'Der Prüfer kennt Formen, nicht Wahrheit: Ein Preis, der um ein paar Euro danebenliegt, ist trotzdem eine gültige Zahl und besteht jede Regel.' +
+        'Der Prüfer kennt Formen, nicht Wahrheit: Ein Preis, der um ein paar Euro danebenliegt, ist trotzdem eine gültige Zahl und besteht jede Regel. ' +
         'Solche Fehler findet nur ein Vergleich mit der Quelle, etwa ein Abgleich mit dem Shopsystem oder Stichproben.',
     },
   ],
@@ -150,7 +150,6 @@ export const meta: ContentMeta = {
       starter: lines(
         'function parseFeed(text) {',
         '  // dein Code: lesen, prüfen, nie eine Ausnahme werfen',
-        "  return { ok: false, error: 'noch nicht gebaut' };",
         '}',
         '',
         'return { parseFeed };',
