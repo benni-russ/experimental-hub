@@ -1,22 +1,22 @@
 import { describe, expect, it } from 'vitest';
 import type { ContentMeta } from '@hub/shared';
-import { meta as mdeMeta } from './001-mde/content';
+import { meta as mdeMeta } from './a-001-mde/content';
 import { allText, checkStructure } from './contentChecks';
 
 const size = { quiz: 4, reflection: [2, 2] as [number, number], cards: [6, 8] as [number, number] };
 
 describe('checkStructure', () => {
-  it('001 ist gut', () => {
+  it('A-001 ist gut', () => {
     expect(checkStructure(mdeMeta, size)).toEqual([]);
   });
 
   it('doppelte Karten-ID wird mit der ID gemeldet', () => {
     const copy: ContentMeta = {
       ...mdeMeta,
-      cards: mdeMeta.cards.map((c, i) => (i === 1 ? { ...c, id: '001-card-01' } : c)),
+      cards: mdeMeta.cards.map((c, i) => (i === 1 ? { ...c, id: 'A-001-card-01' } : c)),
     };
     const problems = checkStructure(copy, size);
-    expect(problems.some((p) => p.includes('001-card-01'))).toBe(true);
+    expect(problems.some((p) => p.includes('A-001-card-01'))).toBe(true);
   });
 
   it('Unit ohne attachedTo wird gemeldet', () => {
@@ -30,7 +30,7 @@ describe('checkStructure', () => {
       ...mdeMeta,
       kind: 'unit',
       quiz: [],
-      attachedTo: '001',
+      attachedTo: 'A-001',
       intro: { text: mdeMeta.intro.text },
       cards: mdeMeta.cards.slice(0, 4),
     };
@@ -45,7 +45,7 @@ describe('checkStructure', () => {
   it('Schätzfrage mit falscher ID wird gemeldet', () => {
     const wrong: ContentMeta = {
       ...mdeMeta,
-      quiz: mdeMeta.quiz.map((q) => (q.id === '001-quiz-01' ? { ...q, id: '001-quiz-09' } : q)),
+      quiz: mdeMeta.quiz.map((q) => (q.id === 'A-001-quiz-01' ? { ...q, id: 'A-001-quiz-09' } : q)),
     };
     expect(checkStructure(wrong, size).length).toBeGreaterThan(0);
   });
@@ -54,13 +54,13 @@ describe('checkStructure', () => {
 describe('checkStructure: erratbare Auswahlfragen', () => {
   const withOptions = (options: string[], correctIndex: number): ContentMeta => ({
     ...mdeMeta,
-    quiz: mdeMeta.quiz.map((q) => (q.id === '001-quiz-02' && q.type === 'choice' ? { ...q, options, correctIndex } : q)),
+    quiz: mdeMeta.quiz.map((q) => (q.id === 'A-001-quiz-02' && q.type === 'choice' ? { ...q, options, correctIndex } : q)),
   });
 
   it('meldet, wenn die richtige Option deutlich die längste ist', () => {
     const meta = withOptions(['Kurz.', 'Diese Antwort ist richtig und viel länger als alle anderen.', 'Auch kurz.'], 1);
     const problems = checkStructure(meta, size);
-    expect(problems.some((p) => p.includes('001-quiz-02') && p.includes('längste'))).toBe(true);
+    expect(problems.some((p) => p.includes('A-001-quiz-02') && p.includes('längste'))).toBe(true);
   });
 
   it('richtige Option nur wenig länger als die zweitlängste ist in Ordnung', () => {

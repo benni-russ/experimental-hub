@@ -70,8 +70,8 @@ dem Tun abgeleitet, nicht abgehakt.
 
 ## Evidence on Hand
 
-- Referenzmodul `001 MDE` (Mindestens erkennbarer Effekt) mit Demo,
-  Stichprobenkurve und Annahmen: `src/projects/001-mde/`.
+- Referenzmodul `A-001 MDE` (Mindestens erkennbarer Effekt) mit Demo,
+  Stichprobenkurve und Annahmen: `src/projects/a-001-mde/`.
 - Ein Testprojekt `000` (nur in der Entwicklung), das alle Lernbausteine zeigt.
 - Weitere Projekte gibt es noch nicht. Das Backlog wird erst kuratiert.
 

@@ -19,56 +19,56 @@ describe('Gesundheit und Fehler', () => {
 
 describe('Reflexion', () => {
   it('leere Reflexionsantwort löscht die Antwort', async () => {
-    expect((await t.putRaw('/api/reflections/001-refl-01', { projectId: '001', answer: 'x' })).statusCode).toBe(204);
+    expect((await t.putRaw('/api/reflections/A-001-refl-01', { projectId: 'A-001', answer: 'x' })).statusCode).toBe(204);
     expect((await t.get('/api/state')).answeredReflections).toEqual([
-      { questionId: '001-refl-01', projectId: '001' },
+      { questionId: 'A-001-refl-01', projectId: 'A-001' },
     ]);
-    await t.putRaw('/api/reflections/001-refl-01', { projectId: '001', answer: '  ' });
+    await t.putRaw('/api/reflections/A-001-refl-01', { projectId: 'A-001', answer: '  ' });
     expect((await t.get('/api/state')).answeredReflections).toEqual([]);
   });
 
   it('Antwort überschreibt und erscheint in /api/notes', async () => {
-    await t.putRaw('/api/reflections/001-refl-01', { projectId: '001', answer: 'a' });
+    await t.putRaw('/api/reflections/A-001-refl-01', { projectId: 'A-001', answer: 'a' });
     t.setNow('2026-01-02T00:00:00.000Z');
-    await t.putRaw('/api/reflections/001-refl-01', { projectId: '001', answer: 'b' });
+    await t.putRaw('/api/reflections/A-001-refl-01', { projectId: 'A-001', answer: 'b' });
     expect((await t.get('/api/notes')).reflections).toEqual([
-      { projectId: '001', questionId: '001-refl-01', answer: 'b', updatedAt: '2026-01-02T00:00:00.000Z' },
+      { projectId: 'A-001', questionId: 'A-001-refl-01', answer: 'b', updatedAt: '2026-01-02T00:00:00.000Z' },
     ]);
   });
 });
 
 describe('Notizen', () => {
   it('GET ohne Zeile liefert leere Strings', async () => {
-    expect(await t.get('/api/projects/001/notes')).toEqual({ note: '', postIdea: '', updatedAt: null });
+    expect(await t.get('/api/projects/A-001/notes')).toEqual({ note: '', postIdea: '', updatedAt: null });
   });
 
   it('PUT speichert, GET liefert, /api/notes listet', async () => {
-    expect((await t.putRaw('/api/projects/001/notes', { note: 'N', postIdea: 'P' })).statusCode).toBe(204);
-    expect(await t.get('/api/projects/001/notes')).toEqual({
+    expect((await t.putRaw('/api/projects/A-001/notes', { note: 'N', postIdea: 'P' })).statusCode).toBe(204);
+    expect(await t.get('/api/projects/A-001/notes')).toEqual({
       note: 'N',
       postIdea: 'P',
       updatedAt: '2026-01-01T10:00:00.000Z',
     });
     expect((await t.get('/api/notes')).notes).toEqual([
-      { projectId: '001', note: 'N', postIdea: 'P', updatedAt: '2026-01-01T10:00:00.000Z' },
+      { projectId: 'A-001', note: 'N', postIdea: 'P', updatedAt: '2026-01-01T10:00:00.000Z' },
     ]);
   });
 
   it('lehnt mehr als 20 000 Zeichen ab', async () => {
-    const res = await t.putRaw('/api/projects/001/notes', { note: 'x'.repeat(20_001), postIdea: '' });
+    const res = await t.putRaw('/api/projects/A-001/notes', { note: 'x'.repeat(20_001), postIdea: '' });
     expect(res.statusCode).toBe(400);
     expect(res.json().error.code).toBe('INVALID_INPUT');
   });
 });
 
 describe('Quiz', () => {
-  const body = { projectId: '001', questionId: '001-quiz-01', phase: 'before', answer: '5', correct: false };
+  const body = { projectId: 'A-001', questionId: 'A-001-quiz-01', phase: 'before', answer: '5', correct: false };
 
   it('liefert die letzte Antwort je (Frage, Phase)', async () => {
     expect((await t.postRaw('/api/quiz-attempts', body)).statusCode).toBe(201);
     await t.postRaw('/api/quiz-attempts', { ...body, answer: '7', correct: true }); // gleiche created_at
     await t.postRaw('/api/quiz-attempts', { ...body, phase: 'after', answer: '9', correct: true });
-    const list = await t.get('/api/quiz-attempts?projectId=001');
+    const list = await t.get('/api/quiz-attempts?projectId=A-001');
     expect(list).toHaveLength(2);
     expect(list).toEqual(
       expect.arrayContaining([
@@ -86,8 +86,8 @@ describe('Quiz', () => {
 
 describe('State', () => {
   it('dueCount entspricht review/due', async () => {
-    await t.open('001', ['001-card-01', '001-card-02']);
-    await t.post('/api/review/001-card-01', { known: true });
+    await t.open('A-001', ['A-001-card-01', 'A-001-card-02']);
+    await t.post('/api/review/A-001-card-01', { known: true });
     const due = await t.get('/api/review/due');
     expect(due).toHaveLength(1);
     expect((await t.get('/api/state')).dueCount).toBe(1);

@@ -15,11 +15,11 @@ import {
 } from './reviewItems';
 
 const lookup: ReviewProjectLookup = (id) =>
-  id === '001'
+  id === 'A-001'
     ? {
         title: 'Stichprobengröße',
         track: 'experimentation',
-        cards: [{ id: '001-card-01', front: 'Frage?', back: 'Antwort.' }],
+        cards: [{ id: 'A-001-card-01', front: 'Frage?', back: 'Antwort.' }],
       }
     : undefined;
 
@@ -33,10 +33,10 @@ const item = (cardId: string, projectId: string, extra: Partial<ReviewItem> = {}
 
 describe('resolveReviewItems', () => {
   it('nimmt Text und Titel einer eigenen Karte aus dem Item', () => {
-    const [r] = resolveReviewItems([item('own-7', '001', { front: 'V', back: 'R' })], lookup);
+    const [r] = resolveReviewItems([item('own-7', 'A-001', { front: 'V', back: 'R' })], lookup);
     expect(r).toEqual({
       cardId: 'own-7',
-      projectId: '001',
+      projectId: 'A-001',
       front: 'V',
       back: 'R',
       projectTitle: 'Stichprobengröße',
@@ -45,10 +45,10 @@ describe('resolveReviewItems', () => {
   });
 
   it('findet eine Projektkarte im Inhalt des Projekts', () => {
-    const [r] = resolveReviewItems([item('001-card-01', '001')], lookup);
+    const [r] = resolveReviewItems([item('A-001-card-01', 'A-001')], lookup);
     expect(r).toEqual({
-      cardId: '001-card-01',
-      projectId: '001',
+      cardId: 'A-001-card-01',
+      projectId: 'A-001',
       front: 'Frage?',
       back: 'Antwort.',
       projectTitle: 'Stichprobengröße',
@@ -57,12 +57,12 @@ describe('resolveReviewItems', () => {
   });
 
   it('übernimmt den Track aus dem Lookup, auch für eigene Karten', () => {
-    const [r] = resolveReviewItems([item('own-1', '001', { front: 'a', back: 'b' })], lookup);
+    const [r] = resolveReviewItems([item('own-1', 'A-001', { front: 'a', back: 'b' })], lookup);
     expect(r?.track).toBe('experimentation');
   });
 
   it('überspringt eine gestrichene Karte', () => {
-    expect(resolveReviewItems([item('001-card-99', '001')], lookup)).toEqual([]);
+    expect(resolveReviewItems([item('A-001-card-99', 'A-001')], lookup)).toEqual([]);
   });
 
   it('überspringt Items eines nicht registrierten Projekts', () => {
@@ -71,14 +71,14 @@ describe('resolveReviewItems', () => {
 
   it('behält die Reihenfolge der übrigen Items', () => {
     const out = resolveReviewItems(
-      [item('001-card-01', '001'), item('x', '999'), item('own-1', '001', { front: 'a', back: 'b' })],
+      [item('A-001-card-01', 'A-001'), item('x', '999'), item('own-1', 'A-001', { front: 'a', back: 'b' })],
       lookup,
     );
-    expect(out.map((r) => r.cardId)).toEqual(['001-card-01', 'own-1']);
+    expect(out.map((r) => r.cardId)).toEqual(['A-001-card-01', 'own-1']);
   });
 
   it('überspringt eine eigene Karte ohne Text nicht durch Rückfall auf Projektkarten', () => {
-    expect(resolveReviewItems([item('own-2', '001')], lookup)).toEqual([]);
+    expect(resolveReviewItems([item('own-2', 'A-001')], lookup)).toEqual([]);
   });
 });
 
@@ -90,11 +90,11 @@ const resolved = (
 ): ResolvedReviewItem => ({ cardId, projectId, front: 'f', back: 'b', projectTitle, track });
 
 const sample: ResolvedReviewItem[] = [
-  resolved('a1', '013', 'Zebra-API', 'web'),
-  resolved('b1', '001', 'Stichprobe', 'experimentation'),
-  resolved('a2', '013', 'Zebra-API', 'web'),
+  resolved('a1', 'A-003', 'Zebra-API', 'web'),
+  resolved('b1', 'A-001', 'Stichprobe', 'experimentation'),
+  resolved('a2', 'A-003', 'Zebra-API', 'web'),
   resolved('c1', '020', 'Äpfel-API', 'web'),
-  resolved('d1', '002', 'Stichprobe', 'ai'),
+  resolved('d1', 'A-002.1', 'Stichprobe', 'ai'),
   resolved('d2', '003', 'Stichprobe', 'web'),
 ];
 
@@ -102,7 +102,7 @@ describe('parseReviewScope', () => {
   const parse = (query: string) => parseReviewScope(new URLSearchParams(query));
 
   it('liest ein Projekt', () => {
-    expect(parse('?projekt=013')).toEqual({ kind: 'project', projectId: '013' });
+    expect(parse('?projekt=A-003')).toEqual({ kind: 'project', projectId: 'A-003' });
   });
 
   it('liest ein Thema', () => {
@@ -110,7 +110,7 @@ describe('parseReviewScope', () => {
   });
 
   it('gibt dem Projekt Vorrang vor dem Thema', () => {
-    expect(parse('?projekt=013&thema=web')).toEqual({ kind: 'project', projectId: '013' });
+    expect(parse('?projekt=A-003&thema=web')).toEqual({ kind: 'project', projectId: 'A-003' });
   });
 
   it('fällt bei Unbekanntem oder Leerem auf alles zurück', () => {
@@ -124,7 +124,7 @@ describe('reviewScopeHref', () => {
   it('baut die Adressen', () => {
     expect(reviewScopeHref({ kind: 'all' })).toBe('/lernrunde');
     expect(reviewScopeHref({ kind: 'track', track: 'experimentation' })).toBe('/lernrunde?thema=experimentation');
-    expect(reviewScopeHref({ kind: 'project', projectId: '013' })).toBe('/lernrunde?projekt=013');
+    expect(reviewScopeHref({ kind: 'project', projectId: 'A-003' })).toBe('/lernrunde?projekt=A-003');
   });
 
   it('kodiert Leerzeichen und &', () => {
@@ -155,7 +155,7 @@ describe('filterByScope', () => {
   });
 
   it('filtert nach Projekt', () => {
-    expect(filterByScope(sample, { kind: 'project', projectId: '013' }).map((i) => i.cardId)).toEqual(['a1', 'a2']);
+    expect(filterByScope(sample, { kind: 'project', projectId: 'A-003' }).map((i) => i.cardId)).toEqual(['a1', 'a2']);
   });
 
   it('liefert bei unbekanntem Projekt nichts', () => {
@@ -183,7 +183,7 @@ describe('groupByTopic', () => {
     expect(web?.projects).toEqual([
       { projectId: '020', title: 'Äpfel-API', count: 1 },
       { projectId: '003', title: 'Stichprobe', count: 1 },
-      { projectId: '013', title: 'Zebra-API', count: 2 },
+      { projectId: 'A-003', title: 'Zebra-API', count: 2 },
     ]);
   });
 });
@@ -195,10 +195,10 @@ describe('orderByTopic', () => {
 
   it('hält die Eingabereihenfolge je Projekt, auch bei gleichem Titel zweier Projekte', () => {
     const items = [
-      resolved('x1', '002', 'Gleich', 'web'),
-      resolved('y1', '001', 'Gleich', 'web'),
-      resolved('x2', '002', 'Gleich', 'web'),
-      resolved('y2', '001', 'Gleich', 'web'),
+      resolved('x1', 'A-002.1', 'Gleich', 'web'),
+      resolved('y1', 'A-001', 'Gleich', 'web'),
+      resolved('x2', 'A-002.1', 'Gleich', 'web'),
+      resolved('y2', 'A-001', 'Gleich', 'web'),
       resolved('e1', '005', 'Zeta', 'experimentation'),
     ];
     expect(orderByTopic(items).map((i) => i.cardId)).toEqual(['e1', 'x1', 'x2', 'y1', 'y2']);
@@ -207,13 +207,13 @@ describe('orderByTopic', () => {
 
 describe('isKnownCard', () => {
   it('kennt Projektkarte und eigene Karte', () => {
-    expect(isKnownCard({ cardId: '001-card-01', projectId: '001' }, lookup)).toBe(true);
-    expect(isKnownCard({ cardId: 'own-5', projectId: '001' }, lookup)).toBe(true);
+    expect(isKnownCard({ cardId: 'A-001-card-01', projectId: 'A-001' }, lookup)).toBe(true);
+    expect(isKnownCard({ cardId: 'own-5', projectId: 'A-001' }, lookup)).toBe(true);
   });
 
   it('kennt unbekanntes Projekt und gestrichene Karte nicht', () => {
     expect(isKnownCard({ cardId: 'own-5', projectId: '999' }, lookup)).toBe(false);
-    expect(isKnownCard({ cardId: '001-card-99', projectId: '001' }, lookup)).toBe(false);
+    expect(isKnownCard({ cardId: 'A-001-card-99', projectId: 'A-001' }, lookup)).toBe(false);
   });
 });
 

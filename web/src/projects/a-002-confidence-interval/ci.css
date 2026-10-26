@@ -1,0 +1,101 @@
+/* A-002 Konfidenzintervall. Weinrot nur für Bedienung, Gold nur in der InsightBox.
+   Getroffen/verfehlt ist Form (voll/hohl), nicht Farbe. */
+
+.ci-demo,
+.ci-tab,
+.ci-hood { display: grid; gap: var(--abstand-5); min-width: 0; }
+/* Im Raster sorgt der gap für den Abstand; der Rand der InsightBox käme sonst dazu */
+.ci-tab > .insight { margin: 0; }
+.ci-demo .slider-head,
+.ci-hood .slider-head { flex-wrap: wrap; }
+
+.ci-context,
+.ci-count,
+.ci-legend,
+.ci-hint { margin: 0; }
+.ci-count { font-weight: var(--gewicht-halbfett); }
+.ci-legend { color: var(--farbe-text-gedaempft); font-size: 0.9rem; }
+.ci-hint { color: var(--farbe-text-gedaempft); }
+
+.ci-choices {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: var(--abstand-4);
+}
+.ci-field { display: grid; gap: var(--abstand-1); justify-items: start; }
+.ci-field-label { font-weight: var(--gewicht-mittel); }
+
+.ci-fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: var(--abstand-4);
+  align-items: start;
+}
+
+.ci-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  gap: var(--abstand-4);
+  padding: var(--abstand-4);
+  background: var(--farbe-flaeche);
+  border: var(--linie);
+  border-radius: var(--radius-klein);
+}
+.ci-metrics .metric-value { font-size: 1.5rem; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+
+.ci-warning {
+  margin: 0;
+  padding: var(--abstand-3) var(--abstand-4);
+  background: var(--farbe-warnung-weich);
+  border: 1px solid var(--farbe-warnung);
+  border-radius: var(--radius-klein);
+  color: var(--farbe-text);
+}
+.ci-warning strong { color: var(--farbe-warnung); }
+
+.ci-reading { display: grid; gap: var(--abstand-2); }
+.ci-reading p { margin: 0; }
+
+/* Diagramm */
+.ci-chart { margin: 0; max-width: 30rem; }
+/* Regler gezogen, aber noch nicht losgelassen: altes Bild gedämpft, bis neu gerechnet ist. */
+.ci-pending { opacity: 0.45; }
+.ci-chart svg { display: block; width: 100%; height: auto; }
+.ci-grid { stroke: var(--farbe-rahmen); stroke-width: 1; }
+.ci-axis { stroke: var(--farbe-rahmen-stark); stroke-width: 1; }
+.ci-tick { fill: var(--farbe-text-gedaempft); font-size: 13px; font-family: var(--schrift-flies); }
+.ci-zero { stroke: var(--farbe-rahmen-stark); stroke-width: 1.5; stroke-dasharray: 5 4; }
+.ci-truth { stroke: var(--farbe-daten-a); stroke-width: 2; }
+.ci-mde { stroke: var(--farbe-text); stroke-width: 1.5; stroke-dasharray: 1 3; stroke-linecap: round; }
+.ci-line-label {
+  fill: var(--farbe-text);
+  font-size: 13.5px;
+  font-weight: var(--gewicht-mittel);
+  font-family: var(--schrift-flies);
+  paint-order: stroke;
+  stroke: var(--farbe-hintergrund);
+  stroke-width: 3px;
+}
+.ci-row line { stroke: var(--farbe-daten-a); stroke-width: 2; }
+.ci-row polygon { fill: var(--farbe-daten-a); }
+.ci-row circle { fill: var(--farbe-daten-a); stroke: var(--farbe-daten-a); stroke-width: 1.5; }
+.ci-row-missed line { stroke-dasharray: 3 2; }
+.ci-row-missed circle { fill: var(--farbe-flaeche); }
+
+/* Unter der Haube */
+.ci-hood-controls {
+  display: grid;
+  gap: var(--abstand-4);
+  padding: var(--abstand-4);
+  border: var(--linie);
+  border-radius: var(--radius-klein);
+}
+.ci-steps { display: grid; gap: var(--abstand-2); margin: 0; padding-left: var(--abstand-5); }
+.ci-steps li { overflow-wrap: anywhere; }
+.ci-limits { margin: 0; padding-left: var(--abstand-5); display: grid; gap: var(--abstand-1); }
+
+/* Hülle um Feld oder Niveau-Wahl: Platz für den Ring von .is-linked (kein overflow: hidden) */
+.ci-linkable { min-width: 0; padding: var(--abstand-2); border: 1px solid transparent; border-radius: var(--radius-klein); }
+.ci-hood h3 { margin: var(--abstand-2) 0 0; }
+.ci-hood > p { margin: 0; }

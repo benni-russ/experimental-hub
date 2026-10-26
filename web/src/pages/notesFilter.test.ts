@@ -3,8 +3,8 @@ import type { ProjectNotes, ReflectionAnswer } from '@hub/shared';
 import { filterNotes, type ProjectLookup } from './notesFilter';
 
 const lookup: ProjectLookup = (id) =>
-  id === '001'
-    ? { title: 'Stichprobengröße', reflection: [{ id: '001-refl-01', prompt: 'Was war überraschend?' }] }
+  id === 'A-001'
+    ? { title: 'Stichprobengröße', reflection: [{ id: 'A-001-refl-01', prompt: 'Was war überraschend?' }] }
     : undefined;
 
 const note = (projectId: string, n: string, postIdea = ''): ProjectNotes => ({
@@ -22,39 +22,39 @@ const answer = (projectId: string, questionId: string, a: string): ReflectionAns
 
 describe('filterNotes', () => {
   it('liefert ohne Suche alle Projekte mit Inhalt', () => {
-    const r = filterNotes([note('001', 'Hallo')], [answer('001', '001-refl-01', 'Viel')], lookup, '', false);
+    const r = filterNotes([note('A-001', 'Hallo')], [answer('A-001', 'A-001-refl-01', 'Viel')], lookup, '', false);
     expect(r).toHaveLength(1);
     expect(r[0]?.title).toBe('Stichprobengröße');
     expect(r[0]?.answers).toEqual([{ question: 'Was war überraschend?', answer: 'Viel' }]);
   });
 
   it('ignoriert Groß- und Kleinschreibung', () => {
-    const notes = [note('001', 'Das Konfidenzintervall ist breit')];
+    const notes = [note('A-001', 'Das Konfidenzintervall ist breit')];
     expect(filterNotes(notes, [], lookup, 'KONFIDENZ', false)).toHaveLength(1);
     expect(filterNotes(notes, [], lookup, 'stichprobengröße', false)).toHaveLength(1);
   });
 
   it('findet Wörter in Reflexionsantworten', () => {
-    const r = filterNotes([], [answer('001', '001-refl-01', 'Die Varianz wirkte klein')], lookup, 'varianz', false);
+    const r = filterNotes([], [answer('A-001', 'A-001-refl-01', 'Die Varianz wirkte klein')], lookup, 'varianz', false);
     expect(r).toHaveLength(1);
   });
 
   it('zeigt im Post-Ideen-Modus nur Post-Ideen', () => {
-    const notes = [note('001', 'nur Notiz'), note('002', 'Notiz', 'Idee')];
-    const r = filterNotes(notes, [answer('002', 'x', 'Antwort')], lookup, '', true);
-    expect(r.map((g) => g.projectId)).toEqual(['002']);
+    const notes = [note('A-001', 'nur Notiz'), note('A-002.1', 'Notiz', 'Idee')];
+    const r = filterNotes(notes, [answer('A-002.1', 'x', 'Antwort')], lookup, '', true);
+    expect(r.map((g) => g.projectId)).toEqual(['A-002.1']);
     expect(r[0]?.note).toBe('');
     expect(r[0]?.answers).toEqual([]);
     expect(r[0]?.postIdea).toBe('Idee');
   });
 
   it('sucht im Post-Ideen-Modus nicht in ausgeblendeten Feldern', () => {
-    const notes = [note('002', 'geheimwort', 'Idee')];
+    const notes = [note('A-002.1', 'geheimwort', 'Idee')];
     expect(filterNotes(notes, [], lookup, 'geheimwort', true)).toHaveLength(0);
   });
 
   it('lässt leere und nur aus Leerzeichen bestehende Projekte weg', () => {
-    const r = filterNotes([note('001', '   ', ' '), note('002', '')], [answer('002', 'q', '  ')], lookup, '', false);
+    const r = filterNotes([note('A-001', '   ', ' '), note('A-002.1', '')], [answer('A-002.1', 'q', '  ')], lookup, '', false);
     expect(r).toEqual([]);
   });
 
@@ -65,6 +65,6 @@ describe('filterNotes', () => {
   });
 
   it('ignoriert Leerzeichen um die Suche', () => {
-    expect(filterNotes([note('001', 'abc')], [], lookup, '  abc ', false)).toHaveLength(1);
+    expect(filterNotes([note('A-001', 'abc')], [], lookup, '  abc ', false)).toHaveLength(1);
   });
 });

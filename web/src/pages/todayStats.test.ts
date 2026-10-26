@@ -64,7 +64,7 @@ describe('dueForecast', () => {
   const now = new Date(2026, 9, 24, 15, 0);
   const at = (dueAt: Date, cardId = 'c'): UpcomingItem => ({
     cardId,
-    projectId: '001',
+    projectId: 'A-001',
     dueAt: dueAt.toISOString(),
   });
   const all = (_item: UpcomingItem) => true;

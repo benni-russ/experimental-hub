@@ -13,7 +13,7 @@ Vorgaben aus der Abstimmung:
 - AI & Automation als eigener kleiner Track
 - Coding-Themen bleiben als Track B, jeweils mit Mini-Brief vorab
 - Projekt-IDs aus dem alten Backlog bleiben, Lücken sind gewollt (seit
-  26.10.2026 nur noch als Spalte „ID (App)“, siehe Entscheidung)
+  26.10.2026 abgelöst durch die Zählung je Track, siehe Entscheidung)
 - Plan-B-Themen werden zu Mini-Einheiten an einem Projekt oder entfallen
 
 ## Entscheidung
@@ -24,13 +24,14 @@ verbindlich ist der Backlog unter 2.
 
 Seit dem 26.10.2026 zählt der Backlog **je Track in Lernreihenfolge**:
 `A-001`, `A-002`, … `B-001` und so weiter, Mini-Einheiten hängen am Projekt
-(`A-002.1`). So zeigt die Nummer, wo eine Lektion im Thema steht. Die alte ID
-bleibt als Spalte „ID (App)“ stehen, denn die App nutzt sie weiter – als
-„Versuch 013“, in der Adresse `/projekt/013` und in den gespeicherten
-Lernständen.
+(`A-002.1`). So zeigt die Nummer, wo eine Lektion im Thema steht. Die App
+nutzt dieselben IDs: „Versuch A-003“, die Adresse `/projekt/A-003` und die
+gespeicherten Lernstände. Alte Links wie `/projekt/013` leiten weiter, und die
+Migration `002_track_ids.sql` hat die Lernstände umgeschrieben. Die alte ID
+steht nur noch als Spalte „Alte ID“ in den Tabellen, damit Abschnitt 1 lesbar
+bleibt.
 
-Neue Themen bekommen die nächste Nummer in ihrem Track und, sobald sie gebaut
-werden, die nächste freie App-ID ab 032.
+Neue Themen bekommen die nächste Nummer in ihrem Track.
 
 ---
 
@@ -123,7 +124,7 @@ Verweise in „Baut auf“ und „Führt zu“ nutzen die neue Zählung.
 
 ### Track A – Experimentation & Data ◆ ✓
 
-| Nr. | ID (App) | Projekt | Kernfrage | Baut auf | Führt zu | Mini-Einheiten |
+| Nr. | Alte ID | Projekt | Kernfrage | Baut auf | Führt zu | Mini-Einheiten |
 |---|---|---|---|---|---|---|
 | A-001 ✓ | 001 | MDE | Wie viele Menschen braucht ein A/B-Test, um einen kleinen Unterschied zuverlässig zu erkennen? | A/B-Praxis | A-002 | A-001.1 Priorisierung (026) ✓ |
 | A-002 ✓ | 006 | Confidence Interval Visualizer | Was sagt ein Konfidenzintervall über das Ergebnis – und was nicht? | A-001 | A-003 | A-002.1 Zufall & Varianz (002) ✓, A-002.2 Bayes (009) ✓, A-002.3 Signifikant ≠ relevant (031) ✓ |
@@ -136,7 +137,7 @@ Jedes Projekt bekommt vor dem Bau einen Mini-Brief (Frage, Known/New,
 Demo-Idee, 3–5 Zeilen) zur Freigabe und enthält Code-Aufgaben zum
 Selbstschreiben. Als Nächstes dran: **B-001**.
 
-| Nr. | ID (App) | Projekt | Kernfrage | Baut auf | Führt zu | Mini-Einheiten |
+| Nr. | Alte ID | Projekt | Kernfrage | Baut auf | Führt zu | Mini-Einheiten |
 |---|---|---|---|---|---|---|
 | B-001 | 010 | JSON API Explorer | Was passiert zwischen `fetch()` und einem fertigen JavaScript-Objekt? | JS-Basis | B-002 | B-001.1 JSON vs. JS-Objekte |
 | B-002 | 011 | HTTP Request Visualizer | Was steht in Request und Antwort – und was bedeuten 200, 400, 401, 404 und 500? | B-001 | B-003, B-004 | – |
@@ -147,7 +148,7 @@ Selbstschreiben. Als Nächstes dran: **B-001**.
 
 ### Track C – Personalization ●
 
-| Nr. | ID (App) | Projekt | Kernfrage | Baut auf | Führt zu | Mini-Einheiten |
+| Nr. | Alte ID | Projekt | Kernfrage | Baut auf | Führt zu | Mini-Einheiten |
 |---|---|---|---|---|---|---|
 | C-001 | 005 | Personalization Rule Builder | Wie wird aus Targeting-Regeln eine Entscheidung – und welche gewinnt bei Konflikten? | Targeting-Praxis | C-002 | C-001.1 Segmentierung vs. Personalisierung |
 | C-002 | 030 | Product Feed Inspector | Woran erkenne ich, dass ein Produktfeed Empfehlungen verdirbt? | C-001, B-001 | C-003 | – |
@@ -155,7 +156,7 @@ Selbstschreiben. Als Nächstes dran: **B-001**.
 
 ### Track D – Digital Experience ▲
 
-| Nr. | ID (App) | Projekt | Kernfrage | Baut auf | Führt zu | Mini-Einheiten |
+| Nr. | Alte ID | Projekt | Kernfrage | Baut auf | Führt zu | Mini-Einheiten |
 |---|---|---|---|---|---|---|
 | D-001 | 017 | Accessibility Playground | Woran scheitert eine Seite für Menschen mit Einschränkung – und wie prüfe ich das? | HTML/CSS | D-002 | – |
 | D-002 | 023 | Core Web Vitals Playground | Was messen LCP, CLS und INP, und was verschlechtert sie? | HTML/CSS/JS | D-003 | – |
@@ -163,7 +164,7 @@ Selbstschreiben. Als Nächstes dran: **B-001**.
 
 ### Track AI & Automation ★
 
-| Nr. | ID (App) | Projekt | Kernfrage | Baut auf | Führt zu | Mini-Einheiten |
+| Nr. | Alte ID | Projekt | Kernfrage | Baut auf | Führt zu | Mini-Einheiten |
 |---|---|---|---|---|---|---|
 | AI-001 | 027 | Prompt → Structured JSON | Wie bekomme ich verlässlich strukturierte Ausgaben von einem Modell – und wie prüfe ich sie? | B-001 | AI-002 | AI-001.1 KI als Coding-Co-Pilot |
 | AI-002 | 028 | RAG einfach visualisiert | Wie findet ein RAG-System die passenden Stellen, bevor das Modell antwortet? | AI-001 | – | – |

@@ -1,0 +1,127 @@
+/* A-003 Sample Ratio Mismatch. Weinrot nur für Bedienung, Gold nur in der InsightBox.
+   Der Befund ist Zeichen plus Wort, nicht Farbe. */
+
+.srm-demo,
+.srm-tab,
+.srm-hood { display: grid; gap: var(--abstand-5); min-width: 0; }
+/* Im Raster sorgt der gap für den Abstand; der Rand der InsightBox käme sonst dazu */
+.srm-tab > .insight { margin: 0; }
+.srm-demo .slider-head { flex-wrap: wrap; }
+
+.srm-context,
+.srm-note,
+.srm-hint { margin: 0; }
+.srm-note { font-weight: var(--gewicht-halbfett); }
+.srm-hint { color: var(--farbe-text-gedaempft); }
+
+/* Ursachenwahl: Radiogruppe aus Karten, Weinrot nur für Rand, Radiopunkt und Fokus. */
+.srm-causes {
+  display: grid;
+  gap: var(--abstand-3);
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.srm-causes legend { padding: 0; margin-bottom: var(--abstand-2); font-size: 0.85rem; font-weight: var(--gewicht-mittel); }
+.srm-cause {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  align-items: center;
+  /* Karten sind gleich hoch; der Hinweis folgt direkt auf den Titel statt mittig zu treiben */
+  align-content: start;
+  gap: var(--abstand-3);
+  min-width: 0;
+  min-height: 44px;
+  padding: var(--abstand-3) var(--abstand-4);
+  background: var(--farbe-flaeche);
+  border: var(--linie);
+  border-radius: var(--radius-klein);
+  cursor: pointer;
+}
+.srm-cause:has(input:checked) { border-color: var(--farbe-akzent); }
+.srm-cause:has(input:focus-visible) {
+  outline: 2px solid var(--farbe-fokus);
+  outline-offset: 2px;
+  box-shadow: var(--fokus-ring);
+}
+.srm-cause input { margin: 0; accent-color: var(--farbe-akzent); }
+.srm-cause input:focus-visible { outline: none; box-shadow: none; }
+.srm-cause-num { color: var(--farbe-text-gedaempft); font-size: 2rem; font-weight: var(--gewicht-halbfett); line-height: 1; }
+.srm-cause-title { align-self: center; min-width: 0; overflow-wrap: anywhere; }
+/* Beschreibung als Info-Hinweis über die volle Kartenbreite */
+.srm-cause-info {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--abstand-2);
+  min-width: 0;
+  padding: var(--abstand-2) var(--abstand-3);
+  background: var(--farbe-info-weich);
+  border-radius: var(--radius-klein);
+  font-size: 0.9rem;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+.srm-cause-info .icon { flex: 0 0 auto; margin-top: 0.1rem; color: var(--farbe-info); }
+@media (min-width: 768px) {
+  .srm-causes { grid-template-columns: repeat(3, 1fr); }
+  .srm-causes legend { grid-column: 1 / -1; }
+}
+
+.srm-fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: var(--abstand-4);
+  align-items: start;
+}
+
+.srm-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  gap: var(--abstand-4);
+  padding: var(--abstand-4);
+  background: var(--farbe-flaeche);
+  border: var(--linie);
+  border-radius: var(--radius-klein);
+}
+.srm-metrics .metric-value { font-size: 1.35rem; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+
+.srm-verdict {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--abstand-2) var(--abstand-3);
+  margin: 0;
+  padding: var(--abstand-3) var(--abstand-4);
+  border: 1px solid var(--farbe-rahmen-stark);
+  border-left-width: 4px;
+  border-radius: var(--radius-klein);
+  background: var(--farbe-flaeche);
+}
+.srm-verdict .icon { flex: 0 0 auto; }
+.srm-verdict span { color: var(--farbe-text-gedaempft); font-variant-numeric: tabular-nums; }
+.srm-verdict-ok { border-left-color: var(--farbe-erfolg); }
+.srm-verdict-bad { border-left-color: var(--farbe-fehler); }
+
+/* Diagramm */
+.srm-chart { margin: 0; max-width: 30rem; display: grid; gap: var(--abstand-2); }
+.srm-chart svg { display: block; width: 100%; height: auto; }
+.srm-chart figcaption { color: var(--farbe-text-gedaempft); font-size: 0.85rem; }
+.srm-chart .srm-axis-note { margin: 0; color: var(--farbe-text-gedaempft); font-size: 0.85rem; }
+.srm-break { fill: var(--farbe-text-gedaempft); font-size: 16px; font-family: var(--schrift-flies); paint-order: stroke; stroke: var(--farbe-hintergrund); stroke-width: 5px; }
+.srm-grid { stroke: var(--farbe-rahmen); stroke-width: 1; }
+.srm-axis { stroke: var(--farbe-rahmen-stark); stroke-width: 1; }
+.srm-tick { fill: var(--farbe-text-gedaempft); font-size: 13px; font-family: var(--schrift-flies); }
+.srm-value { fill: var(--farbe-text); font-size: 13.5px; font-weight: var(--gewicht-halbfett); font-family: var(--schrift-flies); font-variant-numeric: tabular-nums; }
+.srm-bar-label { fill: var(--farbe-text); font-size: 13px; font-family: var(--schrift-flies); }
+.srm-bar-a { fill: var(--farbe-daten-a); }
+.srm-bar-b { fill: var(--farbe-daten-neutral); stroke: var(--farbe-rahmen-stark); stroke-width: 1; }
+.srm-target { stroke: var(--farbe-text); stroke-width: 2; stroke-dasharray: 5 4; }
+
+/* Unter der Haube */
+.srm-hood h3 { margin: var(--abstand-2) 0 0; }
+.srm-hood > p { margin: 0; }
+.srm-steps { display: grid; gap: var(--abstand-2); margin: 0; padding-left: var(--abstand-5); }
+.srm-steps li { overflow-wrap: anywhere; }
+.srm-list { margin: 0; padding-left: var(--abstand-5); display: grid; gap: var(--abstand-1); }

@@ -21,7 +21,7 @@ describe('differenceInterval', () => {
     expect(r.upper).toBeCloseTo(hi, 4);
   });
 
-  it('Schätzfrage 006: halbe Breite 0,8496 Prozentpunkte', () => {
+  it('Schätzfrage A-002: halbe Breite 0,8496 Prozentpunkte', () => {
     const r = differenceInterval(c(10000, 1000, 10000, 1100), 0.95)!;
     expect((r.upper - r.difference).toFixed(4)).toBe('0.8496');
   });

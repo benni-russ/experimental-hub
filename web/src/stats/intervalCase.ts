@@ -1,6 +1,6 @@
 /**
  * Eine Klassifikation für das Intervall des Unterschieds (B − A, Prozentpunkte) gegen Null und MDE.
- * 006 („Dein Test“) und 031 (vier Fälle) lesen beide hieraus.
+ * A-002 („Dein Test“) und A-002.3 (vier Fälle) lesen beide hieraus.
  *
  * Grenzen: Ein Intervall, das 0 berührt, schließt 0 ein (nicht signifikant).
  * Liegt das untere Ende genau auf dem MDE, gilt der MDE als erreicht (`>=`);

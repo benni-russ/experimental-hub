@@ -56,26 +56,26 @@ describe('searchPath', () => {
 const sources: SearchSources = {
   projects: [
     {
-      id: '001',
+      id: 'A-001',
       title: 'Kleinster erkennbarer Unterschied (MDE)',
       question: 'Wie viele Menschen braucht ein A/B-Test?',
       trackLabel: 'Experimentation & Data',
       cards: [
-        { id: '001-card-01', front: 'Was ist die Power?', back: 'Die Chance, einen echten Unterschied zu sehen.' },
-        { id: '001-card-02', front: 'Was ist Alpha?', back: 'Das Signifikanzniveau.' },
+        { id: 'A-001-card-01', front: 'Was ist die Power?', back: 'Die Chance, einen echten Unterschied zu sehen.' },
+        { id: 'A-001-card-02', front: 'Was ist Alpha?', back: 'Das Signifikanzniveau.' },
       ],
     },
     {
-      id: '002',
+      id: 'A-002.1',
       title: 'Caching im Web',
       question: 'Wann lädt der Browser neu?',
       trackLabel: 'Web & APIs',
       cards: [],
     },
   ],
-  ownCards: [{ id: '7', projectId: '001', front: 'Eigene Frage zur Power', back: 'Eigene Antwort' }],
-  notes: [{ projectId: '002', note: 'Cache-Control merken', postIdea: 'Post über Power-Analyse', updatedAt: 't' }],
-  reflections: [{ projectId: '001', questionId: '001-refl-01', answer: 'Wie groß die Stichprobe sein muss', updatedAt: 't' }],
+  ownCards: [{ id: '7', projectId: 'A-001', front: 'Eigene Frage zur Power', back: 'Eigene Antwort' }],
+  notes: [{ projectId: 'A-002.1', note: 'Cache-Control merken', postIdea: 'Post über Power-Analyse', updatedAt: 't' }],
+  reflections: [{ projectId: 'A-001', questionId: 'A-001-refl-01', answer: 'Wie groß die Stichprobe sein muss', updatedAt: 't' }],
 };
 
 describe('searchHub', () => {
@@ -86,9 +86,9 @@ describe('searchHub', () => {
   });
 
   it('findet Versuche über Titel, Leitfrage und Track-Label', () => {
-    expect(searchHub('mde', sources).experiments.map((e) => e.projectId)).toEqual(['001']);
-    expect(searchHub('browser', sources).experiments.map((e) => e.projectId)).toEqual(['002']);
-    expect(searchHub('web apis', sources).experiments.map((e) => e.projectId)).toEqual(['002']);
+    expect(searchHub('mde', sources).experiments.map((e) => e.projectId)).toEqual(['A-001']);
+    expect(searchHub('browser', sources).experiments.map((e) => e.projectId)).toEqual(['A-002.1']);
+    expect(searchHub('web apis', sources).experiments.map((e) => e.projectId)).toEqual(['A-002.1']);
     // Wörter aus Titel und Leitfrage zusammen
     expect(searchHub('unterschied a/b-test', sources).experiments).toHaveLength(1);
   });
@@ -96,15 +96,15 @@ describe('searchHub', () => {
   it('findet Inhaltskarten und eigene Karten', () => {
     const r = searchHub('POWER', sources);
     expect(r.cards.map((c) => [c.projectId, c.own])).toEqual([
-      ['001', false],
-      ['001', true],
+      ['A-001', false],
+      ['A-001', true],
     ]);
     expect(r.cards[0]?.projectTitle).toBe('Kleinster erkennbarer Unterschied (MDE)');
   });
 
   it('findet Notizen, Post-Ideen und Reflexionen', () => {
     const r = searchHub('power', sources);
-    expect(r.notes.map((n) => [n.projectId, n.label])).toEqual([['002', 'Post-Idee']]);
+    expect(r.notes.map((n) => [n.projectId, n.label])).toEqual([['A-002.1', 'Post-Idee']]);
     expect(searchHub('stichprobe', sources).notes.map((n) => n.label)).toEqual(['Reflexion']);
     expect(searchHub('cache-control', sources).notes[0]?.projectTitle).toBe('Caching im Web');
   });

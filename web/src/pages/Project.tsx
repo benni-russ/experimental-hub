@@ -1,5 +1,5 @@
 import { Suspense, useEffect, useRef, useState, type ReactNode } from 'react';
-import { Link, useParams } from 'react-router';
+import { Link, Navigate, useParams } from 'react-router';
 import { TRACKS } from '@hub/shared';
 import { useAppState, useOpenProject, useQuizAttempts } from '../api';
 import { Disclosure } from '../design/components/Disclosure';
@@ -16,7 +16,7 @@ import { SectionActionsTarget } from '../learning/SectionActions';
 import '../learning/learning.css';
 import { Breadcrumb } from '../shell/Breadcrumb';
 import { breadcrumbFor } from '../shell/breadcrumbs';
-import { findProject, type ProjectModule } from '../projects';
+import { findProject, LEGACY_IDS, type ProjectModule } from '../projects';
 import { projectStatus } from '../projects/status';
 
 function Section({ id, title, children }: { id: string; title: string; children: ReactNode }) {
@@ -176,6 +176,8 @@ function ProjectView({ project }: { project: ProjectModule }) {
 export function Project() {
   const { id } = useParams();
   const project = id ? findProject(id) : undefined;
+  const renamed = id ? LEGACY_IDS[id] : undefined;
+  if (!project && renamed) return <Navigate to={`/projekt/${renamed}`} replace />;
   if (!project) {
     return (
       <section>

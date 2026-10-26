@@ -7,19 +7,19 @@ import { formatClock, isUnreachable, nextSaveState, statusText, type SaveState, 
 describe('groupDue', () => {
   it('zählt je Projekt, eigene Karten zählen zu ihrem Projekt', () => {
     const groups = groupDue([
-      { projectId: '001', projectTitle: 'MDE', cardId: '001-card-01' },
-      { projectId: '002', projectTitle: 'Caching', cardId: '002-card-01' },
-      { projectId: '001', projectTitle: 'MDE', cardId: 'own-4' },
+      { projectId: 'A-001', projectTitle: 'MDE', cardId: 'A-001-card-01' },
+      { projectId: 'A-002.1', projectTitle: 'Caching', cardId: 'A-002.1-card-01' },
+      { projectId: 'A-001', projectTitle: 'MDE', cardId: 'own-4' },
     ]);
     expect(groups).toEqual([
-      { projectId: '001', title: 'MDE', count: 2 },
-      { projectId: '002', title: 'Caching', count: 1 },
+      { projectId: 'A-001', title: 'MDE', count: 2 },
+      { projectId: 'A-002.1', title: 'Caching', count: 1 },
     ]);
   });
   it('gleiche Zahl: alphabetisch', () => {
     const groups = groupDue([
-      { projectId: '002', projectTitle: 'Zeta', cardId: 'a' },
-      { projectId: '001', projectTitle: 'Alpha', cardId: 'b' },
+      { projectId: 'A-002.1', projectTitle: 'Zeta', cardId: 'a' },
+      { projectId: 'A-001', projectTitle: 'Alpha', cardId: 'b' },
     ]);
     expect(groups.map((g) => g.title)).toEqual(['Alpha', 'Zeta']);
   });

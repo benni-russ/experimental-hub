@@ -1,0 +1,45 @@
+/* A-004 Simpson-Paradox. Weinrot nur für Bedienung (Regler), Gold nur für den Erkenntnis-Rahmen.
+   Gewinner steht als Wort, nicht als Farbe. */
+
+.simpson-demo,
+.simpson-hood { display: grid; gap: var(--abstand-5); min-width: 0; }
+/* Im Raster sorgt der gap für den Abstand; der Rand der InsightBox käme sonst dazu */
+.simpson-demo > .insight { margin: 0; }
+
+.simpson-context,
+.simpson-note,
+.simpson-mix { margin: 0; }
+.simpson-mix { font-weight: var(--gewicht-halbfett); }
+.simpson-note { color: var(--farbe-text-gedaempft); }
+
+.simpson-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  gap: var(--abstand-4);
+  padding: var(--abstand-4);
+  background: var(--farbe-flaeche);
+  border: var(--linie);
+  border-radius: var(--radius-klein);
+}
+.simpson-metrics .metric-value { font-size: 1.35rem; font-variant-numeric: tabular-nums; }
+
+/* Diagramm */
+.simpson-chart { margin: 0; max-width: 30rem; display: grid; gap: var(--abstand-2); }
+.simpson-chart svg { display: block; width: 100%; height: auto; }
+.simpson-chart figcaption { color: var(--farbe-text-gedaempft); font-size: 0.85rem; }
+.simpson-grid { stroke: var(--farbe-rahmen); stroke-width: 1; }
+.simpson-axis { stroke: var(--farbe-rahmen-stark); stroke-width: 1; }
+.simpson-tick { fill: var(--farbe-text-gedaempft); font-size: 12px; font-family: var(--schrift-flies); }
+.simpson-value { fill: var(--farbe-text); font-size: 12.5px; font-weight: var(--gewicht-halbfett); font-family: var(--schrift-flies); font-variant-numeric: tabular-nums; }
+.simpson-group-label { fill: var(--farbe-text); font-size: 13px; font-weight: var(--gewicht-halbfett); font-family: var(--schrift-flies); }
+.simpson-winner { fill: var(--farbe-text-gedaempft); font-size: 12.5px; font-family: var(--schrift-flies); }
+.simpson-bar-a { fill: var(--farbe-daten-a); }
+.simpson-bar-b { fill: var(--farbe-daten-neutral); stroke: var(--farbe-rahmen-stark); stroke-width: 1; }
+.simpson-frame { fill: none; stroke: var(--farbe-sekundaer-tief); stroke-width: 2.5; }
+
+/* Unter der Haube */
+.simpson-hood h3 { margin: var(--abstand-2) 0 0; }
+.simpson-hood > p { margin: 0; }
+.simpson-steps { display: grid; gap: var(--abstand-2); margin: 0; padding-left: var(--abstand-5); }
+.simpson-steps li { overflow-wrap: anywhere; }
+.simpson-list { margin: 0; padding-left: var(--abstand-5); display: grid; gap: var(--abstand-1); }

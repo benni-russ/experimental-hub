@@ -34,14 +34,15 @@ Anmeldung; er gehört deshalb nur ins eigene Netz, nicht ins offene Internet.
 
 ## Ein neues Projekt anlegen
 
-Jedes Projekt ist ein Ordner unter `web/src/projects/<nnn-slug>/`, zum Beispiel
-`001-mde`. `000-*` sind Beispiele und erscheinen nur in der Entwicklung
-(`import.meta.env.DEV`). Vorbild ist `001-mde`.
+Jedes Projekt ist ein Ordner unter `web/src/projects/<id-slug>/`, zum Beispiel
+`a-001-mde`. `000-*` sind Beispiele und erscheinen nur in der Entwicklung
+(`import.meta.env.DEV`). Vorbild ist `a-001-mde`.
 
-1. **Ordner anlegen.** `nnn` ist die dreistellige Nummer des Versuchs, `slug`
-   ein kurzer Name. Darin liegen:
+1. **Ordner anlegen.** `id` ist die ID des Versuchs in Kleinbuchstaben:
+   Track-Buchstabe und Nummer im Track (`a-003`), bei einer Einheit mit
+   Unternummer (`a-002.1`). `slug` ist ein kurzer Name. Darin liegen:
    - `content.ts` – exportiert `meta: ContentMeta` (Typ aus `@hub/shared`):
-     `id` (`'001'`), `slug`, `title`, `track`, `kind` (`'project'`, oder
+     `id` (`'A-001'`), `slug`, `title`, `track`, `kind` (`'project'`, oder
      `'unit'` mit `attachedTo` für eine Einheit zu einem Projekt),
      `question` (die eine Kernfrage), `buildsOn`/`leadsTo`, `intro`, `quiz`,
      `reflection`, `cards`.

@@ -7,19 +7,19 @@ const m = (id: string, title: string) => ({ id, title }) as ContentMeta;
 
 describe('breadcrumbFor', () => {
   it('Projekt', () =>
-    expect(breadcrumbFor({ kind: 'project', meta: m('006', 'Konfidenzintervall') })).toEqual([
+    expect(breadcrumbFor({ kind: 'project', meta: m('A-002', 'Konfidenzintervall') })).toEqual([
       { label: 'Heute', to: '/' },
       { label: 'Lernpfad', to: '/pfad' },
-      { label: '006 Konfidenzintervall' },
+      { label: 'A-002 Konfidenzintervall' },
     ]));
   it('Mini-Einheit mit Eltern', () =>
     expect(
-      breadcrumbFor({ kind: 'project', meta: m('002', 'Zufall & Varianz'), parent: m('006', 'Konfidenzintervall') }),
+      breadcrumbFor({ kind: 'project', meta: m('A-002.1', 'Zufall & Varianz'), parent: m('A-002', 'Konfidenzintervall') }),
     ).toEqual([
       { label: 'Heute', to: '/' },
       { label: 'Lernpfad', to: '/pfad' },
-      { label: '006 Konfidenzintervall', to: '/projekt/006' },
-      { label: '002 Zufall & Varianz' },
+      { label: 'A-002 Konfidenzintervall', to: '/projekt/A-002' },
+      { label: 'A-002.1 Zufall & Varianz' },
     ]));
   it('Lernpfad selbst', () =>
     expect(breadcrumbFor({ kind: 'page', label: 'Lernpfad' })).toEqual([

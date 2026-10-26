@@ -29,6 +29,11 @@ function setVersion(db: Database.Database, version: number): void {
 }
 
 export function migrate(db: Database.Database): void {
+  migrateTo(db, Infinity);
+}
+
+/** Bis einschließlich Version `target`; für Tests, die einen alten Stand brauchen. */
+export function migrateTo(db: Database.Database, target: number): void {
   const current = currentVersion(db);
   const files = readdirSync(migrationsDir)
     .filter((file) => file.endsWith('.sql'))
@@ -36,7 +41,7 @@ export function migrate(db: Database.Database): void {
 
   for (const file of files) {
     const version = Number(file.slice(0, 3));
-    if (version <= current) continue;
+    if (version <= current || version > target) continue;
 
     const sql = readFileSync(join(migrationsDir, file), 'utf-8');
     // Eine Transaktion je Datei: Bricht eine Migration in der Mitte ab, bleibt

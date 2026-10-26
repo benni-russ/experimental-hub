@@ -23,11 +23,13 @@ export function allText(meta: ContentMeta): string {
 export function checkStructure(meta: ContentMeta, size: ContentSize): string[] {
   const problems: string[] = [];
   const id = meta.id;
+  // Den Punkt in Einheiten-IDs (A-002.1) wörtlich nehmen.
+  const idPattern = id.replaceAll('.', '\\.');
 
   const schemas: [string, RegExp, { id: string }[]][] = [
-    ['Quizfrage', new RegExp(`^${id}-quiz-\\d{2}$`), meta.quiz],
-    ['Reflexion', new RegExp(`^${id}-refl-\\d{2}$`), meta.reflection],
-    ['Karte', new RegExp(`^${id}-card-\\d{2}$`), meta.cards],
+    ['Quizfrage', new RegExp(`^${idPattern}-quiz-\\d{2}$`), meta.quiz],
+    ['Reflexion', new RegExp(`^${idPattern}-refl-\\d{2}$`), meta.reflection],
+    ['Karte', new RegExp(`^${idPattern}-card-\\d{2}$`), meta.cards],
   ];
   for (const [label, pattern, items] of schemas) {
     for (const item of items) {

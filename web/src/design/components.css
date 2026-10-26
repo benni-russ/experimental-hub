@@ -204,7 +204,9 @@
   line-height: 1;
 }
 .mark-word { font-size: 0.7rem; font-weight: var(--gewicht-mittel); color: var(--farbe-text-gedaempft); margin-bottom: 4px; }
-.mark-id { font-size: 1.25rem; font-weight: var(--gewicht-fett); font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
+.mark-id { font-size: 1.25rem; font-weight: var(--gewicht-fett); font-variant-numeric: tabular-nums; letter-spacing: -0.01em; white-space: nowrap; }
+/* Einheiten-IDs wie A-002.3 passen sonst nicht in den Kreis */
+.mark-long .mark-id { font-size: 0.95rem; }
 .mark-small { width: auto; height: auto; padding: 1px 8px; border-width: 1px; border-radius: var(--radius-rund); }
 .mark-small .mark-id { font-size: 0.8rem; font-weight: var(--gewicht-halbfett); line-height: 1.6; }
 
