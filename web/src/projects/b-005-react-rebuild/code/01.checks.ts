@@ -86,6 +86,12 @@ const module: CheckModule = {
       { type: 'setQuantity', item_id: cup.item_id, quantity: 0 },
       [tin],
     ),
+    reducerCheck(
+      '`setQuantity` mit negativer Menge: das Item fällt weg',
+      () => cart(cup, tin),
+      { type: 'setQuantity', item_id: tin.item_id, quantity: -1 },
+      [cup],
+    ),
     {
       name: 'Eine unbekannte Aktion gibt den Zustand unverändert zurück',
       run({ exports }) {

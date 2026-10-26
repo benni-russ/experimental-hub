@@ -54,11 +54,14 @@ export function ClassicPanel({ forgetTotal }: ClassicPanelProps) {
       <header className="rebuild-panel-head">
         <h3 id={id}>Klassisch</h3>
         <p className="rebuild-muted">Vanilla-JS: liest und schreibt das DOM direkt.</p>
-        {forgetTotal ? (
-          <p className="rebuild-flag">
-            <span aria-hidden="true">⚠ </span>Fehler eingebaut: Die Summe wird nicht neu geschrieben.
-          </p>
-        ) : null}
+        {/* Die Status-Region steht immer da, damit das Ein- und Ausschalten angesagt wird. */}
+        <div role="status">
+          {forgetTotal ? (
+            <p className="rebuild-flag">
+              <span aria-hidden="true">⚠ </span>Fehler eingebaut: Die Summe wird nicht neu geschrieben.
+            </p>
+          ) : null}
+        </div>
       </header>
       <div ref={hostRef} className="rebuild-cart" />
       <Protocol

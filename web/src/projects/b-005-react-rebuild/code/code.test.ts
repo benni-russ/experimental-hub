@@ -75,6 +75,10 @@ describe('B-005 Prüfungen erkennen typische Fehler', () => {
     await fails(mutate('if (action.quantity <= 0)', 'if (false)'), /`setQuantity` mit `0`/);
   });
 
+  it('setQuantity entfernt nur bei genau 0, nicht bei negativer Menge', async () => {
+    await fails(mutate('if (action.quantity <= 0)', 'if (action.quantity === 0)'), /negativer Menge/);
+  });
+
   it('remove entfernt nichts', async () => {
     await fails(mutate('item.item_id !== action.item_id)', 'true)'), /`remove`/);
   });

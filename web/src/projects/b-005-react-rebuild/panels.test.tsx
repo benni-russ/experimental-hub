@@ -63,6 +63,7 @@ describe('ClassicPanel', () => {
     await click(host.querySelector('button[data-action="add"]'));
     expect(host.querySelector('[data-role="quantity"]')?.textContent).toBe('2');
     expect(host.querySelector('[data-role="total"]')?.textContent).toBe(euro(12.5));
+    expect(host.querySelector('[role="status"]')?.textContent).toContain('Fehler eingebaut');
   });
 });
 
