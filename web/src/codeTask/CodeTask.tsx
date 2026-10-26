@@ -138,7 +138,7 @@ export function CodeTask({ task }: { task: CodeTaskMeta }) {
                     <span aria-hidden="true">{item.passed ? '✓' : '✗'}</span>
                     <span>
                       <span className="visually-hidden">{item.passed ? 'Bestanden: ' : 'Nicht bestanden: '}</span>
-                      {item.name}
+                      <InlineCode text={item.name} />
                       {item.message ? (
                         <span className="code-task-message">
                           <InlineCode text={item.message} />
