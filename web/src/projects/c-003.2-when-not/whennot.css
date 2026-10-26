@@ -3,10 +3,10 @@
 .wn-explain p, .wn-explain h3, .wn-explain h4 { margin: 0; }
 .wn-explain h3 { margin-top: var(--abstand-2); }
 .wn-list { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--abstand-3); grid-template-columns: minmax(0, 1fr); }
-.wn-item { border: 1px solid var(--farbe-rahmen-stark); border-radius: 8px; background: var(--farbe-flaeche); padding: var(--abstand-3); display: grid; gap: var(--abstand-2); grid-template-columns: minmax(0, 1fr); min-width: 0; }
+.wn-item { border: var(--rahmen-staerke) solid var(--farbe-rahmen-stark); border-radius: var(--radius-klein); background: var(--farbe-flaeche); padding: var(--abstand-3); display: grid; gap: var(--abstand-2); grid-template-columns: minmax(0, 1fr); min-width: 0; }
 .wn-item h4 { font-size: 1rem; }
 .wn-item dl { margin: 0; display: grid; gap: var(--abstand-2); grid-template-columns: minmax(0, 1fr); }
-.wn-item dt { font-size: 0.85rem; font-weight: 600; color: var(--farbe-text-gedaempft); }
+.wn-item dt { font-size: 0.85rem; font-weight: var(--gewicht-halbfett); color: var(--farbe-text-gedaempft); }
 .wn-item dd { margin: 0; overflow-wrap: anywhere; }
 .wn-figure { margin: 0; display: grid; gap: var(--abstand-1); min-width: 0; }
 .wn-figure svg { width: 100%; height: auto; max-width: 32rem; color: var(--farbe-text); }

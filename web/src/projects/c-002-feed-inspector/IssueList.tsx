@@ -2,7 +2,7 @@ import { EFFECTS, type FeedEntry, type FeedIssue, type IssueAction } from '../..
 
 export const issueKey = (i: FeedIssue) => `${i.index}:${i.field}:${i.code}`;
 
-const SIGN: Record<IssueAction, string> = { drop: '✕', repair: '⚠', warn: '⚠' };
+const SIGN: Record<IssueAction, string> = { drop: '✕', repair: '⚠', warn: 'ℹ' };
 const WORD: Record<IssueAction, string> = { drop: 'aussortiert', repair: 'repariert', warn: 'Hinweis' };
 
 interface IssueListProps {

@@ -7,8 +7,8 @@ import './affinity.css';
 const EVENT_LABEL = { view: 'Aufruf', cart: 'Warenkorb', purchase: 'Kauf' } as const;
 
 const de = (n: number, digits: number) => n.toLocaleString('de-DE', { minimumFractionDigits: digits, maximumFractionDigits: digits });
-// Zahl ohne überflüssige Nullen, für die Zeichnung.
-const short = (n: number) => n.toLocaleString('de-DE', { maximumFractionDigits: 2 });
+// Zahl ohne überflüssige Nullen, für die Zeichnung (bis zu drei Stellen: 5 · 0,5³ = 0,625).
+const short = (n: number) => n.toLocaleString('de-DE', { maximumFractionDigits: 3 });
 
 // Beispielbesucher und seine Rechnung zur Laufzeit; nichts davon ist von Hand eingetragen.
 const visitor = VISITORS.find((v) => v.id === EXAMPLE_VISITOR_ID)!;

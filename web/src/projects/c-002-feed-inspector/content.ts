@@ -2,7 +2,7 @@ import type { ContentMeta } from '@hub/shared';
 
 // Zahlen in diesen Texten: 28 Einträge, 20 fehlerfrei, 8 mit Fehler (4 aussortiert, 3 repariert,
 // 1 Hinweis); alle in content.test.ts aus inspectFeed(RAW_FEED, FEED_DATE) nachgerechnet.
-// „Eine Woche“ steht für STALE_DAYS, die Wirkungswörter stammen aus effects.ts.
+// „Eine Woche“ steht für STALE_DAYS, die Wirkungswörter (`EFFECTS`) stammen aus inspectFeed.ts.
 // Quiz, Karten und Reflexion zeigen reinen Text: dort keine Backticks.
 // Code-Aufgaben dagegen setzen `…` als Code.
 
@@ -51,7 +51,7 @@ export const meta: ContentMeta = {
       ],
       correctIndex: 2,
       explanation:
-        'Es gilt als lieferbar. Der Filter „ausverkaufte ausblenden“ greift nur bei dem exakten Wert out_of_stock, also bleibt das Produkt in der Liste. ' +
+        'Es gilt als lieferbar. Der Filter für ausverkaufte Produkte greift nur bei dem exakten Wert out_of_stock, also bleibt das Produkt in der Liste. ' +
         'Hier lässt sich die Schreibweise eindeutig reparieren; bei einem ganz unbekannten Wert wäre Aussortieren sicherer.',
     },
     {

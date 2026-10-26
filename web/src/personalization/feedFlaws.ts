@@ -1,13 +1,13 @@
 // Verbindung zwischen Feedprüfung und Empfehlungsvergleich (C-002): welches Produkt der
 // naiv gelesenen Liste stammt aus welchem Feedeintrag, und was ist an diesem Eintrag kaputt.
 import type { Product } from './catalog';
-import type { FeedEntry, FeedIssue, IssueCode } from './inspectFeed';
+import { repairedAvailability, type FeedEntry, type FeedIssue, type IssueCode } from './inspectFeed';
 
 // Wort für die Markierung einer kaputten Empfehlung, je Fehlerart.
 export const FLAW_WORDS: Partial<Record<IssueCode, string>> = {
   duplicate_id: 'doppelt',
   stale: 'veraltet',
-  availability_value: 'ausverkauft',
+  availability_value: 'Verfügbarkeit falsch', // bei wirklich ausverkauftem Wert: „ausverkauft“ (flawWords)
   category_variant: 'Kategorie falsch geschrieben',
   price_format: 'Preis ungültig',
   missing_field: 'unvollständig',
@@ -23,12 +23,20 @@ export function naiveEntries(entries: FeedEntry[]): FeedEntry[] {
   return entries.filter((e) => isRecord(e.data) && typeof e.data.price === 'number');
 }
 
-/** Wörter für ein Eintrag mit `repair`- oder `drop`-Issues; `warn` zählt nicht als kaputt. */
-export function flawWords(issues: FeedIssue[]): string[] {
+/**
+ * Wörter für ein Eintrag mit `repair`- oder `drop`-Issues; `warn` zählt nicht als kaputt.
+ * „ausverkauft“ steht nur, wenn der (reparierte) Wert der Verfügbarkeit wirklich ausverkauft ist;
+ * sonst bleibt es neutral bei „Verfügbarkeit falsch“.
+ */
+export function flawWords(issues: FeedIssue[], data?: unknown): string[] {
   const words: string[] = [];
   for (const issue of issues) {
     if (issue.action !== 'repair' && issue.action !== 'drop') continue;
-    const word = FLAW_WORDS[issue.code];
+    let word = FLAW_WORDS[issue.code];
+    if (issue.code === 'availability_value') {
+      const value = isRecord(data) ? repairedAvailability(data.availability) : undefined;
+      word = value === 'out_of_stock' ? 'ausverkauft' : 'Verfügbarkeit falsch';
+    }
     if (word && !words.includes(word)) words.push(word);
   }
   return words;
@@ -40,7 +48,7 @@ export function naiveFlaws(naive: Product[], entries: FeedEntry[], issues: FeedI
   const result = new Map<Product, string[]>();
   naive.forEach((product, i) => {
     const entry = matched[i];
-    result.set(product, entry ? flawWords(issues.filter((x) => x.index === entry.index)) : []);
+    result.set(product, entry ? flawWords(issues.filter((x) => x.index === entry.index), entry.data) : []);
   });
   return result;
 }

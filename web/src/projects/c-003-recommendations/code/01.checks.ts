@@ -28,12 +28,12 @@ function expectScore(name: string, signals: Signals, weights: Signals, expected:
 const module: CheckModule = {
   exportsNeeded: ['scoreProduct'],
   checks: [
-    // Das Beispiel aus „Unter der Haube“: 0,6 · 0,30 + 0,2 · 0,90 + 0,2 · 1,00
+    // Das Beispiel aus „Unter der Haube“: 0,6 · 0,33 + 0,2 · 0,95 + 0,2 · 0,40 = 0,468
     expectScore(
-      'Das Beispiel aus „Unter der Haube“ ergibt `0.56`',
-      { affinity: 0.3, popularity: 0.9, similarity: 1 },
+      'Das Beispiel aus „Unter der Haube“ ergibt `0.468`',
+      { affinity: 0.33, popularity: 0.95, similarity: 0.4 },
       { affinity: 0.6, popularity: 0.2, similarity: 0.2 },
-      0.56,
+      0.468,
     ),
     expectScore('Nullgewichte ergeben `0`', { affinity: 0.7, popularity: 0.4, similarity: 1 }, { affinity: 0, popularity: 0, similarity: 0 }, 0),
     expectScore(

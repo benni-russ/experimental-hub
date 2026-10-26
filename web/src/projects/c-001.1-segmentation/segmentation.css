@@ -5,8 +5,8 @@
 .seg-wrap { overflow-x: auto; }
 .seg-table { width: 100%; border-collapse: collapse; }
 .seg-table caption { text-align: left; color: var(--farbe-text-gedaempft); font-size: 0.85rem; margin-bottom: var(--abstand-1); }
-.seg-table th, .seg-table td { padding: var(--abstand-2); border-bottom: 1px solid var(--farbe-rahmen-stark); text-align: left; vertical-align: top; min-width: 11rem; }
-.seg-table thead th { font-size: 0.85rem; color: var(--farbe-text-gedaempft); font-weight: 600; }
+.seg-table th, .seg-table td { padding: var(--abstand-2); border-bottom: var(--rahmen-staerke) solid var(--farbe-rahmen-stark); text-align: left; vertical-align: top; min-width: 11rem; }
+.seg-table thead th { font-size: 0.85rem; color: var(--farbe-text-gedaempft); font-weight: var(--gewicht-halbfett); }
 .seg-table tbody th { font-weight: var(--gewicht-mittel); min-width: 8rem; }
 .seg-figure { margin: 0; display: grid; gap: var(--abstand-1); min-width: 0; }
 .seg-figure svg { width: 100%; height: auto; max-width: 40rem; color: var(--farbe-text); }

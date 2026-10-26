@@ -34,6 +34,14 @@ describe('Zuordnung der naiven Liste zu den Feedeinträgen', () => {
     expect(flawWords([{ index: 0, field: 'imageLink', code: 'image_missing', message: '', action: 'warn' }])).toEqual([]);
   });
 
+  it('„ausverkauft“ nur, wenn der reparierte Wert wirklich ausverkauft ist, sonst neutral', () => {
+    const issue = { index: 0, field: 'availability', code: 'availability_value', message: '', action: 'repair' } as const;
+    expect(flawWords([issue], { availability: 'Out of Stock' })).toEqual(['ausverkauft']);
+    expect(flawWords([issue], { availability: 'In Stock' })).toEqual(['Verfügbarkeit falsch']);
+    expect(flawWords([{ ...issue, action: 'drop' }], { availability: 'vielleicht' })).toEqual(['Verfügbarkeit falsch']);
+    expect(flawWords([issue])).toEqual(['Verfügbarkeit falsch']);
+  });
+
   it('die Wörter ergeben sich nur aus repair- und drop-Issues', () => {
     expect(flawWords([{ index: 0, field: 'id', code: 'duplicate_id', message: '', action: 'drop' }])).toEqual(['doppelt']);
   });
@@ -43,12 +51,14 @@ describe('Wirkung auf die Empfehlung', () => {
   const top = (list: typeof naive, visitorId: string) =>
     rankProducts(list, VISITORS.find((v) => v.id === visitorId)!, PRESETS.personal.weights, OPTIONS, NOW).map((r) => r.product);
 
+  it('Anna (Startzustand von C-002) hat links genau die Markierungen veraltet und doppelt', () => {
+    const words = top(naive, EXAMPLE_VISITOR_ID).flatMap((p) => flaws.get(p) ?? []);
+    expect([...words].sort()).toEqual(['doppelt', 'veraltet']);
+  });
+
   it('für mindestens einen Besucher steht links eine markierte Empfehlung, rechts nie', () => {
     const marked = VISITORS.filter((v) => top(naive, v.id).some((p) => (flaws.get(p) ?? []).length > 0)).map((v) => v.name);
     expect(marked).toEqual(expect.arrayContaining(['Anna', 'Clara', 'David', 'Finn']));
-    // Die Startauswahl der Demo (Beispielbesucher Anna) zeigt sofort zwei Markierungen.
-    const anna = top(naive, EXAMPLE_VISITOR_ID).flatMap((p) => flaws.get(p) ?? []);
-    expect(anna.sort()).toEqual(['doppelt', 'veraltet']);
     const words = new Set(VISITORS.flatMap((v) => top(naive, v.id).flatMap((p) => flaws.get(p) ?? [])));
     for (const w of ['ausverkauft', 'doppelt', 'veraltet']) expect(words.has(w), w).toBe(true);
     for (const v of VISITORS) {

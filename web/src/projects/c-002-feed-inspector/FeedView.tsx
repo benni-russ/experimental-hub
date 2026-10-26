@@ -20,7 +20,7 @@ interface FeedViewProps {
 const isRecord = (v: unknown): v is Record<string, unknown> => typeof v === 'object' && v !== null && !Array.isArray(v);
 
 // Zeichen und Wort tragen den Fehlerzustand; die Farbe hilft nur beim Überfliegen.
-const SIGN = { drop: '✕', repair: '⚠', warn: '⚠' } as const;
+const SIGN = { drop: '✕', repair: '⚠', warn: 'ℹ' } as const;
 const WORD = { drop: 'aussortiert', repair: 'repariert', warn: 'Hinweis' } as const;
 
 /** Schwerste Aktion unter den Issues: aussortieren vor reparieren vor Hinweis. */
@@ -141,7 +141,7 @@ export function FeedView({ text, entries, issues, marked, pane, onPane, headingI
           </div>
         </div>
       </div>
-      <p className="fi-hint">✕ = wird aussortiert, ⚠ = wird repariert oder nur gemeldet. Die Zeilen- und Eintragsnummern zählen ab 1.</p>
+      <p className="fi-hint">✕ = wird aussortiert, ⚠ = wird repariert, ℹ = nur ein Hinweis. Die Zeilen- und Eintragsnummern zählen ab 1.</p>
     </section>
   );
 }

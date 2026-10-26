@@ -25,7 +25,7 @@ const CHECKS = [
   },
   {
     title: 'Keine Einwilligung zum Tracking',
-    sign: 'Ein großer Teil der Besucher lehnt ab oder hat nie zugestimmt; für sie gibt es keinen Verlauf, den man nutzen dürfte.',
+    sign: 'Ein großer Teil der Besucher lehnt ab oder hat nie zugestimmt; für sie gibt es in der Regel keinen Verlauf, den man ohne Weiteres nutzen sollte.',
     instead: 'Empfehlungen aus dem aktuellen Besuch oder aus dem Produkt selbst, etwa ähnliche Artikel, ohne Verlauf einer Person.',
   },
   {
@@ -65,7 +65,7 @@ export default function Explanation() {
         <svg
           viewBox="0 0 320 160"
           role="img"
-          aria-label="Eine Waage. Auf der linken Schale steht Aufwand für Daten, Pflege und Erklärung, auf der rechten der erwartete Effekt. Die Waage zeigt nur dann eine Personalisierung an, wenn die rechte Schale schwerer ist."
+          aria-label="Eine Waage mit zwei gleich hohen Schalen. Auf der linken steht Aufwand für Daten, Pflege und Erklärung, auf der rechten der erwartete Effekt."
           strokeWidth={1.5}
           strokeLinecap="round"
           strokeLinejoin="round"

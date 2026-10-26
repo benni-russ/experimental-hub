@@ -77,18 +77,22 @@ describe('C-003 Inhalte: zitierte Zahlen', () => {
   it('Aufgabe 1 nennt die Zahlen des Rechenbeispiels', () => {
     const prompt = meta.codeTasks?.[0]?.prompt ?? '';
     const { signals, weights, score } = EXAMPLE;
-    for (const n of [signals.affinity, signals.popularity, signals.similarity, weights.affinity, weights.popularity, score]) {
+    for (const n of [signals.affinity, signals.popularity, signals.similarity, weights.affinity, weights.popularity]) {
       expect(prompt).toContain(`\`${n}\``);
     }
+    // Mit den gerundeten Signalen ist die Summe genau 0.468 (die Anzeige rundet sie auf 0,47).
+    expect(Math.round(scoreProduct(signals, weights) * 1000) / 1000).toBe(0.468);
+    expect(prompt).toContain('`0.468`');
+    expect(score).toBe(0.47);
   });
 
   it('der Text nennt nur geprüfte Zahlen', () => {
     // 7 Tage Halbwertszeit, 14 Tage in der Schätzfrage, 25 Prozent als Antwort; in den Aufgaben
-    // 0, 1, 3, 5 (Gewichte, Mindestwerte), 7, das Rechenbeispiel 0.3 / 0.9 / 1 / 0.6 / 0.2 / 0.56
+    // 0, 1, 3, 5 (Gewichte, Mindestwerte), 7, das Rechenbeispiel 0.33 / 0.95 / 0.4 / 0.6 / 0.2 / 0.468
     // und die Millisekunden eines Tages; sonst keine Ziffern.
-    expect([...new Set(text.match(/\d+/g))].sort()).toEqual(['0', '1', '14', '2', '25', '3', '5', '56', '6', '7', '86400000', '9']);
+    expect([...new Set(text.match(/\d+/g))].sort()).toEqual(['0', '1', '14', '2', '25', '3', '33', '4', '468', '5', '6', '7', '86400000', '95']);
     expect(86_400_000).toBe(24 * 60 * 60 * 1000);
-    expect(text).toContain('fast nur aus einer Kategorie');
+    expect(text).toContain('Merkmalen dieses einen Produkts');
   });
 
   it('das Beispiel aus „Unter der Haube“ stimmt mit rankProducts für Anna überein', () => {
@@ -128,11 +132,15 @@ describe('C-003 Inhalte: Aussagen über das Ranking', () => {
     expect(open.some((r) => r.product.availability === 'out_of_stock')).toBe(true);
   });
 
-  it('Ähnlich: die vorderen Plätze kommen fast nur aus einer Kategorie', () => {
+  it('Ähnlich: die Liste folgt dem zuletzt angesehenen Produkt, ohne es selbst zu zeigen', () => {
     const list = rankProducts(CATALOG, anna, PRESETS.similar.weights, options, NOW);
     const lastView = anna.events.filter((e) => e.type === 'view').reduce((a, b) => (b.at > a.at ? b : a));
     const lastViewed = CATALOG.find((p) => p.id === lastView.productId)!;
-    expect(list.slice(0, 4).every((r) => r.product.category === lastViewed.category)).toBe(true);
+    expect(list.map((r) => r.product.id)).not.toContain(lastViewed.id);
+    // Mindestens 3 der Plätze 1-4 stammen aus der Kategorie des zuletzt angesehenen Produkts.
+    expect(list.slice(0, 4).filter((r) => r.product.category === lastViewed.category).length).toBeGreaterThanOrEqual(3);
+    // Die Karte nennt keine Regel „meist dieselbe Kategorie“, die für andere Besucher nicht stimmt.
+    expect(text).not.toContain('meist aus derselben Kategorie');
     expect(text).not.toContain('aus einer einzigen');
   });
 });

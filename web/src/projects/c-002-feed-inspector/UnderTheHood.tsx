@@ -43,8 +43,8 @@ export default function UnderTheHood() {
       <h3>Wie Werkzeuge das nennen</h3>
       <p>
         In Personalisierungs- und Werbewerkzeugen heißt die Liste meist <strong>Product Feed</strong> oder <strong>Catalog</strong>, ein einzelner Artikel{' '}
-        <strong>Item</strong> oder <strong>SKU</strong> (Stock Keeping Unit, die Lagernummer), und das regelmäßige Einlesen <strong>Feed-Sync</strong> oder Katalog-Import. Dynamic Yield
-        ist ein Beispiel: Es liest den Katalog ein und zeigt Fehler in der Einlesestatistik, repariert aber nicht von selbst.
+        <strong>Item</strong> oder <strong>SKU</strong> (Stock Keeping Unit, die Lagernummer), und das regelmäßige Einlesen <strong>Feed-Sync</strong> oder Katalog-Import. Werkzeuge wie
+        Dynamic Yield melden Einlesefehler meist, statt sie stillschweigend zu reparieren.
       </p>
 
       <h3>Grenzen</h3>

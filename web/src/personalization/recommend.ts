@@ -72,6 +72,7 @@ export function rankProducts(
   return products
     .filter((p) => !(options.hideOutOfStock && p.availability === 'out_of_stock'))
     .filter((p) => !(options.hidePurchased && purchased.has(p.id)))
+    .filter((p) => p.id !== reference?.id) // das gerade angesehene Produkt ist der Anker, kein Kandidat
     .map((product) => {
       const signals: Signals = {
         affinity: profile[product.category] ?? 0,

@@ -51,7 +51,7 @@ describe('rankProducts', () => {
     expect(ids).not.toContain('P03');
     expect(ids).not.toContain('P10');
     expect(ids).not.toContain('P17');
-    expect(ids).toHaveLength(21);
+    expect(ids).toHaveLength(20); // 24 - 3 ausverkaufte - P01 (zuletzt angesehen)
   });
 
   it('Filter Bereits gekauft', () => {
@@ -59,17 +59,17 @@ describe('rankProducts', () => {
       (r) => r.product.id,
     );
     expect(ids).not.toContain('P11');
-    expect(ids).toHaveLength(23);
+    expect(ids).toHaveLength(22); // 24 - P11 (gekauft) - P01 (zuletzt angesehen)
   });
 
   it('Gleichstand nach id, alle Gewichte 0 ergeben die Reihenfolge nach id', () => {
     const zero = { affinity: 0, popularity: 0, similarity: 0 };
     const ids = rankProducts([...CATALOG].reverse(), example, zero, open, NOW).map((r) => r.product.id);
-    expect(ids).toEqual(CATALOG.map((p) => p.id));
+    expect(ids).toEqual(CATALOG.map((p) => p.id).filter((id) => id !== 'P01'));
   });
 
   it('n begrenzt die Liste, ein größeres n liefert alles', () => {
-    expect(rankProducts(CATALOG, example, PRESETS.popular.weights, { ...open, n: 100 }, NOW)).toHaveLength(24);
+    expect(rankProducts(CATALOG, example, PRESETS.popular.weights, { ...open, n: 100 }, NOW)).toHaveLength(23);
     expect(rankProducts(CATALOG, example, PRESETS.popular.weights, { ...open, n: 8 }, NOW)).toHaveLength(8);
   });
 
@@ -99,7 +99,7 @@ describe('rankProducts', () => {
     for (const l of lists) expect(l).toEqual(lists[0]);
   });
 
-  it('unter Ähnlich kommen die Plätze 1-4 aus der Kategorie des zuletzt angesehenen Produkts', () => {
+  it('unter Ähnlich stammen mindestens 3 der Plätze 1-4 aus der Kategorie des zuletzt angesehenen Produkts', () => {
     const lastView = example.events.filter((e) => e.type === 'view').sort((a, b) => b.at.localeCompare(a.at))[0]!;
     const category = CATALOG.find((p) => p.id === lastView.productId)!.category;
     const ranked = rankProducts(
@@ -109,7 +109,19 @@ describe('rankProducts', () => {
       { hideOutOfStock: false, hidePurchased: true, n: 8 },
       NOW,
     );
-    expect(ranked.slice(0, 4).map((r) => r.product.category)).toEqual([category, category, category, category]);
+    expect(ranked.slice(0, 4).filter((r) => r.product.category === category).length).toBeGreaterThanOrEqual(3);
+  });
+
+  it('das zuletzt angesehene Produkt ist kein Kandidat (jeder Besucher, jede Voreinstellung)', () => {
+    for (const v of VISITORS) {
+      const views = v.events.filter((e) => e.type === 'view');
+      if (views.length === 0) continue;
+      const lastId = [...views].sort((a, b) => b.at.localeCompare(a.at))[0]!.productId;
+      for (const preset of Object.values(PRESETS)) {
+        const ids = rankProducts(CATALOG, v, preset.weights, open, NOW).map((r) => r.product.id);
+        expect(ids, `${v.name} ${preset.label}`).not.toContain(lastId);
+      }
+    }
   });
 
   it('fehlt das zuletzt angesehene Produkt in der Liste, ist die Ähnlichkeit 0', () => {

@@ -4,7 +4,6 @@ import { SegmentedControl } from '../../design/components/SegmentedControl';
 import { Slider } from '../../design/components/Slider';
 import { Switch } from '../../design/components/Switch';
 import { categoryAffinity } from '../../personalization/affinity';
-import { CATALOG } from '../../personalization/catalog';
 import { cleanFeed, inspectFeed, readFeedNaively } from '../../personalization/inspectFeed';
 import { FEED_DATE, RAW_FEED } from '../../personalization/rawFeed';
 import { PRESETS, rankChanges, rankProducts, type PresetId, type Weights } from '../../personalization/recommend';
@@ -57,7 +56,8 @@ export default function Demo() {
   const products = feed === 'clean' ? clean : naive;
   const flaws = useMemo(() => (feed === 'raw' ? naiveFlaws(naive, inspected.products, inspected.issues) : undefined), [feed, naive, inspected]);
 
-  const { profile } = useMemo(() => categoryAffinity(visitor.events, NOW, CATALOG), [visitor]);
+  // Das Profil aus demselben Feed wie die Rangliste: im rohen Feed zerfällt es in falsch geschriebene Kategorien.
+  const { profile } = useMemo(() => categoryAffinity(visitor.events, NOW, products), [visitor, products]);
   const ranked = useMemo(
     () => rankProducts(products, visitor, weights, { hideOutOfStock, hidePurchased, n: TOP }, NOW),
     [products, visitor, weights, hideOutOfStock, hidePurchased],
@@ -83,7 +83,7 @@ export default function Demo() {
   }, [spoken]);
 
   const sum = weights.affinity + weights.popularity + weights.similarity;
-  const insights = insightsFor(weights, visitor.events.length > 0);
+  const insights = insightsFor(weights, visitor.events.length > 0, ranked);
 
   function choosePreset(next: PresetId) {
     setPreset(next);
@@ -186,7 +186,8 @@ export default function Demo() {
         ) : null}
         {insights.includes('monotone') ? (
           <InsightBox title="Eintönig">
-            Zählt die Ähnlichkeit fast allein, kommen die vorderen Plätze fast nur aus einer Kategorie. Die Liste wiederholt, was der Besucher gerade angesehen hat.
+            Zählt die Ähnlichkeit fast allein, folgt die Liste den Merkmalen eines einzigen Produkts: Mindestens drei der ersten vier Plätze stammen hier aus derselben Kategorie.
+            Die Liste wiederholt, was der Besucher gerade angesehen hat.
           </InsightBox>
         ) : null}
         {insights.includes('allZero') ? (

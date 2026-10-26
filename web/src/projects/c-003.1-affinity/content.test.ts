@@ -59,9 +59,28 @@ describe('C-003.1 Erklärung', () => {
       expect(html).toContain(de(c.ageDays, 1));
       expect(html).toContain(de(c.decay, 2));
       expect(html).toContain(de(c.value, 2));
-      expect(html).toContain(String(c.weight));
       expect(html).toContain(CATALOG.find((p) => p.id === c.event.productId)!.title);
     }
+  });
+
+  it('das Gewicht steht in der Zeile des jeweiligen Ereignisses (Spalte Gewicht)', () => {
+    const sorted = [...contributions].sort((a, b) => Date.parse(a.event.at) - Date.parse(b.event.at));
+    const rowHtml = [...html.matchAll(/<tr data-row="contribution">(.*?)<\/tr>/g)].map((m) => m[1]!);
+    expect(rowHtml).toHaveLength(sorted.length);
+    sorted.forEach((c, i) => {
+      const numbers = [...rowHtml[i]!.matchAll(/<td class="aff-num">(.*?)<\/td>/g)].map((m) => m[1]);
+      expect(numbers[1], `Gewicht in Zeile ${i + 1}`).toBe(String(EVENT_WEIGHTS[c.event.type]));
+    });
+  });
+
+  it('das Profil ergibt zusammen 100 Prozent, und nach drei Halbwertszeiten zählt ein Kauf 0,625', () => {
+    expect(Object.values(profile).reduce((a, b) => a + b, 0)).toBeCloseTo(1, 9);
+    expect(html).toContain('ergibt');
+    expect(html).toContain('100 %');
+    // Kauf (5) nach 3 × 7 Tagen: 5 · 0,5³ = 0,625, ohne Runden auf 0,63 dargestellt.
+    expect(EVENT_WEIGHTS.purchase * 0.5 ** 3).toBe(0.625);
+    expect(html).toContain('Tag 21');
+    expect(html).toContain('Tag 21: 0,625');
   });
 
   it('zeigt das normierte Profil je Kategorie als Prozent', () => {

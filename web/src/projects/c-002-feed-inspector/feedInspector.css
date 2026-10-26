@@ -62,8 +62,8 @@
 .fi-line-no { text-align: right; color: var(--farbe-text-sehr-gedaempft); user-select: none; }
 .fi-line-sign { text-align: center; }
 .fi-line.is-drop .fi-line-sign { color: var(--farbe-fehler); }
-.fi-line.is-repair .fi-line-sign,
-.fi-line.is-warn .fi-line-sign { color: var(--farbe-warnung); }
+.fi-line.is-repair .fi-line-sign { color: var(--farbe-warnung); }
+.fi-line.is-warn .fi-line-sign { color: var(--farbe-info); }
 .fi-line.is-marked { background: var(--farbe-akzent-weich); font-weight: var(--gewicht-halbfett); }
 
 /* Tabelle */
@@ -74,8 +74,8 @@
 .fi-table td { position: relative; font-variant-numeric: tabular-nums; }
 .fi-table tr.is-marked > * { background: var(--farbe-akzent-weich); }
 .fi-cell.is-drop { background: var(--farbe-fehler-weich); color: var(--farbe-fehler); font-weight: var(--gewicht-mittel); }
-.fi-cell.is-repair,
-.fi-cell.is-warn { background: var(--farbe-warnung-weich); color: var(--farbe-warnung); font-weight: var(--gewicht-mittel); }
+.fi-cell.is-repair { background: var(--farbe-warnung-weich); color: var(--farbe-warnung); font-weight: var(--gewicht-mittel); }
+.fi-cell.is-warn { background: var(--farbe-info-weich); color: var(--farbe-info); font-weight: var(--gewicht-mittel); }
 .fi-cell-sign { margin-right: var(--abstand-1); }
 
 /* Fehlerliste */

@@ -11,10 +11,10 @@ const lines = (...l: string[]) => `${l.join('\n')}\n`;
 // Das Rechenbeispiel aus „Unter der Haube“ und aus Aufgabe 1: Platz 1 für Anna unter „Persönlich“,
 // auf zwei Stellen gerundet. In content.test.ts gegen rankProducts geprüft.
 export const EXAMPLE = {
-  productId: 'P01',
-  signals: { affinity: 0.3, popularity: 0.9, similarity: 1 },
+  productId: 'P21',
+  signals: { affinity: 0.33, popularity: 0.95, similarity: 0.4 },
   weights: PRESETS.personal.weights,
-  score: 0.56,
+  score: 0.47,
 };
 
 export const meta: ContentMeta = {
@@ -137,7 +137,7 @@ export const meta: ContentMeta = {
     {
       id: 'C-003-card-06',
       front: 'Warum wird die Liste bei hoher Ähnlichkeit eintönig?',
-      back: 'Das ähnlichste Produkt kommt meist aus derselben Kategorie wie das zuletzt angesehene. Zählt die Ähnlichkeit fast allein, stammen die vorderen Plätze fast nur aus einer Kategorie.',
+      back: 'Die Ähnlichkeit misst nur den Abstand zu einem einzigen Produkt, dem zuletzt angesehenen. Zählt sie fast allein, folgt die ganze Liste den Merkmalen dieses einen Produkts und wiederholt, was der Besucher gerade angesehen hat.',
     },
     {
       id: 'C-003-card-07',
@@ -152,7 +152,7 @@ export const meta: ContentMeta = {
       prompt:
         'Schreib `scoreProduct(signals, weights)`. Beide sind Objekte mit den Schlüsseln `affinity`, `popularity` und `similarity`. ' +
         'Das Ergebnis ist die gewichtete Summe: jedes Signal mal sein Gewicht, alles zusammengezählt.\n\n' +
-        'Ein fehlendes Signal zählt `0`. Das Beispiel aus „Unter der Haube“: Signale `0.3`, `0.9` und `1` mit den Gewichten `0.6`, `0.2` und `0.2` ergeben `0.56`. ' +
+        'Ein fehlendes Signal zählt `0`. Das Beispiel aus „Unter der Haube“: Signale `0.33`, `0.95` und `0.4` mit den Gewichten `0.6`, `0.2` und `0.2` ergeben `0.468`. ' +
         'Die Eingaben darfst du nicht verändern. Der Code endet mit `return { scoreProduct };`.',
       starter: lines(
         'function scoreProduct(signals, weights) {',

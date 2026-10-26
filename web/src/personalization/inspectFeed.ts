@@ -59,7 +59,7 @@ function repairedCategory(value: unknown): string | undefined {
   return CATEGORIES.find((c) => c.toLowerCase() === key);
 }
 
-function repairedAvailability(value: unknown): Availability | undefined {
+export function repairedAvailability(value: unknown): Availability | undefined {
   if (typeof value !== 'string') return undefined;
   const key = value.trim().toLowerCase().replace(/\s+/g, '_');
   return AVAILABILITIES.find((a) => a === key);

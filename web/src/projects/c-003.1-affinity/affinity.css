@@ -5,14 +5,14 @@
 .aff-wrap { overflow-x: auto; }
 .aff-table { width: 100%; border-collapse: collapse; }
 .aff-table caption { text-align: left; color: var(--farbe-text-gedaempft); font-size: 0.85rem; margin-bottom: var(--abstand-1); }
-.aff-table th, .aff-table td { padding: var(--abstand-2); border-bottom: 1px solid var(--farbe-rahmen-stark); text-align: left; vertical-align: top; white-space: nowrap; }
+.aff-table th, .aff-table td { padding: var(--abstand-2); border-bottom: var(--rahmen-staerke) solid var(--farbe-rahmen-stark); text-align: left; vertical-align: top; white-space: nowrap; }
 .aff-table .aff-num { text-align: right; font-variant-numeric: tabular-nums; }
-.aff-table thead th { font-size: 0.85rem; color: var(--farbe-text-gedaempft); font-weight: 600; }
+.aff-table thead th { font-size: 0.85rem; color: var(--farbe-text-gedaempft); font-weight: var(--gewicht-halbfett); }
 .aff-table tbody th, .aff-table tfoot th { font-weight: var(--gewicht-mittel); }
 .aff-table tfoot td { font-weight: var(--gewicht-mittel); }
 .aff-profile { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--abstand-2); }
 .aff-profile li { display: grid; grid-template-columns: 7rem minmax(0, 1fr) 4.5rem; gap: var(--abstand-2); align-items: center; }
-.aff-track { height: 0.75rem; border-radius: 999px; background: var(--farbe-sekundaer-weich); overflow: hidden; }
+.aff-track { height: 0.75rem; border-radius: var(--radius-rund); background: var(--farbe-sekundaer-weich); overflow: hidden; }
 .aff-bar { display: block; height: 100%; background: var(--farbe-sekundaer-tief); }
 .aff-pct { text-align: right; font-variant-numeric: tabular-nums; }
 .aff-figure { margin: 0; display: grid; gap: var(--abstand-1); min-width: 0; }

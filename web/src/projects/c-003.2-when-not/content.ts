@@ -40,7 +40,7 @@ export const meta: ContentMeta = {
     {
       id: 'C-003.2-card-03',
       front: 'Was tun ohne Einwilligung zum Tracking?',
-      back: 'Ohne Einwilligung darf der Verlauf einer Person nicht gesammelt werden. Dann bleiben Empfehlungen, die nur den aktuellen Besuch oder das Produkt selbst nutzen, oder feste Zielgruppenregeln.',
+      back: 'Ohne Einwilligung sollte der Verlauf einer Person in der Regel nicht gesammelt werden. Dann bleiben Empfehlungen, die nur den aktuellen Besuch oder das Produkt selbst nutzen, oder feste Zielgruppenregeln.',
     },
     {
       id: 'C-003.2-card-04',

@@ -37,6 +37,8 @@
 .rc-bars { display: grid; gap: var(--abstand-2); margin: 0; padding: 0; list-style: none; }
 .rc-bar-row { display: grid; grid-template-columns: minmax(4.5rem, 7rem) minmax(0, 1fr) auto; align-items: center; gap: var(--abstand-2); font-size: 0.9rem; }
 .rc-bar-name { overflow-wrap: anywhere; }
+.rc-bar-warn { display: block; font-size: 0.8rem; color: var(--farbe-warnung); font-weight: var(--gewicht-halbfett); }
+.rc-bar-row.is-unknown .rc-bar-fill { background: var(--farbe-warnung); }
 .rc-bar-track { display: block; height: 10px; background: var(--farbe-daten-track); border-radius: var(--radius-rund); overflow: hidden; }
 .rc-bar-fill { display: block; height: 100%; background: var(--farbe-daten-a); border-radius: var(--radius-rund); }
 .rc-bar-value { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
