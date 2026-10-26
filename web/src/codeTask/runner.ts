@@ -64,6 +64,8 @@ export function createRunner(createWorker: () => WorkerLike, timeoutMs = 2000) {
   return { run, cancel };
 }
 
-export const browserRunner = createRunner(
-  () => new Worker(new URL('./worker.ts', import.meta.url), { type: 'module' }) as WorkerLike,
+/** Eigener Runner je Aufgabe, damit Läufe verschiedener Aufgaben einander nicht abbrechen. */
+export const createBrowserRunner = () =>
+  createRunner(
+    () => new Worker(new URL('./worker.ts', import.meta.url), { type: 'module' }) as WorkerLike,
 );

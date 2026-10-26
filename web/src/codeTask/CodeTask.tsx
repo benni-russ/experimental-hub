@@ -5,9 +5,10 @@ import { CodeBlock } from '../design/components/CodeBlock';
 import { Disclosure } from '../design/components/Disclosure';
 import { Icon } from '../design/components/Icon';
 import { browserStorage } from '../shell/rail';
+import { InlineCode } from './inlineCode';
 import { Editor } from './Editor';
 import { describeResult, type ResultView } from './resultView';
-import { browserRunner } from './runner';
+import { createBrowserRunner } from './runner';
 import { readDraft, writeDraft } from './storage';
 import { findSyntaxErrorLine } from './syntaxLine';
 
@@ -25,6 +26,8 @@ export function CodeTask({ task }: { task: CodeTaskMeta }) {
   const saveTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const dirty = useRef(false);
   const runSeq = useRef(0);
+  const [runner] = useState(createBrowserRunner);
+  const [busy, setBusy] = useState(false);
 
   const saveNow = useCallback(() => {
     clearTimeout(saveTimer.current);
@@ -38,8 +41,9 @@ export function CodeTask({ task }: { task: CodeTaskMeta }) {
       clearTimeout(saveTimer.current);
       if (dirty.current) writeDraft(browserStorage, task.id, latest.current);
       runSeq.current += 1;
+      runner.cancel();
     },
-    [task.id],
+    [task.id, runner],
   );
 
   function change(next: string) {
@@ -53,16 +57,22 @@ export function CodeTask({ task }: { task: CodeTaskMeta }) {
 
   async function run() {
     const seq = ++runSeq.current;
+    setView(null);
+    setErrorLine(null);
     const syntaxLine = findSyntaxErrorLine(latest.current.code);
     if (syntaxLine !== null) {
       // Offensichtlicher Syntaxfehler: kein Worker nötig.
-      browserRunner.cancel();
+      runner.cancel();
+      setBusy(false);
       setView({ summary: `Syntaxfehler in Zeile ${syntaxLine}`, errorLine: syntaxLine, allPassed: false, items: [] });
       setErrorLine(syntaxLine);
       return;
     }
-    const result = await browserRunner.run(task.id, latest.current.code);
-    if (seq !== runSeq.current || result === 'superseded') return; // Ein neuerer Lauf gilt.
+    setBusy(true);
+    const result = await runner.run(task.id, latest.current.code);
+    if (seq !== runSeq.current) return; // Ein neuerer Lauf gilt.
+    setBusy(false);
+    if (result === 'superseded') return;
     const next = describeResult(result);
     setView(next);
     setErrorLine(next.errorLine);
@@ -74,12 +84,13 @@ export function CodeTask({ task }: { task: CodeTaskMeta }) {
   function reset() {
     if (!window.confirm('Eigenen Code verwerfen und die Vorlage laden?')) return;
     runSeq.current += 1;
-    browserRunner.cancel();
+    runner.cancel();
     latest.current = { code: task.starter, passed: false };
     setCode(task.starter);
     setPassed(false);
     setView(null);
     setErrorLine(null);
+    setBusy(false);
     saveNow();
   }
 
@@ -95,7 +106,9 @@ export function CodeTask({ task }: { task: CodeTaskMeta }) {
         ) : null}
       </h3>
       {task.prompt.split('\n\n').map((p, i) => (
-        <p key={i}>{p}</p>
+        <p key={i}>
+          <InlineCode text={p} />
+        </p>
       ))}
       <Editor
         value={code}
@@ -114,18 +127,23 @@ export function CodeTask({ task }: { task: CodeTaskMeta }) {
         </Button>
       </div>
       <div className="code-task-result" aria-live="polite">
+        {busy ? <p className="code-task-summary muted">Prüfung läuft …</p> : null}
         {view ? (
           <>
-            <p className={`code-task-summary${view.allPassed ? ' is-ok' : ''}`}>{view.summary}</p>
+            <p className={`code-task-summary${view.allPassed ? ' is-ok' : ''}`}><InlineCode text={view.summary} /></p>
             {view.items.length > 0 ? (
               <ul className="code-task-checks">
-                {view.items.map((item) => (
-                  <li key={item.name} className={item.passed ? 'is-pass' : 'is-fail'}>
+                {view.items.map((item, i) => (
+                  <li key={i} className={item.passed ? 'is-pass' : 'is-fail'}>
                     <span aria-hidden="true">{item.passed ? '✓' : '✗'}</span>
                     <span>
                       <span className="visually-hidden">{item.passed ? 'Bestanden: ' : 'Nicht bestanden: '}</span>
                       {item.name}
-                      {item.message ? <span className="code-task-message">{item.message}</span> : null}
+                      {item.message ? (
+                        <span className="code-task-message">
+                          <InlineCode text={item.message} />
+                        </span>
+                      ) : null}
                     </span>
                   </li>
                 ))}
@@ -136,7 +154,9 @@ export function CodeTask({ task }: { task: CodeTaskMeta }) {
       </div>
       {task.hints.map((hint, i) => (
         <Disclosure key={i} summary={`Tipp ${i + 1}`}>
-          <p>{hint}</p>
+          <p>
+            <InlineCode text={hint} />
+          </p>
         </Disclosure>
       ))}
       <Disclosure summary="Musterlösung">
