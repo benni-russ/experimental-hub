@@ -57,6 +57,7 @@ describe('Szenarien', () => {
     expect(after.conversionRate * 100).toBeCloseTo(2.911, 3);
     expect(Math.round(after.revenue)).toBe(45529);
     expect(Math.round(after.grossProfit)).toBe(10538);
+    expect(after.averageOrderValue).toBeCloseTo(78.2, 6);
     expect(cmp.conflict).toBe(true);
   });
   it('freeShipping', () => {
@@ -77,6 +78,12 @@ describe('Szenarien', () => {
     expect(cmp.conflict).toBe(true);
     sources.forEach((s, i) => expect(s.rates).toEqual(SOURCES[i]!.rates));
   });
+  it('kopiert die Quoten, statt sie zu teilen', () => {
+    for (const scenario of SCENARIOS) {
+      const { sources } = scenario.apply(SOURCES, ECONOMY);
+      sources.forEach((s, i) => expect(s.rates).not.toBe(SOURCES[i]!.rates));
+    }
+  });
   it('guestCheckout', () => {
     const { after, cmp } = runScenario('guestCheckout');
     expect(after.conversionRate * 100).toBeCloseTo(2.989, 3);
@@ -85,6 +92,21 @@ describe('Szenarien', () => {
     for (const [key, change] of Object.entries(cmp.changes)) {
       expect(change.direction).toBe(key === 'averageOrderValue' || key === 'visits' ? 'same' : 'up');
     }
+  });
+});
+
+describe('biggestLeak', () => {
+  const single = (rates: [number, number, number, number]) => computeFunnel([{ id: 'search', label: 'x', visits: 100, rates }]);
+  it('folgt dem größten absoluten Verlust, nicht der niedrigsten Quote', () => {
+    const lifted = computeFunnel(applyLifts(SOURCES, [0, 10, -0.9, 0]));
+    expect(lifted.biggestLeak).toBe(2);
+    expect(lifted.rates.indexOf(Math.min(...lifted.rates))).not.toBe(lifted.biggestLeak);
+  });
+  it('nimmt bei Gleichstand den ersten Übergang', () => {
+    expect(single([1, 0.5, 1, 0]).biggestLeak).toBe(1);
+  });
+  it('fällt ohne Besuche auf 0 zurück', () => {
+    expect(computeFunnel(SOURCES.map((s) => ({ ...s, visits: 0 }))).biggestLeak).toBe(0);
   });
 });
 
@@ -134,6 +156,27 @@ describe('compareKpis', () => {
   it('meldet keinen Konflikt, wenn eine Richtung same ist', () => {
     const c = compareKpis(baseKpis, { ...baseKpis, conversionRate: baseKpis.conversionRate * 2 });
     expect(c.conflict).toBe(false);
+  });
+});
+
+describe('compareKpis, Konflikte und Nullen', () => {
+  const k = (over: Partial<typeof baseKpis>) => ({ ...baseKpis, ...over });
+  it('meldet einen Konflikt allein über den Rohertrag', () => {
+    const c = compareKpis(baseKpis, k({ conversionRate: baseKpis.conversionRate * 1.1, grossProfit: baseKpis.grossProfit * 0.9 }));
+    expect(c.changes.revenue.direction).toBe('same');
+    expect(c.conflict).toBe(true);
+  });
+  it('meldet einen Konflikt allein über den Umsatz, wenn der Rohertrag mitzieht', () => {
+    const c = compareKpis(
+      baseKpis,
+      k({ conversionRate: baseKpis.conversionRate * 1.1, revenue: baseKpis.revenue * 0.9, grossProfit: baseKpis.grossProfit * 1.1 }),
+    );
+    expect(c.changes.grossProfit.direction).toBe('up');
+    expect(c.conflict).toBe(true);
+  });
+  it('ist bei einem Ausgangswert 0 up mit change 0', () => {
+    const c = compareKpis(k({ revenue: 0 }), k({ revenue: 10 }));
+    expect(c.changes.revenue).toMatchObject({ before: 0, after: 10, change: 0, direction: 'up' });
   });
 });
 

@@ -43,7 +43,7 @@ export interface FunnelResult {
   rates: number[]; // vier Übergänge
   overall: number;
   bySource: Record<SourceId, { counts: number[]; rates: number[]; overall: number }>;
-  biggestLeak: number; // Index des Übergangs mit der niedrigsten Quote
+  biggestLeak: number; // Index des Übergangs mit dem größten absoluten Verlust (bei Gleichstand der erste)
 }
 
 const ratio = (a: number, b: number) => (b > 0 ? a / b : 0);
@@ -63,8 +63,10 @@ export function computeFunnel(sources: Source[]): FunnelResult {
     part.counts.forEach((c, i) => (counts[i]! += c));
   }
   const rates = [0, 1, 2, 3].map((i) => ratio(counts[i + 1]!, counts[i]!));
-  // Bei 0 Besuchen gibt es kein Leck; Index 0 ist dann nur ein fester Rückfall.
-  const biggestLeak = counts[0]! > 0 ? rates.indexOf(Math.min(...rates)) : 0;
+  // Verlust je Übergang in Personen; indexOf nimmt bei Gleichstand den ersten.
+  // Bei 0 Besuchen sind alle Verluste 0, Index 0 ist dann der feste Rückfall.
+  const losses = [0, 1, 2, 3].map((i) => counts[i]! - counts[i + 1]!);
+  const biggestLeak = losses.indexOf(Math.max(...losses));
   return { counts, rates, overall: ratio(counts[4]!, counts[0]!), bySource, biggestLeak };
 }
 
@@ -136,7 +138,7 @@ export const SCENARIOS: Scenario[] = [
     label: 'Social-Kampagne',
     description: 'Doppelt so viele Besuche aus Social, aber mit den bisherigen, niedrigen Quoten. Effekte erfunden.',
     apply: (s, e) => ({
-      sources: s.map((x) => (x.id === 'social' ? { ...x, visits: x.visits * 2 } : { ...x })),
+      sources: s.map((x) => (x.id === 'social' ? { ...x, visits: x.visits * 2, rates: [...x.rates] as Source['rates'] } : { ...x, rates: [...x.rates] as Source['rates'] })),
       economy: { ...e },
     }),
   },
@@ -153,7 +155,7 @@ export type Direction = 'up' | 'down' | 'same';
 export interface KpiChange {
   before: number;
   after: number;
-  change: number; // relativ zu before; 0, wenn before 0 ist
+  change: number; // relativ zu before; 0, wenn before 0 ist (die Richtung zeigt dann trotzdem den Unterschied)
   direction: Direction;
 }
 
