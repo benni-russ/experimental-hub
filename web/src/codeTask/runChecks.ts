@@ -82,7 +82,7 @@ export async function runChecks(module: CheckModule, code: string): Promise<RunR
     return { status: 'error', message: err instanceof Error ? err.message : String(err) };
   }
 
-  const missing = module.exportsNeeded.find((name) => !(name in output.exports));
+  const missing = module.exportsNeeded.find((name) => !Object.prototype.hasOwnProperty.call(output.exports, name));
   if (missing !== undefined) {
     const message = `\`${missing}\` fehlt im \`return { … }\` am Ende.`;
     return {
@@ -94,7 +94,8 @@ export async function runChecks(module: CheckModule, code: string): Promise<RunR
   const ctx = {
     ...output,
     async rerun(extra: Record<string, unknown>): Promise<RunOutput> {
-      return execute(code, { ...baseGlobals, ...extra });
+      // Frische Fakes: sonst sähe der zweite Lauf, was der erste an ihnen verändert hat.
+      return execute(code, { ...module.globals?.(), ...extra });
     },
   };
   const results: CheckResult[] = [];

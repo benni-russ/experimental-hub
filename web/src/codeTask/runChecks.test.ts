@@ -72,12 +72,45 @@ describe('runChecks', () => {
   it('erzeugt Globals je Aufruf frisch', async () => {
     const mod: CheckModule = {
       exportsNeeded: [],
-      globals: () => ({ fetch: () => 'fake' }),
+      globals: () => ({ fetch: Object.assign(() => 'fake', { used: false }) }),
       checks: [{ name: 'fetch da', run: () => undefined }],
     };
-    const code = 'if (typeof fetch !== "function") throw new Error("weg"); fetch = null;';
+    // Nutzercode markiert den Fake und überschreibt ihn; ein zweiter Lauf darf davon nichts sehen.
+    const code =
+      'if (typeof fetch !== "function") throw new Error("weg"); if (fetch.used) throw new Error("benutzt"); fetch.used = true; fetch = null;';
     expect((await runChecks(mod, code)).status).toBe('ok');
     expect((await runChecks(mod, code)).status).toBe('ok');
+  });
+
+  it('rerun erzeugt die Globals frisch', async () => {
+    const used: unknown[] = [];
+    const mod: CheckModule = {
+      exportsNeeded: [],
+      globals: () => ({ fake: {} as Record<string, unknown> }),
+      checks: [
+        {
+          name: 'rerun',
+          run: async (ctx) => {
+            const out = await ctx.rerun({});
+            used.push(out.exports.before);
+          },
+        },
+      ],
+    };
+    await runChecks(mod, 'const before = fake.used; fake.used = true; return { before };');
+    expect(used).toEqual([undefined]);
+  });
+
+  it('meldet geerbte Namen als fehlend', async () => {
+    const mod: CheckModule = {
+      exportsNeeded: ['toString'],
+      checks: [{ name: 'a', run: () => undefined }],
+    };
+    const r = await runChecks(mod, 'return {};');
+    expect(r).toEqual({
+      status: 'ok',
+      results: [{ name: 'a', passed: false, message: '`toString` fehlt im `return { … }` am Ende.' }],
+    });
   });
 
   it('rerun macht Globals sichtbar', async () => {
