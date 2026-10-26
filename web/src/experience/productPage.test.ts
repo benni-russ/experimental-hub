@@ -70,6 +70,29 @@ describe('audit', () => {
     }
     expect(isFixed('alt', {})).toBe(false);
   });
+  it('mit allen Behebungen ist audit für jede Alternativtext-Wahl leer', () => {
+    for (const c of ALT_CHOICES) expect(audit(buildPage({ ...ALL, alt: c.text }))).toEqual([]);
+  });
+  describe('Regeln an synthetischen Knoten', () => {
+    const base: PageNode = { id: 'x', kind: 'paragraph', text: '', element: 'p', focusable: false, focusVisible: false };
+    const link = (text: string): PageNode => ({ ...base, kind: 'link', element: 'a', text, focusable: true });
+    it('unklare Linktexte, unabhängig von Groß-/Kleinschreibung und Leerraum', () => {
+      for (const t of ['mehr', 'Klicken Sie hier', ' Weiter ', 'HIER']) {
+        expect(audit([link(t)]).map((a) => a.barrierId)).toEqual(['linkText']);
+      }
+      expect(audit([link('Größentabelle ansehen')])).toEqual([]);
+    });
+    it('Kontrast: 4,5 und darüber besteht, darunter nicht', () => {
+      const t = (color: string): PageNode => ({ ...base, text: 'a', color, background: '#ffffff' });
+      expect(audit([t('#767676')])).toEqual([]); // 4,54 : 1
+      expect(audit([t('#777777')]).map((a) => a.barrierId)).toEqual(['contrast']); // 4,48 : 1
+    });
+    it('leerer alt-Text gilt als vorhanden (dekoratives Bild)', () => {
+      const img: PageNode = { ...base, kind: 'image', element: 'img', alt: '' };
+      expect(audit([img])).toEqual([]);
+      expect(audit([{ ...img, alt: undefined }]).map((a) => a.barrierId)).toEqual(['alt']);
+    });
+  });
   it('isFixed für die übrigen Barrieren', () => {
     expect(isFixed('contrast', {})).toBe(false);
     expect(isFixed('contrast', { contrast: true })).toBe(true);
@@ -85,6 +108,14 @@ describe('tabOrder', () => {
     const order = tabOrder(buildPage({}));
     expect(order).toContain('sizes-40');
     expect(order).toContain('sizes-45');
+    expect(order).not.toContain('sizes');
+  });
+  it('ausverkaufte Größen bleiben Stopps, bis sie deaktiviert werden', () => {
+    expect(tabOrder(buildPage({}))).toContain('sizes-42');
+    const fixed = tabOrder(buildPage({ colorOnly: true }));
+    expect(fixed).not.toContain('sizes-42');
+    expect(fixed).not.toContain('sizes-45');
+    expect(fixed).toContain('sizes-40');
   });
 });
 

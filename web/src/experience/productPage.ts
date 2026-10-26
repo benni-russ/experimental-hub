@@ -168,7 +168,8 @@ export function buildPage(fixes: Fixes): PageNode[] {
       color: fixes.contrast ? '#595959' : '#9a9a9a', background: '#ffffff', barrierId: 'contrast',
     },
     {
-      id: 'sizes', kind: 'sizes', text: 'Größe', element: 'fieldset', focusable: true, focusVisible: fv,
+      // Das fieldset selbst nimmt keinen Fokus; die Größenknöpfe darin tun es (siehe tabOrder).
+      id: 'sizes', kind: 'sizes', text: 'Größe', element: 'fieldset', focusable: false, focusVisible: fv,
       sizes: SIZES, stateShownBy: fixes.colorOnly ? 'colorTextAndDisabled' : 'color', barrierId: 'colorOnly',
     },
     {
@@ -251,9 +252,12 @@ export function headingOutline(page: PageNode[]): { nodeId: string; level: numbe
 export function tabOrder(page: PageNode[]): string[] {
   const out: string[] = [];
   for (const n of page) {
-    if (!n.focusable) continue;
-    if (n.kind === 'sizes') for (const s of n.sizes ?? []) out.push(`${n.id}-${s.size}`);
-    else out.push(n.id);
+    if (n.kind === 'sizes') {
+      // Ein deaktivierter Knopf ist nicht fokussierbar.
+      for (const s of n.sizes ?? []) {
+        if (s.available || n.stateShownBy !== 'colorTextAndDisabled') out.push(`${n.id}-${s.size}`);
+      }
+    } else if (n.focusable) out.push(n.id);
   }
   return out;
 }
