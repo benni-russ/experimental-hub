@@ -11,6 +11,7 @@ import {
   formatEuro,
   formatLift,
   formatPercent,
+  formatPercent1,
   funnelFor,
   liftAnnouncement,
   liftInsight,
@@ -65,16 +66,18 @@ describe('scenarioInsight über alle Szenarien', () => {
   });
 
   it('die erwarteten Zahlen und Richtungen', () => {
-    expect(scenarioInsight('discount')).toContain('Mit 15 % Rabatt für alle die Conversion Rate steigt von 2,6 % auf 2,91 %');
+    expect(scenarioInsight('discount')).toContain('Mit 15 % Rabatt für alle steigt die Conversion Rate von 2,6 % auf 2,91 %. Aber der Umsatz fällt');
     expect(scenarioInsight('discount')).toContain('der Rohertrag fällt von 16.583 € auf 10.538 €');
     expect(scenarioInsight('discount')).toContain('der Umsatz fällt von 47.825 € auf 45.529 €');
-    expect(scenarioInsight('freeShipping')).toContain('die Conversion Rate fällt von 2,6 % auf 2,5 %');
+    expect(scenarioInsight('freeShipping')).toContain('Mit der neuen Versandgrenze fällt die Conversion Rate von 2,6 % auf 2,5 %:');
     expect(scenarioInsight('freeShipping')).toContain('der Rohertrag steigt von 16.583 € auf 17.684 €');
-    expect(scenarioInsight('freeShipping')).toContain('der Bestellwert steigt von 92,00 € auf 99,00 €');
-    expect(scenarioInsight('socialCampaign')).toContain('die Zahl der Besuche steigt von 20.000 auf 25.000');
+    expect(scenarioInsight('freeShipping')).toContain('Dafür steigt der Bestellwert von 92,00 € auf 99,00 €, der Umsatz steigt');
+    expect(scenarioInsight('socialCampaign')).toContain('Mit der Kampagne steigt die Zahl der Besuche von 20.000 auf 25.000.');
     expect(scenarioInsight('socialCampaign')).toContain('Die Conversion Rate fällt von 2,6 % auf 2,19 %');
     expect(scenarioInsight('socialCampaign')).toContain('der Umsatz pro Besuch fällt von 2,39 € auf 2,01 €');
     expect(scenarioInsight('guestCheckout')).toContain('der Rohertrag steigt von 16.583 € auf 19.070 €');
+    expect(scenarioInsight('guestCheckout')).toContain('Damit steigt die Conversion Rate von 2,6 % auf 2,99 %, der Umsatz steigt');
+    expect(scenarioInsight('guestCheckout')).toContain('Kasse → Kauf von 62,6 % auf 72 %.');
     expect(scenarioInsight('guestCheckout')).toContain('alle nach oben');
   });
 
@@ -84,8 +87,8 @@ describe('scenarioInsight über alle Szenarien', () => {
     expect(scenarioInsight('socialCampaign')).toContain('Die Conversion Rate zeigt nach unten, der Umsatz und der Rohertrag zeigen nach oben.');
   });
 
-  it('Social verweist auf A-004, und Social hat wirklich die niedrigste Quote', () => {
-    expect(scenarioInsight('socialCampaign')).toContain('A-004');
+  it('Social nennt den Mischeffekt (der Link auf A-004 steht im Kasten), und Social hat wirklich die niedrigste Quote', () => {
+    expect(scenarioInsight('socialCampaign')).toContain('Simpson-Paradox: ');
     expect(scenarioInsight('socialCampaign')).toContain(`(${formatPercent(BASE_FUNNEL.bySource.social.overall)})`);
     const lowest = Math.min(...SOURCES.map((s) => BASE_FUNNEL.bySource[s.id].overall));
     expect(BASE_FUNNEL.bySource.social.overall).toBe(lowest);
@@ -95,7 +98,7 @@ describe('scenarioInsight über alle Szenarien', () => {
   it('Gastbestellung nennt die Quote Kasse → Kauf vorher und nachher', () => {
     const { funnel } = runScenario('guestCheckout');
     expect(scenarioInsight('guestCheckout')).toContain(
-      `Kasse → Kauf von ${formatPercent(BASE_FUNNEL.rates[3]!)} auf ${formatPercent(funnel.rates[3]!)}`,
+      `Kasse → Kauf von ${formatPercent1(BASE_FUNNEL.rates[3]!)} auf ${formatPercent1(funnel.rates[3]!)}`,
     );
   });
 

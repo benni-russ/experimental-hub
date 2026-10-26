@@ -119,7 +119,7 @@ export const meta: ContentMeta = {
     {
       id: 'D-003-card-04',
       front: 'Absolute oder relative Änderung?',
-      back: 'Steigt eine Quote von 2,6 % relativ um 10 %, liegt sie bei 2,86 %. Absolut sind das nur 0,26 Prozentpunkte. Für die Stichprobe eines Tests zählt der absolute Abstand, deshalb brauchen kleine Quoten viele Besuche.',
+      back: 'Steigt eine Quote von 2,6 % relativ um 10 %, liegt sie bei 2,86 %. Absolut sind das nur 0,26 Prozentpunkte. Für die Stichprobe eines Tests zählt vor allem der absolute Abstand, deshalb brauchen kleine Quoten viele Besuche.',
     },
     {
       id: 'D-003-card-05',

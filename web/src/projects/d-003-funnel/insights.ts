@@ -90,6 +90,13 @@ export function changePhrase(key: keyof Kpis, change: KpiChange): string {
   return `${r.phrase} ${DIRECTION_WORD[change.direction]} von ${r.format(change.before)} auf ${r.format(change.after)}`;
 }
 
+/** Verb an zweiter Stelle, nach „Mit …“, „Dafür“ oder „Damit“: „steigt die Conversion Rate von 2,6 % auf 2,91 %“ */
+export function invertedChangePhrase(key: keyof Kpis, change: KpiChange): string {
+  const r = row(key);
+  if (change.direction === 'same') return `bleibt ${r.phrase} bei ${r.format(change.before)}`;
+  return `${DIRECTION_WORD[change.direction]} ${r.phrase} von ${r.format(change.before)} auf ${r.format(change.after)}`;
+}
+
 export const BASE_FUNNEL: FunnelResult = computeFunnel(SOURCES);
 export const BASE_KPIS: Kpis = kpis(BASE_FUNNEL, ECONOMY);
 
@@ -136,31 +143,31 @@ export function scenarioInsight(id: ScenarioId): string {
 
   if (id === 'discount') {
     return (
-      `Mit ${N0.format(economy.discount * 100)} % Rabatt für alle ${changePhrase('conversionRate', c.conversionRate)}. ` +
+      `Mit ${N0.format(economy.discount * 100)} % Rabatt für alle ${invertedChangePhrase('conversionRate', c.conversionRate)}. ` +
       `Aber ${changePhrase('revenue', c.revenue)}, und ${changePhrase('grossProfit', c.grossProfit)}. ` +
       `Der Rabatt geht von jeder Bestellung ab, auch von denen, die ohne ihn gekommen wären. ${end} ${invented}`
     );
   }
   if (id === 'freeShipping') {
     return (
-      `Mit der neuen Versandgrenze ${changePhrase('conversionRate', c.conversionRate)}: Einige springen an der Kasse ab. ` +
-      `Dafür ${changePhrase('averageOrderValue', c.averageOrderValue)}, ${changePhrase('revenue', c.revenue)}, ` +
+      `Mit der neuen Versandgrenze ${invertedChangePhrase('conversionRate', c.conversionRate)}: Einige springen an der Kasse ab. ` +
+      `Dafür ${invertedChangePhrase('averageOrderValue', c.averageOrderValue)}, ${changePhrase('revenue', c.revenue)}, ` +
       `und ${changePhrase('grossProfit', c.grossProfit)}, weil der Shop seltener den Versand zahlt. ${end} ${invented}`
     );
   }
   if (id === 'socialCampaign') {
     return (
-      `Mit der Kampagne ${changePhrase('visits', c.visits)}. ${capitalize(changePhrase('conversionRate', c.conversionRate))}, ` +
-      `obwohl keine Quelle an Quote verliert: Es kommen nur mehr Besuche aus Social, der Quelle mit der niedrigsten Quote ` +
+      `Mit der Kampagne ${invertedChangePhrase('visits', c.visits)}. ${capitalize(changePhrase('conversionRate', c.conversionRate))}, ` +
+      `obwohl keine Quelle an Quote verliert: Es kommen nur zusätzliche Besuche aus Social, der Quelle mit der niedrigsten Quote ` +
       `(${formatPercent(BASE_FUNNEL.bySource.social.overall)}). ${capitalize(changePhrase('revenue', c.revenue))}, ` +
-      `aber ${changePhrase('revenuePerVisit', c.revenuePerVisit)}. Das ist derselbe Mischeffekt wie beim Simpson-Paradox in A-004: ` +
+      `aber ${changePhrase('revenuePerVisit', c.revenuePerVisit)}. Das ist derselbe Mischeffekt wie beim Simpson-Paradox: ` +
       `Der Gesamtwert ändert sich, weil sich die Mischung ändert. ${end} ${invented}`
     );
   }
   // guestCheckout
   return (
-    `Ohne Pflichtkonto steigt der Übergang ${TRANSITIONS[3]} von ${formatPercent(BASE_FUNNEL.rates[3]!)} auf ` +
-    `${formatPercent(funnel.rates[3]!)}. Damit ${changePhrase('conversionRate', c.conversionRate)}, ` +
+    `Ohne Pflichtkonto steigt der Übergang ${TRANSITIONS[3]} von ${formatPercent1(BASE_FUNNEL.rates[3]!)} auf ` +
+    `${formatPercent1(funnel.rates[3]!)}. Damit ${invertedChangePhrase('conversionRate', c.conversionRate)}, ` +
     `${changePhrase('revenue', c.revenue)}, und ${changePhrase('grossProfit', c.grossProfit)}. ${end} ${invented}`
   );
 }
@@ -230,7 +237,7 @@ export function testSizeText(lifts: Lifts): string {
     );
   }
   const size = testSize(BASE_KPIS.conversionRate, lift, BASE_KPIS.visits);
-  if (!size) return 'Für diese Werte lässt sich keine Stichprobe rechnen: Die neue Quote läge bei 100 % oder darüber.';
+  if (!size) return 'Für diese Werte lässt sich keine Stichprobe rechnen.';
   return (
     `Um ${formatLift(lift)} relativ auf ${formatPercent(BASE_KPIS.conversionRate)} zu erkennen, braucht ein A/B-Test etwa ` +
     `${formatCount(size.perVariant)} Besuche je Variante – bei ${formatCount(BASE_KPIS.visits)} Besuchen im Monat rund ` +
