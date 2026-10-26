@@ -79,3 +79,38 @@ describe('allText', () => {
     expect(allText(mdeMeta)).toContain('14.751');
   });
 });
+
+describe('Code-Aufgaben', () => {
+  const task = (id: string) => ({
+    id,
+    title: 'Titel der Aufgabe',
+    prompt: 'Berechne den Mittelwert.',
+    starter: 'function mean(xs) {}',
+    hints: ['Erster Hinweis zur Summe.', 'Zweiter Hinweis zur Division.'],
+    solution: 'function mean(xs) { return 0; }',
+  });
+  const withTasks = (...ids: string[]): ContentMeta => ({ ...mdeMeta, id: 'X-001', codeTasks: ids.map(task) });
+
+  it('ungültige Code-ID wird mit der ID gemeldet', () => {
+    const problems = checkStructure(withTasks('X-001-code-1'), size);
+    expect(problems).toContain('Code-Aufgabe hat eine ungültige ID: X-001-code-1');
+  });
+
+  it('gültige Code-ID wird nicht beanstandet', () => {
+    const problems = checkStructure(withTasks('X-001-code-01'), size);
+    expect(problems.some((p) => p.includes('Code-Aufgabe'))).toBe(false);
+  });
+
+  it('doppelte Code-ID wird gemeldet', () => {
+    const problems = checkStructure(withTasks('X-001-code-01', 'X-001-code-01'), size);
+    expect(problems).toContain('ID doppelt vergeben: X-001-code-01');
+  });
+
+  it('allText enthält Titel, Aufgabentext und jeden Hinweis', () => {
+    const text = allText(withTasks('X-001-code-01'));
+    expect(text).toContain('Titel der Aufgabe');
+    expect(text).toContain('Berechne den Mittelwert.');
+    expect(text).toContain('Erster Hinweis zur Summe.');
+    expect(text).toContain('Zweiter Hinweis zur Division.');
+  });
+});

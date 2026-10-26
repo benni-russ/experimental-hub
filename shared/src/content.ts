@@ -39,6 +39,20 @@ export interface ReflectionPrompt {
   prompt: string;
 }
 
+/** Eine Code-Aufgabe: reines JavaScript, läuft im Browser gegen versteckte Tests. */
+export interface CodeTaskMeta {
+  /** <projekt-id>-code-NN */
+  id: string;
+  title: string;
+  prompt: string;
+  /** Startcode im Editor */
+  starter: string;
+  /** Hinweise, vom leichtesten zum deutlichsten */
+  hints: string[];
+  /** Musterlösung, wird erst auf Wunsch gezeigt */
+  solution: string;
+}
+
 export interface ContentMeta {
   id: string;
   slug: string;
@@ -55,4 +69,5 @@ export interface ContentMeta {
   quiz: QuizQuestion[];
   reflection: ReflectionPrompt[];
   cards: Card[];
+  codeTasks?: CodeTaskMeta[];
 }

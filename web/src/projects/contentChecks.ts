@@ -16,6 +16,7 @@ export function allText(meta: ContentMeta): string {
     ...meta.quiz.flatMap((q) => [q.prompt, q.explanation, ...(q.type === 'choice' ? q.options : [])]),
     ...meta.reflection.map((r) => r.prompt),
     ...meta.cards.flatMap((c) => [c.front, c.back]),
+    ...(meta.codeTasks ?? []).flatMap((t) => [t.title, t.prompt, ...t.hints]),
   ].join('\n');
 }
 
@@ -26,10 +27,12 @@ export function checkStructure(meta: ContentMeta, size: ContentSize): string[] {
   // Den Punkt in Einheiten-IDs (A-002.1) wörtlich nehmen.
   const idPattern = id.replaceAll('.', '\\.');
 
+  const codeTasks = meta.codeTasks ?? [];
   const schemas: [string, RegExp, { id: string }[]][] = [
     ['Quizfrage', new RegExp(`^${idPattern}-quiz-\\d{2}$`), meta.quiz],
     ['Reflexion', new RegExp(`^${idPattern}-refl-\\d{2}$`), meta.reflection],
     ['Karte', new RegExp(`^${idPattern}-card-\\d{2}$`), meta.cards],
+    ['Code-Aufgabe', new RegExp(`^${idPattern}-code-\\d{2}$`), codeTasks],
   ];
   for (const [label, pattern, items] of schemas) {
     for (const item of items) {
@@ -38,7 +41,7 @@ export function checkStructure(meta: ContentMeta, size: ContentSize): string[] {
   }
 
   const seen = new Set<string>();
-  for (const item of [...meta.quiz, ...meta.reflection, ...meta.cards]) {
+  for (const item of [...meta.quiz, ...meta.reflection, ...meta.cards, ...codeTasks]) {
     if (seen.has(item.id)) problems.push(`ID doppelt vergeben: ${item.id}`);
     seen.add(item.id);
   }
