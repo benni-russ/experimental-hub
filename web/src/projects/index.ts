@@ -19,6 +19,8 @@ import JsonApiSketch from './b-001-json-api/Sketch';
 import { meta as jsonVsObjectsMeta } from './b-001.1-json-vs-objects/content';
 import { meta as httpRequestsMeta } from './b-002-http-requests/content';
 import HttpRequestsSketch from './b-002-http-requests/Sketch';
+import { meta as eventLoopMeta } from './b-003-event-loop/content';
+import EventLoopSketch from './b-003-event-loop/Sketch';
 import SampleSketch from './000-sample/Sketch';
 
 export interface ProjectModule {
@@ -71,6 +73,12 @@ export const projects: ProjectModule[] = [
     Sketch: HttpRequestsSketch,
     Demo: lazy(() => import('./b-002-http-requests/Demo')),
     UnderTheHood: lazy(() => import('./b-002-http-requests/UnderTheHood')),
+  },
+  {
+    meta: eventLoopMeta,
+    Sketch: EventLoopSketch,
+    Demo: lazy(() => import('./b-003-event-loop/Demo')),
+    UnderTheHood: lazy(() => import('./b-003-event-loop/UnderTheHood')),
   },
 ];
 

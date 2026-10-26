@@ -1,0 +1,170 @@
+/* B-003 Event Loop Visualizer. Weinrot nur für Auswahl und Knöpfe, Gold nur in der InsightBox;
+   die laufende Zeile ist neutral (Tinte und Kartenweiß), sie ist weder Interaktion noch Erkenntnis.
+   Die markierte Zeile trägt ▶ und Fläche, das Urteil beim Schätzen ✓/✗ und Wort: Farbe allein sagt nichts. */
+
+.loop-demo,
+.loop-hood { display: grid; gap: var(--abstand-5); min-width: 0; }
+.loop-demo { container-type: inline-size; }
+.loop-demo > .insight { margin: 0; }
+.loop-hood > p,
+.loop-hood > h3 { margin: 0; }
+.loop-hood h3 { margin-top: var(--abstand-2); }
+
+.loop-label { font-size: 0.9rem; font-weight: var(--gewicht-mittel); color: var(--farbe-text-gedaempft); }
+.loop-muted,
+.loop-empty { margin: 0; color: var(--farbe-text-gedaempft); }
+.loop-empty { font-size: 0.9rem; font-style: italic; }
+
+/* Beispiele: fünf Namen passen schmal nicht in eine Zeile, dort untereinander. */
+.loop-snippets { display: grid; gap: var(--abstand-1); min-width: 0; }
+@container (max-width: 47.99rem) {
+  .loop-snippets .segmented { display: grid; }
+  .loop-snippets .segmented-item { text-align: left; }
+  .loop-snippets .segmented-item + .segmented-item { border-left: 0; border-top: var(--linie); }
+}
+
+/* Schätzen */
+.loop-guess,
+.loop-panel,
+.loop-column {
+  display: grid;
+  align-content: start;
+  gap: var(--abstand-3);
+  min-width: 0;
+  padding: var(--abstand-4);
+  background: var(--farbe-flaeche);
+  border: var(--linie);
+  border-radius: var(--radius-klein);
+}
+.loop-guess h3,
+.loop-panel h3,
+.loop-column h3 { margin: 0; font-size: 1rem; }
+
+.loop-guess-code {
+  margin: 0;
+  max-height: 20rem;
+  overflow: auto;
+  padding: var(--abstand-3);
+  background: var(--farbe-flaeche-neutral);
+  border-radius: var(--radius-klein);
+  font-size: 0.85rem;
+}
+
+.loop-guess-list { display: grid; gap: var(--abstand-2); margin: 0; padding: 0; list-style: none; }
+.loop-guess-item {
+  display: grid;
+  grid-template-columns: 2ch minmax(0, 1fr);
+  align-items: center;
+  gap: var(--abstand-1) var(--abstand-3);
+  min-height: 44px;
+  padding: var(--abstand-1) var(--abstand-3);
+  border: var(--linie);
+  border-left-width: 4px;
+  border-radius: var(--radius-klein);
+}
+.loop-guess-item.is-right { border-left-color: var(--farbe-erfolg); }
+.loop-guess-item.is-wrong { border-left-color: var(--farbe-fehler); }
+.loop-guess-position { font-variant-numeric: tabular-nums; color: var(--farbe-text-gedaempft); }
+.loop-guess-line { overflow-wrap: anywhere; }
+/* schmal: Knöpfe bzw. Urteil unter dem Text, breit daneben */
+.loop-move,
+.loop-verdict { grid-column: 2; }
+.loop-move { display: flex; gap: var(--abstand-2); }
+.loop-move .btn { min-width: 44px; padding: 0 var(--abstand-3); }
+.loop-verdict { font-size: 0.9rem; font-weight: var(--gewicht-mittel); }
+.is-right .loop-verdict { color: var(--farbe-erfolg); }
+.is-wrong .loop-verdict { color: var(--farbe-fehler); }
+@container (min-width: 36rem) {
+  .loop-guess-item { grid-template-columns: 2ch minmax(0, 1fr) auto; }
+  .loop-move,
+  .loop-verdict { grid-column: 3; }
+}
+
+.loop-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--abstand-3) var(--abstand-4); }
+.loop-score { margin: 0; font-weight: var(--gewicht-mittel); font-variant-numeric: tabular-nums; }
+
+/* Schritte */
+.loop-controls { display: flex; flex-wrap: wrap; gap: var(--abstand-3); }
+.loop-controls .btn[aria-disabled="true"] { opacity: 0.5; cursor: not-allowed; }
+.loop-note {
+  margin: 0;
+  min-height: 3em;
+  padding: var(--abstand-3) var(--abstand-4);
+  border-left: 3px solid var(--farbe-rahmen-stark);
+  background: var(--farbe-flaeche-neutral);
+  border-radius: var(--radius-klein);
+}
+
+.loop-view { display: grid; gap: var(--abstand-4); min-width: 0; }
+
+/* Code mit markierter Zeile */
+.loop-code {
+  margin: 0;
+  padding: var(--abstand-2) 0;
+  overflow-x: auto;
+  list-style: none;
+  background: var(--farbe-flaeche-neutral);
+  border-radius: var(--radius-klein);
+  font-family: var(--schrift-code);
+  font-size: 0.85rem;
+}
+.loop-line {
+  display: grid;
+  grid-template-columns: 2ch auto auto;
+  justify-content: start;
+  gap: var(--abstand-2);
+  padding: 0 var(--abstand-3) 0 var(--abstand-1);
+  border-left: 3px solid transparent;
+}
+.loop-line.is-current {
+  border-left-color: var(--farbe-text);
+  background: var(--farbe-flaeche);
+  font-weight: var(--gewicht-halbfett);
+}
+.loop-line-marker { text-align: center; }
+.loop-line-number { color: var(--farbe-text-sehr-gedaempft); white-space: pre; font-variant-numeric: tabular-nums; }
+.loop-line-text { white-space: pre; background: none; padding: 0; font-size: inherit; }
+
+/* Drei Spalten, schmal untereinander */
+.loop-columns { display: grid; gap: var(--abstand-3); }
+@container (min-width: 36rem) {
+  .loop-columns { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+.loop-column { gap: var(--abstand-2); }
+.loop-column-hint { margin: 0; font-size: 0.8rem; color: var(--farbe-text-gedaempft); }
+.loop-items { display: grid; gap: var(--abstand-2); margin: 0; padding: 0; list-style: none; }
+.loop-item {
+  padding: var(--abstand-2) var(--abstand-3);
+  border: 1px solid var(--farbe-rahmen-stark);
+  border-radius: var(--radius-klein);
+  font-family: var(--schrift-code);
+  font-size: 0.85rem;
+  overflow-wrap: anywhere;
+}
+
+/* Konsole */
+.loop-console {
+  display: grid;
+  gap: var(--abstand-1);
+  margin: 0;
+  padding: var(--abstand-3);
+  list-style: none;
+  background: var(--farbe-flaeche-neutral);
+  border-radius: var(--radius-klein);
+}
+.loop-console code { background: none; padding: 0; }
+
+/* Übergänge nur, wenn Bewegung erwünscht ist */
+@media (prefers-reduced-motion: no-preference) {
+  .loop-line { transition: background-color var(--animation-kurz) var(--animation-kurve), border-color var(--animation-kurz) var(--animation-kurve); }
+  .loop-item,
+  .loop-console li { animation: loop-in var(--animation-kurz) var(--animation-kurve); }
+}
+@keyframes loop-in {
+  from { opacity: 0; translate: 0 4px; }
+  to { opacity: 1; translate: 0 0; }
+}
+
+/* Unter der Haube */
+.loop-browser-says { margin: 0; padding: var(--abstand-3) var(--abstand-4); background: var(--farbe-flaeche-neutral); border-radius: var(--radius-klein); }
+.loop-list { margin: 0; padding-left: var(--abstand-5); display: grid; gap: var(--abstand-2); }
