@@ -42,7 +42,9 @@ export function FeelTest() {
     if (busy.current) return;
     busy.current = true;
     const button = e.currentTarget;
-    // Zeitstempel der Eingabe, falls der Browser ihn auf derselben Uhr liefert; sonst jetzt.
+    // Gemessen ab dem Klick-Ereignis bis zum nächsten Bild, wie ein INP-Eintrag für dieses Ereignis
+    // (bewusst nicht ab pointerdown). Zeitstempel des Ereignisses, falls der Browser ihn auf derselben
+    // Uhr liefert; sonst jetzt.
     const now = performance.now();
     const start = e.timeStamp > 0 && e.timeStamp <= now ? e.timeStamp : now;
     // Erst die Knöpfe deaktivieren (sofort ins DOM), dann blockieren.
@@ -57,7 +59,7 @@ export function FeelTest() {
         const rating = rateMetric('inp', measuredMs);
         const run = { id: nextId.current++, blockMs, measuredMs, rating };
         setRuns((prev) => [run, ...prev].slice(0, MAX_RUNS));
-        setMessage(`${blockMs}-ms-Aufgabe: nächstes Bild nach ${formatNumber(measuredMs)} ms, ${RATING_WORD[rating]}.`);
+        setMessage(`Messung ${run.id}: ${blockMs}-ms-Aufgabe: nächstes Bild nach ${formatNumber(measuredMs)} ms, ${RATING_WORD[rating]}.`);
         flushSync(() => setRunning(false));
         // Ein deaktivierter Knopf verliert in manchen Browsern den Fokus: zurückgeben.
         if (document.activeElement === null || document.activeElement === document.body) button.focus();

@@ -80,7 +80,7 @@ describe('D-002 Demo', () => {
     expect(switchByLabel(el, 'Alle Gegenmittel')!.getAttribute('aria-checked')).toBe('true');
     const t = tiles(el);
     expect(t.every((x) => x.includes('gut'))).toBe(true);
-    expect(el.textContent).toContain('Alle drei im grünen Bereich, im Labor');
+    expect(el.textContent).toContain('Alle drei gut, im Labor');
   });
 
   it('Zeitleiste: Start am Ende, Regler auf 0 zeigt nichts Gezeichnetes, Ende wandert mit', async () => {
@@ -116,7 +116,7 @@ describe('D-002 Demo', () => {
     expect(runs).toHaveLength(1);
     const ms = Number(runs[0]!.textContent!.match(/nach (\d+) ms/)![1]);
     expect(ms).toBeGreaterThanOrEqual(50);
-    expect(el.querySelector('.wv-feel [aria-live]')?.textContent).toMatch(/^50-ms-Aufgabe: nächstes Bild nach \d+ ms, (gut|verbessern|schlecht)\.$/);
+    expect(el.querySelector('.wv-feel [aria-live]')?.textContent).toMatch(/^Messung 1: 50-ms-Aufgabe: nächstes Bild nach \d+ ms, (gut|verbessern|schlecht)\.$/);
     expect(el.querySelectorAll('.wv-feel-buttons button:disabled')).toHaveLength(0);
   });
 
@@ -165,5 +165,30 @@ describe('D-002 Demo', () => {
   it('CSS nutzt nur vorhandene Tokens', () => {
     const used = [...new Set(css.match(/var\(--[a-z0-9-]+/g)?.map((v) => v.slice(4)))];
     for (const name of used) expect(tokens, name).toContain(`${name}:`);
+  });
+});
+
+describe('D-002 Zeitleiste bei reduzierter Bewegung', () => {
+  it('„Ans Ende springen“ ist am Ende deaktiviert, sonst aktiv', async () => {
+    vi.stubGlobal('matchMedia', (query: string) => ({
+      matches: query.includes('reduce'),
+      media: query,
+      addEventListener: () => {},
+      removeEventListener: () => {},
+    }));
+    const el = await render();
+    const jump = () => [...el.querySelectorAll<HTMLButtonElement>('.wv-timeline button')].find((b) => b.textContent === 'Ans Ende springen')!;
+    expect(jump()).toBeDefined();
+    expect(jump().disabled).toBe(true);
+    const range = el.querySelector<HTMLInputElement>('.wv-timeline input[type="range"]')!;
+    await act(async () => {
+      Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!.call(range, '1');
+      range.dispatchEvent(new Event('input', { bubbles: true }));
+    });
+    expect(jump().disabled).toBe(false);
+    expect(range.getAttribute('aria-valuetext')).toBe('1 s');
+    await act(async () => jump().click());
+    expect(jump().disabled).toBe(true);
+    expect(el.querySelector('.wv-timeline-svg')!.getAttribute('aria-label')).toContain('bei 5,03 s von 5,03 s');
   });
 });

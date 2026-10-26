@@ -48,6 +48,7 @@ export function Slider({ label, value, min, max, step, onChange, onCommit, forma
         max={max}
         step={step}
         value={value}
+        aria-valuetext={format ? format(value) : undefined}
         onChange={(e) => {
           onChange(Number(e.target.value));
           // Hilfstechnik (Screenreader) ändert ohne Zeiger und Taste: sofort melden.

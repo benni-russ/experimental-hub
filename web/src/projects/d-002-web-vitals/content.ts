@@ -62,7 +62,7 @@ export const meta: ContentMeta = {
       options: [
         'Weil der eigene Rechner im Labor oft zu langsam misst.',
         'Weil der Durchschnitt aller Besuche zu aufwendig zu berechnen ist.',
-        'Weil langsame Besuche sonst die Zahl zu stark nach oben treiben.',
+        'Weil das 75. Perzentil immer kleiner ist als der eigene Messwert.',
         'Weil Geräte und Netze streuen und auch langsamere Besuche zählen sollen.',
       ],
       correctIndex: 3,

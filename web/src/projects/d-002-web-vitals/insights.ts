@@ -160,7 +160,7 @@ export function insightContent(insight: VitalsInsight, fixes: VitalsFixes): Insi
   }
 
   return {
-    title: 'Alle drei im grünen Bereich, im Labor',
+    title: 'Alle drei gut, im Labor',
     text:
       `Auf dem Referenzprofil ${REFERENCE.label} sind LCP ${formatMetric('lcp', now.lcp)}, CLS ${formatMetric('cls', now.cls)} ` +
       `und INP ${formatMetric('inp', now.inp)} gut. Ob das für echte Besuche gilt, zeigt der Vergleich mit dem Feld weiter unten.`,

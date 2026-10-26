@@ -142,7 +142,7 @@ export function Timeline({ load, fixes }: TimelineProps) {
   return (
     <div className="wv-timeline">
       <div className="wv-timeline-controls">
-        <Button variant="secondary" onClick={onPlay}>
+        <Button variant="secondary" onClick={onPlay} disabled={reduced && t >= end}>
           {reduced ? 'Ans Ende springen' : playing ? 'Pause' : 'Abspielen'}
         </Button>
         <div className="wv-timeline-slider">

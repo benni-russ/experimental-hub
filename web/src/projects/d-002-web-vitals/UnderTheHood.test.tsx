@@ -52,6 +52,9 @@ describe('D-002 Unter der Haube: zitierte Zahlen', () => {
 
   it('Beobachter mit den drei Eintragsarten, vorsichtige Aussagen, keine Werkzeugnamen', () => {
     for (const type of ['largest-contentful-paint', 'layout-shift', 'event']) expect(text).toContain(`type: '${type}'`);
+    // durationThreshold: 40 ms ist der kleinste Wert, den der Browser für Ereignis-Einträge annimmt
+    // (Vorgabe sind 104 ms); so erscheinen auch kürzere Reaktionen. Der Wert steht bewusst im Beispiel.
+    expect(text).toContain("observe({ type: 'event', durationThreshold: 40, buffered: true })");
     expect(prose).toContain('nach eigenen Angaben als eines von vielen Signalen');
     expect(text).not.toMatch(/lighthouse|pagespeed|search console|crux|ranking|garantiert/i);
     expect(prose).toContain('D-001');
