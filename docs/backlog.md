@@ -4,21 +4,33 @@ Das alte Content-Backlog (30 Projekte, 18 Plan-B-Themen) für den Lern-Hub
 ausdünnen. Was danach übrig bleibt, wird
 einmal vollständig umgesetzt.
 
-Stand: 24.10.2026 · Status: **kuratiert** – alle Vorschläge übernommen
+Stand: 26.10.2026 · Status: **kuratiert** – alle Vorschläge übernommen,
+Track A fertig
 
 Vorgaben aus der Abstimmung:
 
 - etwa 15–18 Projekte, Mini-Einheiten nicht mitgezählt
 - AI & Automation als eigener kleiner Track
 - Coding-Themen bleiben als Track B, jeweils mit Mini-Brief vorab
-- Projekt-IDs aus dem alten Backlog bleiben, Lücken sind gewollt
+- Projekt-IDs aus dem alten Backlog bleiben, Lücken sind gewollt (seit
+  26.10.2026 nur noch als Spalte „ID (App)“, siehe Entscheidung)
 - Plan-B-Themen werden zu Mini-Einheiten an einem Projekt oder entfallen
 
 ## Entscheidung
 
 Die Vorschläge unter 1. sind am 24.10.2026 vollständig abgehakt worden. Sie
-bleiben als Begründung stehen; verbindlich ist der Backlog unter 2. Neue
-Themen kommen dort hinzu, mit der nächsten freien ID ab 031.
+bleiben als Begründung stehen und nennen deshalb noch die alten IDs;
+verbindlich ist der Backlog unter 2.
+
+Seit dem 26.10.2026 zählt der Backlog **je Track in Lernreihenfolge**:
+`A-001`, `A-002`, … `B-001` und so weiter, Mini-Einheiten hängen am Projekt
+(`A-002.1`). So zeigt die Nummer, wo eine Lektion im Thema steht. Die alte ID
+bleibt als Spalte „ID (App)“ stehen, denn die App nutzt sie weiter – als
+„Versuch 013“, in der Adresse `/projekt/013` und in den gespeicherten
+Lernständen.
+
+Neue Themen bekommen die nächste Nummer in ihrem Track und, sobald sie gebaut
+werden, die nächste freie App-ID ab 032.
 
 ---
 
@@ -103,70 +115,71 @@ Karten) an einem Projekt.
 
 ## 2. Backlog
 
-**18 Projekte**, davon 1 fertig, und 12 Mini-Einheiten. Gebaut wird Track für
-Track in der Reihenfolge A → B → C → D → AI, je Track ein Durchgang mit eigener
-Spezifikation (Teilprojekt 3+). Die Kernfrage ist ein Entwurf und wird beim
-Bau geschärft.
+**18 Projekte und 12 Mini-Einheiten**, davon fertig: Track A mit 4 Projekten
+und 4 Mini-Einheiten. Gebaut wird Track für Track in der Reihenfolge
+A → B → C → D → AI, je Track ein Durchgang mit eigener Spezifikation
+(Teilprojekt 3+). Die Kernfrage ist ein Entwurf und wird beim Bau geschärft.
+Verweise in „Baut auf“ und „Führt zu“ nutzen die neue Zählung.
 
-### Track A – Experimentation & Data ◆
+### Track A – Experimentation & Data ◆ ✓
 
-| # | ID | Projekt | Kernfrage | Baut auf | Führt zu | Mini-Einheiten |
-|---:|---|---|---|---|---|---|
-| 1 | 001 | MDE ✓ | Wie viele Menschen braucht ein A/B-Test, um einen kleinen Unterschied zuverlässig zu erkennen? | A/B-Praxis | 006 | Priorisierung (026) |
-| 2 | 006 | Confidence Interval Visualizer | Was sagt ein Konfidenzintervall über das Ergebnis – und was nicht? | 001 | 013 | Zufall & Varianz (002), Bayes (009), Signifikant ≠ relevant (031) |
-| 3 | 013 | Sample Ratio Mismatch Checker | Woran erkenne ich, dass ein Test kaputt ist, bevor ich sein Ergebnis lese? | 001, 006 | 004 | – |
-| 4 | 004 | Simpson's Paradox Visualizer | Wie kann ein Effekt in jedem Segment steigen und insgesamt fallen? | 006 | 007 | – |
+| Nr. | ID (App) | Projekt | Kernfrage | Baut auf | Führt zu | Mini-Einheiten |
+|---|---|---|---|---|---|---|
+| A-001 ✓ | 001 | MDE | Wie viele Menschen braucht ein A/B-Test, um einen kleinen Unterschied zuverlässig zu erkennen? | A/B-Praxis | A-002 | A-001.1 Priorisierung (026) ✓ |
+| A-002 ✓ | 006 | Confidence Interval Visualizer | Was sagt ein Konfidenzintervall über das Ergebnis – und was nicht? | A-001 | A-003 | A-002.1 Zufall & Varianz (002) ✓, A-002.2 Bayes (009) ✓, A-002.3 Signifikant ≠ relevant (031) ✓ |
+| A-003 ✓ | 013 | Sample Ratio Mismatch Checker | Woran erkenne ich, dass ein Test kaputt ist, bevor ich sein Ergebnis lese? | A-001, A-002 | A-004 | – |
+| A-004 ✓ | 004 | Simpson's Paradox Visualizer | Wie kann ein Effekt in jedem Segment steigen und insgesamt fallen? | A-002 | D-003 | – |
 
 ### Track B – Web & APIs ■
 
 Jedes Projekt bekommt vor dem Bau einen Mini-Brief (Frage, Known/New,
 Demo-Idee, 3–5 Zeilen) zur Freigabe und enthält Code-Aufgaben zum
-Selbstschreiben.
+Selbstschreiben. Als Nächstes dran: **B-001**.
 
-| # | ID | Projekt | Kernfrage | Baut auf | Führt zu | Mini-Einheiten |
-|---:|---|---|---|---|---|---|
-| 1 | 010 | JSON API Explorer | Was passiert zwischen `fetch()` und einem fertigen JavaScript-Objekt? | JS-Basis | 011 | JSON vs. JS-Objekte |
-| 2 | 011 | HTTP Request Visualizer | Was steht in Request und Antwort – und was bedeuten 200, 400, 401, 404 und 500? | 010 | 022, 012 | – |
-| 3 | 022 | JavaScript Event Loop Visualizer | In welcher Reihenfolge läuft asynchroner Code wirklich? | 010, 011 | 012 | – |
-| 4 | 012 | GA4 Event Builder | Wie ist ein GA4-Event aufgebaut, und woran erkenne ich ein fehlerhaftes? | 010, 011 | 014 | Purchase vs. Add-to-Cart, Datenqualität |
-| 5 | 014 | GA4 / React Event Builder | Was ändert sich, wenn ein bestehendes Tool in React neu gebaut wird? | 012 | 024 | – |
-| 6 | 024 | First Testing Playground | Was prüfe ich mit einem Unit Test an echter Projektlogik überhaupt? | 014 | – | – |
+| Nr. | ID (App) | Projekt | Kernfrage | Baut auf | Führt zu | Mini-Einheiten |
+|---|---|---|---|---|---|---|
+| B-001 | 010 | JSON API Explorer | Was passiert zwischen `fetch()` und einem fertigen JavaScript-Objekt? | JS-Basis | B-002 | B-001.1 JSON vs. JS-Objekte |
+| B-002 | 011 | HTTP Request Visualizer | Was steht in Request und Antwort – und was bedeuten 200, 400, 401, 404 und 500? | B-001 | B-003, B-004 | – |
+| B-003 | 022 | JavaScript Event Loop Visualizer | In welcher Reihenfolge läuft asynchroner Code wirklich? | B-001, B-002 | B-004 | – |
+| B-004 | 012 | GA4 Event Builder | Wie ist ein GA4-Event aufgebaut, und woran erkenne ich ein fehlerhaftes? | B-001, B-002 | B-005 | B-004.1 Purchase vs. Add-to-Cart, B-004.2 Datenqualität |
+| B-005 | 014 | GA4 / React Event Builder | Was ändert sich, wenn ein bestehendes Tool in React neu gebaut wird? | B-004 | B-006 | – |
+| B-006 | 024 | First Testing Playground | Was prüfe ich mit einem Unit Test an echter Projektlogik überhaupt? | B-005 | – | – |
 
 ### Track C – Personalization ●
 
-| # | ID | Projekt | Kernfrage | Baut auf | Führt zu | Mini-Einheiten |
-|---:|---|---|---|---|---|---|
-| 1 | 005 | Personalization Rule Builder | Wie wird aus Targeting-Regeln eine Entscheidung – und welche gewinnt bei Konflikten? | Targeting-Praxis | 030 | Segmentierung vs. Personalisierung |
-| 2 | 030 | Product Feed Inspector | Woran erkenne ich, dass ein Produktfeed Empfehlungen verdirbt? | 005, 010 | 008 | – |
-| 3 | 008 | Recommendation Demo | Wie entsteht aus Signalen und Gewichten ein Ranking? | 030 | – | Affinitätsprofil (019), Wann Personalisierung keinen Sinn ergibt |
+| Nr. | ID (App) | Projekt | Kernfrage | Baut auf | Führt zu | Mini-Einheiten |
+|---|---|---|---|---|---|---|
+| C-001 | 005 | Personalization Rule Builder | Wie wird aus Targeting-Regeln eine Entscheidung – und welche gewinnt bei Konflikten? | Targeting-Praxis | C-002 | C-001.1 Segmentierung vs. Personalisierung |
+| C-002 | 030 | Product Feed Inspector | Woran erkenne ich, dass ein Produktfeed Empfehlungen verdirbt? | C-001, B-001 | C-003 | – |
+| C-003 | 008 | Recommendation Demo | Wie entsteht aus Signalen und Gewichten ein Ranking? | C-002 | – | C-003.1 Affinitätsprofil (019), C-003.2 Wann Personalisierung keinen Sinn ergibt |
 
 ### Track D – Digital Experience ▲
 
-| # | ID | Projekt | Kernfrage | Baut auf | Führt zu | Mini-Einheiten |
-|---:|---|---|---|---|---|---|
-| 1 | 017 | Accessibility Playground | Woran scheitert eine Seite für Menschen mit Einschränkung – und wie prüfe ich das? | HTML/CSS | 023 | – |
-| 2 | 023 | Core Web Vitals Playground | Was messen LCP, CLS und INP, und was verschlechtert sie? | HTML/CSS/JS | 007 | – |
-| 3 | 007 | Conversion Funnel Simulator | Wie hängen Funnel-Schritte, Conversion und Umsatz zusammen – und wann widersprechen sie sich? | Analytics-Praxis | 001 | UX-Beobachtung als Hypothese |
+| Nr. | ID (App) | Projekt | Kernfrage | Baut auf | Führt zu | Mini-Einheiten |
+|---|---|---|---|---|---|---|
+| D-001 | 017 | Accessibility Playground | Woran scheitert eine Seite für Menschen mit Einschränkung – und wie prüfe ich das? | HTML/CSS | D-002 | – |
+| D-002 | 023 | Core Web Vitals Playground | Was messen LCP, CLS und INP, und was verschlechtert sie? | HTML/CSS/JS | D-003 | – |
+| D-003 | 007 | Conversion Funnel Simulator | Wie hängen Funnel-Schritte, Conversion und Umsatz zusammen – und wann widersprechen sie sich? | Analytics-Praxis | A-001 | D-003.1 UX-Beobachtung als Hypothese |
 
 ### Track AI & Automation ★
 
-| # | ID | Projekt | Kernfrage | Baut auf | Führt zu | Mini-Einheiten |
-|---:|---|---|---|---|---|---|
-| 1 | 027 | Prompt → Structured JSON | Wie bekomme ich verlässlich strukturierte Ausgaben von einem Modell – und wie prüfe ich sie? | 010 | 028 | KI als Coding-Co-Pilot |
-| 2 | 028 | RAG einfach visualisiert | Wie findet ein RAG-System die passenden Stellen, bevor das Modell antwortet? | 027 | – | – |
+| Nr. | ID (App) | Projekt | Kernfrage | Baut auf | Führt zu | Mini-Einheiten |
+|---|---|---|---|---|---|---|
+| AI-001 | 027 | Prompt → Structured JSON | Wie bekomme ich verlässlich strukturierte Ausgaben von einem Modell – und wie prüfe ich sie? | B-001 | AI-002 | AI-001.1 KI als Coding-Co-Pilot |
+| AI-002 | 028 | RAG einfach visualisiert | Wie findet ein RAG-System die passenden Stellen, bevor das Modell antwortet? | AI-001 | – | – |
 
 ### Zählung
 
-| | Projekte | Mini-Einheiten |
-|---|---:|---:|
-| A Experimentation & Data | 4 | 4 |
-| B Web & APIs | 6 | 3 |
-| C Personalization | 3 | 3 |
-| D Digital Experience | 3 | 1 |
-| AI & Automation | 2 | 1 |
-| **Summe** | **18** | **12** |
+| | Projekte | davon fertig | Mini-Einheiten | davon fertig |
+|---|---:|---:|---:|---:|
+| A Experimentation & Data | 4 | 4 | 4 | 4 |
+| B Web & APIs | 6 | 0 | 3 | 0 |
+| C Personalization | 3 | 0 | 3 | 0 |
+| D Digital Experience | 3 | 0 | 1 | 0 |
+| AI & Automation | 2 | 0 | 1 | 0 |
+| **Summe** | **18** | **4** | **12** | **4** |
 
-Gestrichen oder aufgegangen: 002, 003, 009, 015, 016, 018, 019, 020, 021,
+Gestrichen oder aufgegangen (alte IDs): 002, 003, 009, 015, 016, 018, 019, 020, 021,
 025, 026, 029 (davon 002, 009, 019, 026 als Mini-Einheit erhalten).
 
 ---
