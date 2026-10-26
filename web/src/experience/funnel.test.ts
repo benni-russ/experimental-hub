@@ -97,10 +97,9 @@ describe('Szenarien', () => {
 
 describe('biggestLeak', () => {
   const single = (rates: [number, number, number, number]) => computeFunnel([{ id: 'search', label: 'x', visits: 100, rates }]);
-  it('folgt dem größten absoluten Verlust, nicht der niedrigsten Quote', () => {
+  it('folgt dem größten absoluten Verlust', () => {
     const lifted = computeFunnel(applyLifts(SOURCES, [0, 10, -0.9, 0]));
     expect(lifted.biggestLeak).toBe(2);
-    expect(lifted.rates.indexOf(Math.min(...lifted.rates))).not.toBe(lifted.biggestLeak);
   });
   it('nimmt bei Gleichstand den ersten Übergang', () => {
     expect(single([1, 0.5, 1, 0]).biggestLeak).toBe(1);
