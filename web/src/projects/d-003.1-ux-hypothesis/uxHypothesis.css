@@ -1,0 +1,29 @@
+/* D-003.1 UX-Beobachtung als Hypothese: Satzbaustein, Tabelle und Zeichnung, keine Bedienung. */
+.uh-explain { display: grid; gap: var(--abstand-4); min-width: 0; grid-template-columns: minmax(0, 1fr); }
+.uh-explain p, .uh-explain h3 { margin: 0; }
+.uh-explain h3 { margin-top: var(--abstand-2); }
+
+/* Satzbaustein: Lücken als Kästchen mit Beschriftung, nicht nur farbig */
+.uh-pattern { line-height: 2.4; overflow-wrap: anywhere; border: var(--rahmen-staerke) solid var(--farbe-rahmen-stark); border-radius: var(--radius-klein); background: var(--farbe-flaeche); padding: var(--abstand-3); }
+.uh-slot { display: inline-flex; align-items: baseline; gap: var(--abstand-1); border: var(--rahmen-staerke) dashed var(--farbe-sekundaer-tief); border-radius: var(--radius-klein); background: var(--farbe-sekundaer-weich); color: var(--farbe-text); padding: 0 var(--abstand-2); line-height: 1.6; }
+.uh-slot-dots { color: var(--farbe-text-gedaempft); }
+.uh-slot-label { font-size: 0.85rem; font-weight: var(--gewicht-halbfett); }
+.uh-example { margin: 0; border: var(--rahmen-staerke) solid var(--farbe-rahmen); border-radius: var(--radius-klein); background: var(--farbe-flaeche-neutral); padding: var(--abstand-3); }
+
+/* Tabelle schwach gegen stark */
+.uh-wrap { overflow-x: auto; }
+.uh-table { width: 100%; border-collapse: collapse; }
+.uh-table caption { text-align: left; color: var(--farbe-text-gedaempft); font-size: 0.85rem; margin-bottom: var(--abstand-1); }
+.uh-table th, .uh-table td { padding: var(--abstand-2); border-bottom: 1px solid var(--farbe-rahmen-stark); text-align: left; vertical-align: top; }
+.uh-table thead th { font-size: 0.85rem; color: var(--farbe-text-gedaempft); font-weight: var(--gewicht-halbfett); }
+.uh-table tbody th { font-weight: var(--gewicht-halbfett); min-width: 8rem; }
+.uh-table td { min-width: 12rem; }
+
+/* Zeichnung */
+.uh-figure { margin: 0; display: grid; gap: var(--abstand-1); min-width: 0; }
+.uh-figure svg { width: 100%; height: auto; max-width: 22rem; color: var(--farbe-text); }
+.uh-figure figcaption { font-size: 0.85rem; color: var(--farbe-text-gedaempft); }
+.uh-box { fill: var(--farbe-flaeche); stroke: currentColor; }
+.uh-box-b { fill: var(--farbe-sekundaer-weich); stroke: var(--farbe-sekundaer-tief); }
+.uh-text { fill: currentColor; font-size: 13px; font-weight: var(--gewicht-halbfett); font-family: inherit; }
+.uh-text-muted { fill: var(--farbe-text-gedaempft); font-size: 11px; font-family: inherit; }

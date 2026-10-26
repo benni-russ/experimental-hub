@@ -44,6 +44,7 @@ import { meta as webVitalsMeta } from './d-002-web-vitals/content';
 import WebVitalsSketch from './d-002-web-vitals/Sketch';
 import { meta as funnelMeta } from './d-003-funnel/content';
 import FunnelSketch from './d-003-funnel/Sketch';
+import { meta as uxHypothesisMeta } from './d-003.1-ux-hypothesis/content';
 import SampleSketch from './000-sample/Sketch';
 
 export interface ProjectModule {
@@ -162,6 +163,7 @@ export const projects: ProjectModule[] = [
     Demo: lazy(() => import('./d-003-funnel/Demo')),
     UnderTheHood: lazy(() => import('./d-003-funnel/UnderTheHood')),
   },
+  { meta: uxHypothesisMeta, UnderTheHood: lazy(() => import('./d-003.1-ux-hypothesis/Explanation')) },
 ];
 
 if (import.meta.env.DEV) {
