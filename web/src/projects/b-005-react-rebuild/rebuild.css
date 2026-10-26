@@ -1,0 +1,100 @@
+/* B-005 GA4 / React Event Builder. Zwei gleich gebaute Panels nebeneinander,
+   schmal untereinander. Weinrot nur für Knöpfe; der eingebaute Fehler trägt
+   Wort und Zeichen (⚠), nicht nur Farbe. */
+
+.rebuild-demo,
+.rebuild-hood { display: grid; gap: var(--abstand-5); min-width: 0; }
+.rebuild-demo { container-type: inline-size; }
+.rebuild-hood > p,
+.rebuild-hood > h3 { margin: 0; }
+.rebuild-hood h3 { margin-top: var(--abstand-2); }
+
+.rebuild-muted,
+.rebuild-hint { margin: 0; font-size: 0.9rem; color: var(--farbe-text-gedaempft); }
+
+.rebuild-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: var(--abstand-3) var(--abstand-5); }
+
+/* Panels */
+.rebuild-panels { display: grid; gap: var(--abstand-5); min-width: 0; }
+@container (min-width: 48rem) {
+  .rebuild-panels { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; }
+}
+.rebuild-panel {
+  display: grid;
+  align-content: start;
+  gap: var(--abstand-4);
+  min-width: 0;
+  padding: var(--abstand-4);
+  border: var(--linie);
+  border-radius: var(--radius-klein);
+  background: var(--farbe-flaeche);
+}
+.rebuild-panel-head { display: grid; gap: var(--abstand-1); }
+.rebuild-panel-head h3 { margin: 0; font-size: 1.1rem; }
+.rebuild-flag {
+  margin: 0;
+  padding: var(--abstand-2) var(--abstand-3);
+  font-size: 0.9rem;
+  font-weight: var(--gewicht-mittel);
+  background: var(--farbe-warnung-weich);
+  border-left: 4px solid var(--farbe-warnung);
+  border-radius: var(--radius-klein);
+}
+
+/* Warenkorb, in beiden Panels dieselben Klassen */
+.rebuild-cart { display: grid; gap: var(--abstand-3); min-width: 0; }
+.rebuild-add { display: flex; flex-wrap: wrap; gap: var(--abstand-2); }
+.rebuild-empty { margin: 0; color: var(--farbe-text-gedaempft); }
+.rebuild-empty[hidden] { display: none; }
+.rebuild-rows { display: grid; gap: var(--abstand-2); margin: 0; padding: 0; list-style: none; }
+.rebuild-rows:empty { display: none; }
+.rebuild-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--abstand-1) var(--abstand-3);
+  padding: var(--abstand-2) var(--abstand-3);
+  border: var(--linie);
+  border-radius: var(--radius-klein);
+  background: var(--farbe-hintergrund);
+}
+.rebuild-row-name { font-weight: var(--gewicht-mittel); overflow-wrap: anywhere; }
+.rebuild-row-price { color: var(--farbe-text-gedaempft); font-size: 0.9rem; font-variant-numeric: tabular-nums; text-align: right; }
+.rebuild-qty { display: inline-flex; align-items: center; gap: var(--abstand-1); }
+.rebuild-qty-value { min-width: 2ch; text-align: center; font-variant-numeric: tabular-nums; }
+.rebuild-step,
+.rebuild-remove { min-height: 44px; }
+.rebuild-step { min-width: 44px; padding-inline: 0; }
+.rebuild-remove { justify-self: end; }
+.rebuild-total { margin: 0; font-weight: var(--gewicht-mittel); }
+.rebuild-total output { font-variant-numeric: tabular-nums; }
+.rebuild-event {
+  margin: 0;
+  padding: var(--abstand-3);
+  max-height: 20rem;
+  overflow: auto;
+  background: var(--farbe-flaeche-neutral);
+  border-radius: var(--radius-klein);
+  font-family: var(--schrift-code);
+  font-size: 0.8rem;
+}
+
+/* Protokoll-Leiste */
+.rebuild-protocol {
+  display: grid;
+  gap: var(--abstand-2);
+  padding-top: var(--abstand-3);
+  border-top: var(--linie);
+}
+.rebuild-protocol h4 { margin: 0; font-size: 0.95rem; }
+.rebuild-pattern { margin: 0; font-size: 0.9rem; }
+.rebuild-protocol-list {
+  display: grid;
+  gap: var(--abstand-1);
+  margin: 0;
+  padding-left: var(--abstand-5);
+  font-family: var(--schrift-code);
+  font-size: 0.85rem;
+  overflow-wrap: anywhere;
+}
+.rebuild-count { margin: 0; font-size: 0.9rem; font-weight: var(--gewicht-mittel); }

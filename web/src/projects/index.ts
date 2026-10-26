@@ -25,6 +25,8 @@ import { meta as ga4EventBuilderMeta } from './b-004-ga4-event-builder/content';
 import Ga4EventBuilderSketch from './b-004-ga4-event-builder/Sketch';
 import { meta as purchaseVsCartMeta } from './b-004.1-purchase-vs-cart/content';
 import { meta as dataQualityMeta } from './b-004.2-data-quality/content';
+import { meta as reactRebuildMeta } from './b-005-react-rebuild/content';
+import ReactRebuildSketch from './b-005-react-rebuild/Sketch';
 import SampleSketch from './000-sample/Sketch';
 
 export interface ProjectModule {
@@ -92,6 +94,12 @@ export const projects: ProjectModule[] = [
   },
   { meta: purchaseVsCartMeta, UnderTheHood: lazy(() => import('./b-004.1-purchase-vs-cart/Explanation')) },
   { meta: dataQualityMeta, UnderTheHood: lazy(() => import('./b-004.2-data-quality/Explanation')) },
+  {
+    meta: reactRebuildMeta,
+    Sketch: ReactRebuildSketch,
+    Demo: lazy(() => import('./b-005-react-rebuild/Demo')),
+    UnderTheHood: lazy(() => import('./b-005-react-rebuild/UnderTheHood')),
+  },
 ];
 
 if (import.meta.env.DEV) {
