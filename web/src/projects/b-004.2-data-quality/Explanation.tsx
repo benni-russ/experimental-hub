@@ -28,12 +28,11 @@ const SOURCES = [
 export default function Explanation() {
   return (
     <div className="dq-explain">
-      <h3>Nichts wird abgelehnt</h3>
+      <h3>Keine Fehlermeldung</h3>
       <p>
-        <code>dataLayer.push</code> ist ein gewöhnlicher Listen-Aufruf. Er prüft nichts und gibt nur die neue Länge der
-        Liste zurück, die Seite merkt von einem kaputten Event also nichts. Auch GA4 antwortet nicht mit einer
-        Fehlermeldung: Die Daten landen trotzdem in den Berichten, falsch oder unvollständig. Das Problem zeigt sich
-        erst dort oder im DebugView.
+        <code>dataLayer.push</code> ist ein gewöhnlicher Listen-Aufruf. Er prüft nichts und meldet nichts zurück, die Seite merkt von einem kaputten Event also nichts. Auch GA4 meldet
+        keinen Fehler zurück; was ankommt, kann falsch oder unvollständig in den Berichten landen. Das Problem zeigt
+        sich erst dort oder im DebugView.
       </p>
 
       <h3>Fünf Fehler und ihre Folgen</h3>

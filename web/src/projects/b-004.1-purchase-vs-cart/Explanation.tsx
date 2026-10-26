@@ -22,8 +22,8 @@ export default function Explanation() {
   return (
     <div className="pvc-explain">
       <p>
-        Beide Ereignisse gehen den gleichen Weg: erst <code>{'{ ecommerce: null }'}</code>, um das alte Objekt zu leeren,
-        dann das eigentliche Event. Der Aufbau ist fast gleich. Daneben siehst du, was beim Kauf dazukommt.
+        Google zeigt das Leeren des alten Objekts mit <code>{'{ ecommerce: null }'}</code> vor E-Commerce-Events; hier
+        steht es vor beiden, dann folgt das eigentliche Event. Der Aufbau ist fast gleich. Daneben siehst du, was beim Kauf dazukommt.
       </p>
       <div className="pvc-pair">
         <div>
@@ -67,11 +67,11 @@ export default function Explanation() {
       <h3>Was value jeweils zählt</h3>
       <p>
         Google definiert <code>value</code> als Summe aus <code>price × quantity</code> über alle Items im Event, ohne
-        Steuer und Versand. Das Wort bleibt gleich, doch das Event deckt Unterschiedliches ab:
+        Steuer und Versand. Das Wort bleibt gleich, doch die Events decken Unterschiedliches ab:
       </p>
       <ul>
         <li>
-          <strong>add_to_cart:</strong> nur die gerade hinzugefügten Items, nicht der ganze Warenkorb.{' '}
+          <strong>add_to_cart:</strong> Weil value die Items im Event summiert, zählt es hier nur die gerade hinzugefügten Items, nicht den ganzen Warenkorb.{' '}
           <span className="pvc-calc">{valueFormula(VALID_ADD_TO_CART.ecommerce.items)}</span>
         </li>
         <li>

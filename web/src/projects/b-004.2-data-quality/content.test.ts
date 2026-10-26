@@ -63,7 +63,7 @@ describe('B-004.2 Gezeigte kaputte Beispiele', () => {
     expect(dataLayer).toHaveLength(1);
   });
 
-  it('die Prüfliste nennt nur Codes, die validateEvent kennt', () => {
+  it('die Prüfliste hat mindestens fünf Punkte und deckt die fünf gezeigten Fehlercodes ab', () => {
     expect(CHECKLIST.length).toBeGreaterThanOrEqual(5);
     const codes = CHECKLIST.flatMap((c) => c.codes);
     expect(codes).toEqual(

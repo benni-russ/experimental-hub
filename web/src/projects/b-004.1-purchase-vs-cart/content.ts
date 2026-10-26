@@ -42,7 +42,7 @@ export const meta: ContentMeta = {
     {
       id: 'B-004.1-card-02',
       front: 'Was zählt value bei add_to_cart, was beim Kauf?',
-      back: 'In beiden Fällen die Summe aus Preis mal Menge der Items im jeweiligen Event, ohne Versand und Steuer. Beim Warenkorb sind das nur die gerade hinzugefügten Items, beim Kauf die ganze Bestellung.',
+      back: 'In beiden Fällen die Summe aus Preis mal Menge der Items im jeweiligen Event, ohne Versand und Steuer. Weil value die Items im Event summiert, zählt es beim Warenkorb nur die gerade hinzugefügten Items, beim Kauf die ganze Bestellung.',
     },
     {
       id: 'B-004.1-card-03',
@@ -52,7 +52,7 @@ export const meta: ContentMeta = {
     {
       id: 'B-004.1-card-04',
       front: 'Was passiert, wenn zwei verschiedene Bestellungen dieselbe transaction_id tragen?',
-      back: 'Google hält sie für denselben Kauf, und Käufe werden untergezählt. Jede Bestellung braucht ihre eigene ID, und eine leere ID sendet man besser gar nicht.',
+      back: 'Analytics dedupliziert Käufe mit derselben ID, deshalb werden Käufe untergezählt. Jede Bestellung braucht ihre eigene ID, und eine leere ID sendet man besser gar nicht.',
     },
   ],
 };

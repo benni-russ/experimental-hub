@@ -1,12 +1,12 @@
+import { fmt } from '../b-004.1-purchase-vs-cart/compare';
 import { BROKEN, VALID_PURCHASE, type BrokenId } from '../b-004-ga4-event-builder/fixtures';
 import { validateEvent, type IssueCode } from '../b-004-ga4-event-builder/validateEvent';
 
 // Die gezeigten Fehlerfälle: Beschriftung und Fehlercode kommen aus dem Prüfer, die
 // Wirkung beschreibt nur, was die Google-Doku belegt (Stand: Oktober 2026).
-// Was nicht belegt ist, steht ausdrücklich als nicht belegt da.
+// Was die Doku nicht beschreibt, steht ausdrücklich als nicht beschrieben da.
 
-/** Zahl deutsch mit zwei Nachkommastellen: 4.9 wird "4,90". */
-export const fmt = (n: number) => n.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+export { fmt };
 
 const round2 = (n: number) => Math.round(n * 100) / 100;
 
@@ -27,7 +27,7 @@ export const CASES: Case[] = [
     id: 'price-string',
     code: 'price_not_number',
     effect:
-      'Der Preis kommt als Text an. Wie GA4 das verbucht, ist hier nicht belegt; sicher ist nur, dass keine Fehlermeldung zurückkommt. Hier hilft ein Blick in den DebugView.',
+      'Der Preis kommt als Text an. Wie GA4 das verbucht, beschreibt Google nicht; sicher ist nur, dass keine Fehlermeldung zurückkommt. Hier hilft ein Blick in den DebugView.',
   },
   {
     id: 'currency-missing',
@@ -44,7 +44,7 @@ export const CASES: Case[] = [
     id: 'name-dash',
     code: 'name_format',
     effect:
-      'Der Name verstößt gegen die Namensregeln, denn Bindestriche sind nicht erlaubt. Was GA4 mit so einem Event macht, ist hier nicht belegt.',
+      'Der Name verstößt gegen die Namensregeln, denn Bindestriche sind nicht erlaubt. Was GA4 mit so einem Event macht, beschreibt Google nicht.',
   },
   {
     id: 'purchase-no-id',
@@ -62,10 +62,10 @@ export interface CheckItem {
 
 export const CHECKLIST: CheckItem[] = [
   { text: 'Der Eventname folgt den Namensregeln: Buchstabe am Anfang, nur Buchstaben, Ziffern und Unterstriche, nicht reserviert.', codes: ['name_format', 'name_too_long', 'name_reserved'] },
-  { text: 'Jedes Event mit value sendet auch eine currency, als dreistelliger Code.', codes: ['currency_missing', 'currency_format'] },
+  { text: 'Jedes Event mit value sendet auch eine currency. Der Prüfer erwartet einen dreistelligen Code.', codes: ['currency_missing', 'currency_format'] },
   { text: 'value ist die Summe aus Preis mal Menge, ohne Versand und Steuer.', codes: ['value_mismatch', 'value_not_number'] },
   { text: 'Preise und Mengen sind Zahlen, keine Texte aus einem Formularfeld.', codes: ['price_not_number', 'quantity_not_number'] },
-  { text: 'Jedes Item hat eine item_id oder einen item_name, und die Liste ist nicht leer.', codes: ['item_id_missing', 'items_empty'] },
+  { text: 'Jedes Item hat eine item_id oder einen item_name. Der Prüfer verlangt außerdem mindestens ein Item.', codes: ['item_id_missing', 'items_empty'] },
   { text: 'Jeder Kauf trägt eine eigene, nicht leere transaction_id.', codes: ['transaction_id_missing'] },
 ];
 

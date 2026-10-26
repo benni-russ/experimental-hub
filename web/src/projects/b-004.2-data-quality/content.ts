@@ -16,8 +16,8 @@ export const meta: ContentMeta = {
   attachedTo: 'B-004',
   intro: {
     text:
-      'Wer ein kaputtes Event an GA4 schickt, bekommt keine Fehlermeldung zurück. Die Daten kommen trotzdem an, nur falsch ' +
-      'oder unvollständig, und der Fehler fällt erst später in einem Bericht auf. Die Tabelle zeigt fünf typische Fehler ' +
+      'Wer ein kaputtes Event an GA4 schickt, bekommt keine Fehlermeldung zurück. Was ankommt, kann falsch oder ' +
+      'unvollständig in den Berichten landen, und der Fehler fällt erst dort auf. Die Tabelle zeigt fünf typische Fehler ' +
       'und den Code, mit dem der Prüfer sie benennt. Darunter steht, was man vor dem Livegang durchgeht.',
   },
   quiz: [],
@@ -37,7 +37,7 @@ export const meta: ContentMeta = {
     {
       id: 'B-004.2-card-01',
       front: 'Lehnt GA4 ein fehlerhaftes Event ab?',
-      back: 'GA4 antwortet nicht mit einer Fehlermeldung, die Daten landen trotzdem falsch oder unvollständig in den Berichten. Auch dataLayer.push meldet nichts, denn es ist nur ein Listen-Aufruf. Fehler fallen erst in Berichten oder im DebugView auf.',
+      back: 'GA4 meldet keinen Fehler zurück; was ankommt, kann falsch oder unvollständig in den Berichten landen. Auch dataLayer.push meldet nichts zurück, denn es ist nur ein Listen-Aufruf. Fehler fallen erst in Berichten oder im DebugView auf.',
     },
     {
       id: 'B-004.2-card-02',
