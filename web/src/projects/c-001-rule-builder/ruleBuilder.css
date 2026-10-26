@@ -95,12 +95,11 @@
   gap: var(--abstand-2);
   padding: var(--abstand-2) var(--abstand-3);
   border: var(--linie);
-  border-left: 4px solid var(--farbe-rahmen-stark);
   border-radius: var(--radius-klein);
   overflow-wrap: anywhere;
 }
 .rb-step.is-miss { color: var(--farbe-text-gedaempft); }
-.rb-step.is-winner { border-left-color: var(--farbe-erfolg); background: var(--farbe-erfolg-weich); color: var(--farbe-text); }
+.rb-step.is-winner { border-color: var(--farbe-erfolg); background: var(--farbe-erfolg-weich); color: var(--farbe-text); }
 .rb-step-mark { display: inline-flex; align-items: start; padding-top: 2px; }
 .rb-step-mark svg { width: 1.1rem; height: 1.1rem; }
 
