@@ -38,7 +38,7 @@ export default function Explanation() {
         <strong>Ease:</strong> Wie leicht ist der Test umzusetzen? Der Mittelwert der drei Punkte ist der PIE-Wert, und
         der höchste kommt zuerst. ICE ist die Variante mit Impact (etwa das Potential), Confidence (Wie sicher bist du?) und Ease.
       </p>
-      <div className="pie-table-wrap" tabIndex={0} role="region" aria-label="Tabelle der Testideen, seitlich verschiebbar">
+      <div className="pie-table-wrap table-scroll" tabIndex={0} role="region" aria-label="Tabelle der Testideen, seitlich verschiebbar">
         <table className="pie-table">
           <caption>Drei Testideen eines Onlineshops (erfunden), nach PIE-Wert geordnet</caption>
           <thead>

@@ -3,7 +3,7 @@
 
 .srm-demo,
 .srm-tab,
-.srm-hood { display: grid; gap: var(--abstand-5); min-width: 0; }
+.srm-hood { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--abstand-5); min-width: 0; }
 /* Im Raster sorgt der gap für den Abstand; der Rand der InsightBox käme sonst dazu */
 .srm-tab > .insight { margin: 0; }
 .srm-demo .slider-head { flex-wrap: wrap; }

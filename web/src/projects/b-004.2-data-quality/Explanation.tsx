@@ -37,7 +37,7 @@ export default function Explanation() {
 
       <h3>Fünf Fehler und ihre Folgen</h3>
       <div
-        className="dq-wrap"
+        className="dq-wrap table-scroll"
         tabIndex={0}
         role="region"
         aria-label="Tabelle: Fehlerfälle, Code des Prüfers und Folge, seitlich verschiebbar"

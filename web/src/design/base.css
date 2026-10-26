@@ -38,6 +38,7 @@ a:hover { color: var(--farbe-akzent-hover); }
 code, kbd, pre { font-family: var(--schrift-code); }
 
 /* Nur für Screenreader sichtbar */
+/* Nicht direkt an <table>: Tabellen ignorieren width: 1px und verbreitern die Seite. Einen Rahmen verstecken. */
 .visually-hidden {
   position: absolute;
   width: 1px;

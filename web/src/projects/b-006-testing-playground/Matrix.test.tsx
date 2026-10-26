@@ -105,7 +105,7 @@ describe('Demo', () => {
     await act(async () => {
       await new Promise((r) => setTimeout(r, 0));
     });
-    const switches = [...el.querySelectorAll('[role="switch"]')];
+    const switches = [...el.querySelectorAll('.testing-switches [role="switch"]')];
     expect(switches).toHaveLength(10);
     expect(el.querySelectorAll('tbody tr')).toHaveLength(10);
     expect(el.querySelector('[aria-live="polite"]')?.textContent).toBe('4 von 4 Fehlervarianten erwischt');
@@ -116,5 +116,26 @@ describe('Demo', () => {
     expect(target.getAttribute('aria-checked')).toBe('false');
     expect(el.querySelectorAll('tbody tr')).toHaveLength(9);
     expect(el.querySelector('[aria-live="polite"]')?.textContent).toBe('3 von 4 Fehlervarianten erwischt');
+  });
+
+  it('schaltet mit „Alle Tests“ alle aus und wieder an', async () => {
+    const el = await render(<Demo />);
+    await act(async () => {
+      await new Promise((r) => setTimeout(r, 0));
+    });
+    const all = [...el.querySelectorAll('[role="switch"]')].find((s) => s.textContent?.includes('Alle Tests'))!;
+    const single = el.querySelector('.testing-switches [role="switch"]')!;
+    expect(all.getAttribute('aria-checked')).toBe('true');
+
+    await act(async () => (all as HTMLElement).click());
+    expect(all.getAttribute('aria-checked')).toBe('false');
+    expect(el.querySelectorAll('tbody tr')).toHaveLength(0);
+
+    // Teilweise an zählt als aus; der nächste Klick schaltet alle an.
+    await act(async () => (single as HTMLElement).click());
+    expect(all.getAttribute('aria-checked')).toBe('false');
+    await act(async () => (all as HTMLElement).click());
+    expect(all.getAttribute('aria-checked')).toBe('true');
+    expect(el.querySelectorAll('tbody tr')).toHaveLength(10);
   });
 });

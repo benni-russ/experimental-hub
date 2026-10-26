@@ -15,7 +15,7 @@ export default function Explanation() {
         Objekt. Der Text kennt nur Text, Zahl, Wahrheitswert, <code>null</code>, Liste und Objekt. Alles andere wird auf
         dem Weg verändert oder verschwindet, und zwar ohne Fehlermeldung.
       </p>
-      <div className="jvo-wrap" tabIndex={0} role="region" aria-label="Tabelle: JS-Wert, JSON-Text und zurück, seitlich verschiebbar">
+      <div className="jvo-wrap table-scroll" tabIndex={0} role="region" aria-label="Tabelle: JS-Wert, JSON-Text und zurück, seitlich verschiebbar">
         <table className="jvo-table">
           <caption>Hin mit JSON.stringify, zurück mit JSON.parse (alle Werte hier live berechnet)</caption>
           <thead>

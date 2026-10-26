@@ -3,7 +3,7 @@
    Die markierte Zeile trägt ▶ und Fläche, das Urteil beim Schätzen Icon (check/cross) und Wort: Farbe allein sagt nichts. */
 
 .loop-demo,
-.loop-hood { display: grid; gap: var(--abstand-5); min-width: 0; }
+.loop-hood { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--abstand-5); min-width: 0; }
 .loop-demo { container-type: inline-size; }
 .loop-demo > .insight { margin: 0; }
 .loop-hood > p,

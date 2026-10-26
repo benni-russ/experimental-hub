@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { Button } from '../../design/components/Button';
 import { Switch } from '../../design/components/Switch';
 import { Matrix } from './Matrix';
 import { killMatrix, PRESET_TESTS, type MatrixRow } from './presetTests';
@@ -33,13 +32,13 @@ export default function Demo() {
       </p>
       <fieldset className="testing-list">
         <legend>Vorbereitete Tests</legend>
+        {/* An nur, wenn wirklich alle laufen; aus einem Teilstand heraus schaltet der Klick alle an */}
         <div className="testing-toolbar">
-          <Button variant="secondary" onClick={() => setEnabled(ALL)}>
-            Alle an
-          </Button>
-          <Button variant="secondary" onClick={() => setEnabled([])}>
-            Alle aus
-          </Button>
+          <Switch
+            label="Alle Tests"
+            checked={enabled.length === ALL.length}
+            onChange={(on) => setEnabled(on ? ALL : [])}
+          />
         </div>
         <ul className="testing-switches">
           {PRESET_TESTS.map((t) => (

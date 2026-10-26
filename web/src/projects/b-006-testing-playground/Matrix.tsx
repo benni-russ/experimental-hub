@@ -50,7 +50,7 @@ export function Matrix({ matrix, tests }: MatrixProps) {
       <p className={`testing-verdict${caught === total ? ' is-complete' : ''}`} aria-live="polite">
         {text}
       </p>
-      <div className="testing-table-wrap" tabIndex={0} role="region" aria-label="Matrix: Tests gegen Fassungen">
+      <div className="testing-table-wrap table-scroll" tabIndex={0} role="region" aria-label="Matrix: Tests gegen Fassungen">
         <table className="testing-table">
           <caption>Jeder eingeschaltete Test gegen die richtige Fassung und die vier Fehlervarianten</caption>
           <thead>

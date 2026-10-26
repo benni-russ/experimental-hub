@@ -101,7 +101,8 @@
 .metric-value { font-family: var(--schrift-code); font-size: 1.6rem; font-weight: var(--gewicht-fett); }
 .metric-hint { color: var(--farbe-text-gedaempft); font-size: 0.85rem; }
 
-.disclosure { border: var(--linie); border-radius: var(--radius); background: var(--farbe-flaeche); }
+/* min-width: 0, sonst wächst der Kasten im Raster oder Flex mit breitem Inhalt (Code, Tabellen) über den Bildschirm */
+.disclosure { min-width: 0; border: var(--linie); border-radius: var(--radius); background: var(--farbe-flaeche); }
 .disclosure > summary {
   min-height: 56px;
   display: flex;
@@ -413,3 +414,25 @@
   .flip-card-face { opacity: 1; visibility: visible; transition: opacity 150ms linear, visibility 0s; }
   .flip-card-face.is-hidden { opacity: 0; visibility: hidden; transition: opacity 150ms linear, visibility 0s linear 150ms; }
 }
+
+/* Tabelle in eigenem Scrollbereich: Kopfzeile und erste Spalte bleiben stehen.
+   --tabelle-grund muss zur Fläche dahinter passen, sonst heben sich die festen Zellen ab. */
+.table-scroll {
+  --tabelle-grund: var(--farbe-hintergrund);
+  overflow: auto;
+  max-height: min(70vh, 32rem);
+  overscroll-behavior-x: contain;
+}
+.disclosure .table-scroll { --tabelle-grund: var(--farbe-flaeche); }
+.table-scroll:focus-visible { outline: none; box-shadow: var(--fokus-ring); }
+/* separate statt collapse: sonst wandern die Linien der festen Zellen nicht mit */
+.table-scroll > table { border-collapse: separate; border-spacing: 0; }
+.table-scroll thead th { position: sticky; top: 0; z-index: 2; background: var(--tabelle-grund); }
+.table-scroll tr > :first-child {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background: var(--tabelle-grund);
+  box-shadow: inset -1px 0 var(--farbe-rahmen);
+}
+.table-scroll thead tr > :first-child { z-index: 3; }

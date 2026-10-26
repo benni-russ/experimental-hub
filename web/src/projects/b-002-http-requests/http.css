@@ -2,7 +2,7 @@
    Die Einordnung trägt Klasse, Wessen-Fehler-Wort und Farbe zusammen: Farbe allein sagt nichts. */
 
 .http-demo,
-.http-hood { display: grid; gap: var(--abstand-5); min-width: 0; }
+.http-hood { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--abstand-5); min-width: 0; }
 .http-demo { container-type: inline-size; }
 .http-hood > p,
 .http-hood > h3 { margin: 0; }

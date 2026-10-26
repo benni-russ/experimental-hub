@@ -3,7 +3,7 @@
 
 .ci-demo,
 .ci-tab,
-.ci-hood { display: grid; gap: var(--abstand-5); min-width: 0; }
+.ci-hood { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--abstand-5); min-width: 0; }
 /* Im Raster sorgt der gap für den Abstand; der Rand der InsightBox käme sonst dazu */
 .ci-tab > .insight { margin: 0; }
 .ci-demo .slider-head,

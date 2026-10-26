@@ -274,10 +274,13 @@ Kartenweiß, 1-px-Rahmen in `rahmen-stark`, 6 px, 44 px hoch. Fehler: Rahmen und
 Regler (`Slider`) melden jeden Zwischenwert über `onChange`. Ist die Rechnung dahinter teuer, meldet `onCommit` den Wert erst nach dem Loslassen (Zeiger hoch, Taste los, Fokusverlust) und nur, wenn er sich geändert hat. Bis dahin zeigt der Regler den Entwurf, das Diagramm bleibt gedämpft stehen (`aria-busy`), so in A-002 „Wiederholen“.
 
 ### Schalter (`Switch`)
-Knopf mit `role="switch"` und `aria-checked`, 44 px hoch: sichtbares Label, Schiene 44 × 24 px mit Knopf 18 px, daneben „An“/„Aus“ gedämpft. Eingeschaltet Schiene in Weinrot, der Knopf gleitet 20 px nach rechts. Schiene und Statuswort sind für Screenreader verborgen, der Zustand kommt aus `aria-checked`.
+Knopf mit `role="switch"` und `aria-checked`, 44 px hoch: sichtbares Label, Schiene 44 × 24 px mit Knopf 18 px, daneben „An“/„Aus“ gedämpft. Eingeschaltet Schiene in Weinrot, der Knopf gleitet 20 px nach rechts. Schiene und Statuswort sind für Screenreader verborgen, der Zustand kommt aus `aria-checked`. Eine Liste von Schaltern bekommt statt „Alle an“/„Alle aus“ einen Hauptschalter darüber (halbfett, durch eine Linie getrennt): an nur, wenn alle an sind; aus einem Teilstand schaltet er alle an.
 
 ### Aufklapper (`Disclosure`)
-Natives `<details>` mit Kopf und Marke rechts (Kreis 24 px, 1-px-Rahmen `rahmen-stark`). Marke `chevron` (Standard): Pfeil `chevron-down`, offen um 180° gedreht. Marke `help`: „?“, offen „×“, ohne Drehung; für Erklärungen zu einem Begriff. Optional verborgene Zusätze `openLabel`/`closedLabel` hinter dem Kopf.
+Natives `<details>` mit Kopf und Marke rechts (Kreis 24 px, 1-px-Rahmen `rahmen-stark`). Marke `chevron` (Standard): Pfeil `chevron-down`, offen um 180° gedreht. Marke `help`: „?“, offen „×“, ohne Drehung; für Erklärungen zu einem Begriff. Optional verborgene Zusätze `openLabel`/`closedLabel` hinter dem Kopf. `min-width: 0`, damit breiter Inhalt (Code, Tabellen) den Kasten im Raster nicht über den Bildschirm schiebt; Raster im Inneren („Unter der Haube“) haben dafür `grid-template-columns: minmax(0, 1fr)`.
+
+### Tabelle im Scrollbereich (`.table-scroll`)
+Rahmen um eine `<table>` mit `tabIndex={0}`, `role="region"` und `aria-label`, scrollt in beide Richtungen (höchstens `min(70vh, 32rem)` hoch). Kopfzeile und erste Spalte bleiben stehen; die erste Spalte trennt eine 1-px-Linie `rahmen`. Feste Zellen bekommen `--tabelle-grund` als Fläche: Seitenhintergrund, innerhalb eines `Disclosure` dessen Fläche. Die Tabelle läuft mit `border-collapse: separate`, sonst wandern die Linien der festen Zellen nicht mit.
 
 ### Interaktive Formel (`InteractiveFormula`)
 Formel aus Text und Termen als Knöpfe (mindestens 44 px, ruhend dezenter Rand, aktiv weinrot mit `aria-pressed`), als Zeile oder als Bruch mit Strich über die volle Breite. Genau ein Term ist aktiv; das Detailfeld darunter nennt Bezeichnung, eingesetzten Wert (Code-Zeile, dieselbe Rechnung wie die Schritte) und Erklärung in höchstens zwei Sätzen. Hover, Fokus und Klick wählen den Term, angesagt wird nur bei Fokus und Klick. Der zugehörige Regler bekommt einen Ring (`.is-linked`).

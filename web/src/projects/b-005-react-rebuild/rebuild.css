@@ -3,7 +3,7 @@
    Wort und Zeichen (⚠), nicht nur Farbe. */
 
 .rebuild-demo,
-.rebuild-hood { display: grid; gap: var(--abstand-5); min-width: 0; }
+.rebuild-hood { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--abstand-5); min-width: 0; }
 .rebuild-demo { container-type: inline-size; }
 .rebuild-hood > p,
 .rebuild-hood > h3 { margin: 0; }

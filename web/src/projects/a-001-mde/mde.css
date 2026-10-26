@@ -1,7 +1,7 @@
 /* A-001 MDE. Weinrot nur für die aktive Auswahl (Regler, aktueller Punkt), Gold nur in der InsightBox. */
 
 .mde-demo,
-.mde-hood { display: grid; gap: var(--abstand-5); min-width: 0; }
+.mde-hood { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--abstand-5); min-width: 0; }
 /* Im Raster sorgt der gap für den Abstand; der Rand der InsightBox käme sonst dazu */
 .mde-demo > .insight { margin: 0; }
 .mde-demo .slider-head,

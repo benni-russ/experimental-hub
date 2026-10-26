@@ -3,7 +3,7 @@
    das Urteil des Prüfers trägt Icon (check/cross) und Wort: Farbe allein sagt nichts. */
 
 .ga4-demo,
-.ga4-hood { display: grid; gap: var(--abstand-5); min-width: 0; }
+.ga4-hood { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--abstand-5); min-width: 0; }
 .ga4-demo { container-type: inline-size; }
 .ga4-hood > p,
 .ga4-hood > h3 { margin: 0; }

@@ -56,27 +56,29 @@ export function TrackProgressChart({ rows }: { rows: TrackProgress[] }) {
           </li>
         ))}
       </ul>
-      <table className="visually-hidden">
-        <caption>Fortschritt je Track</caption>
-        <thead>
-          <tr>
-            <th scope="col">Track</th>
-            <th scope="col">durchgearbeitet</th>
-            <th scope="col">begonnen</th>
-            <th scope="col">offen</th>
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((row) => (
-            <tr key={row.track}>
-              <th scope="row">{row.label}</th>
-              <td>{row.done}</td>
-              <td>{row.started}</td>
-              <td>{row.open}</td>
+      <div className="visually-hidden">
+        <table>
+          <caption>Fortschritt je Track</caption>
+          <thead>
+            <tr>
+              <th scope="col">Track</th>
+              <th scope="col">durchgearbeitet</th>
+              <th scope="col">begonnen</th>
+              <th scope="col">offen</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {rows.map((row) => (
+              <tr key={row.track}>
+                <th scope="row">{row.label}</th>
+                <td>{row.done}</td>
+                <td>{row.started}</td>
+                <td>{row.open}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
@@ -142,23 +144,25 @@ export function ForecastChart({ days }: { days: ForecastDay[] }) {
           </span>
         ))}
       </div>
-      <table className="visually-hidden">
-        <caption>Fällige Karten in den nächsten {days.length} Tagen</caption>
-        <thead>
-          <tr>
-            <th scope="col">Tag</th>
-            <th scope="col">Karten</th>
-          </tr>
-        </thead>
-        <tbody>
-          {days.map((d) => (
-            <tr key={d.label}>
-              <th scope="row">{d.label}</th>
-              <td>{d.count}</td>
+      <div className="visually-hidden">
+        <table>
+          <caption>Fällige Karten in den nächsten {days.length} Tagen</caption>
+          <thead>
+            <tr>
+              <th scope="col">Tag</th>
+              <th scope="col">Karten</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {days.map((d) => (
+              <tr key={d.label}>
+                <th scope="row">{d.label}</th>
+                <td>{d.count}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

@@ -36,7 +36,7 @@ export default function Explanation() {
         </div>
       </div>
       <div
-        className="pvc-wrap"
+        className="pvc-wrap table-scroll"
         tabIndex={0}
         role="region"
         aria-label="Tabelle: Felder von add_to_cart und purchase, seitlich verschiebbar"
