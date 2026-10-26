@@ -45,17 +45,20 @@ Jedes Projekt ist ein Ordner unter `web/src/projects/<id-slug>/`, zum Beispiel
      `id` (`'A-001'`), `slug`, `title`, `track`, `kind` (`'project'`, oder
      `'unit'` mit `attachedTo` für eine Einheit zu einem Projekt),
      `question` (die eine Kernfrage), `buildsOn`/`leadsTo`, `intro`, `quiz`,
-     `reflection`, `cards`.
+     `reflection`, `cards`, optional `codeTasks` (siehe unten).
    - `Demo.tsx` und `UnderTheHood.tsx` – optional, jeweils `export default`;
      sie werden per `lazy` geladen.
    - `Sketch.tsx` – optional, die Strichzeichnung für Karten und Kopf (siehe
      unten).
    - Rechenlogik als eigene Datei (`sampleSize.ts`, `halving.ts`) mit
      Testdatei daneben, nicht in der Komponente.
+   - `code/` – nur mit Code-Aufgaben: je Aufgabe `NN.checks.ts` und eine
+     `code.test.ts` (siehe „Code-Aufgaben“).
 2. **Stabile IDs vergeben.** Nach dem Muster `<id>-quiz-01`, `<id>-card-01`,
    `<id>-refl-01`, innerhalb des Projekts fortlaufend. Die Schätzfrage im
    `intro` verweist über `estimateQuestionId` auf eine Quizfrage.
-3. **Registrieren** in `web/src/projects/index.ts`: `meta`, `Sketch`
+3. **Registrieren** in `web/src/projects/index.ts` (Code-Aufgaben zusätzlich
+   in `web/src/codeTask/registry.ts`, siehe unten): `meta`, `Sketch`
    (direkt importiert, nicht lazy), `Demo` und `UnderTheHood` (per `lazy`) in
    die Liste `projects` eintragen. Die Reihenfolge dort ist die Reihenfolge
    in der App. Ohne `Sketch` zeigt die App das große Track-Zeichen; für neue
@@ -81,6 +84,45 @@ verwaist liegen, die neue Karte beginnt in Box 1, die Antwort fehlt. Eine
 entfernte Karte löscht außerdem beim nächsten Öffnen des Projekts ihren
 Kartenstand (eigene Karten `own-…` bleiben). Texte dürfen sich ändern, IDs
 nicht.
+
+### Code-Aufgaben
+
+Ein Projekt (keine Einheit) kann Aufgaben zum Selbstschreiben enthalten. Sie
+erscheinen im Abschnitt „Code-Aufgabe“: ein Editor (CodeMirror) mit Vorlage,
+„Prüfen“, Tipps und Musterlösung auf Wunsch. Der Code ist reines JavaScript und
+läuft in einem Web Worker, nie auf dem Server; ein Lauf wird nach 2000 ms
+abgebrochen, ein neuer Lauf beendet den laufenden. Die Infrastruktur liegt in
+`web/src/codeTask/`.
+
+1. **Aufgabe beschreiben** in `content.ts` unter `codeTasks` (Typ
+   `CodeTaskMeta` aus `@hub/shared`): `id` nach dem Muster `<id>-code-NN`
+   (`B-004-code-01`), `title`, `prompt` (Absätze durch Leerzeile, Code in
+   Backticks), `starter` (Startcode), `hints` (vom leichtesten zum deutlichsten
+   Tipp) und `solution` (die Musterlösung). Der Code endet mit `return { … };`;
+   genau diese Namen holt die Prüfung ab.
+2. **Prüfmodul schreiben** in `code/NN.checks.ts`: `export default` ein
+   `CheckModule` (Typ in `codeTask/types.ts`) mit `exportsNeeded` (die
+   zurückgegebenen Namen), optional `globals()` (zusätzliche Variablen für den
+   Nutzercode) und `checks`, einer Liste von `{ name, run(ctx) }`. Eine
+   Prüfung wirft bei einem Fehler; die Hilfen in `codeTask/assert.ts`
+   (`expectEqual`, `CheckFailure`, `formatValue`) liefern verständliche
+   Meldungen. `ctx.rerun(globals)` führt den Code erneut mit ersetzten Globals
+   aus.
+3. **In der Registry eintragen:** `web/src/codeTask/registry.ts`, eine Zeile je
+   Aufgabe: `'B-004-code-01': () => import('../projects/b-004-…/code/01.checks')`.
+   Die Module werden erst im Worker nachgeladen.
+4. **Testen** in `code/code.test.ts` je Projekt: die Musterlösung besteht alle
+   Prüfungen, die Vorlage scheitert an mindestens einer, und typische Fehler
+   (die Musterlösung mit genau einer Änderung) werden von der passenden
+   Prüfung erkannt. `codeTask/registry.test.ts` achtet darauf, dass jede
+   Aufgabe ein Prüfmodul hat und umgekehrt.
+
+Der Stand je Aufgabe liegt nur im Browser:
+`localStorage['hub-code:<aufgaben-id>']` = `{ code, passed }`. Jeder Zugriff
+steht in try/catch, fehlt der Speicher, arbeitet der Editor trotzdem. Ein
+einmal bestandenes `passed` bleibt, auch wenn der Code später wieder geändert
+wird; „Zurücksetzen“ löscht es.
+Es gibt keine Anfragen ins Internet und keinen Server-Code.
 
 ### Strichzeichnung (`Sketch.tsx`)
 

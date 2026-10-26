@@ -5,7 +5,7 @@ ausdünnen. Was danach übrig bleibt, wird
 einmal vollständig umgesetzt.
 
 Stand: 26.10.2026 · Status: **kuratiert** – alle Vorschläge übernommen,
-Track A fertig
+Track A und B fertig
 
 Vorgaben aus der Abstimmung:
 
@@ -116,8 +116,8 @@ Karten) an einem Projekt.
 
 ## 2. Backlog
 
-**18 Projekte und 12 Mini-Einheiten**, davon fertig: Track A mit 4 Projekten
-und 4 Mini-Einheiten. Gebaut wird Track für Track in der Reihenfolge
+**18 Projekte und 12 Mini-Einheiten**, davon fertig: Track A und B mit 10 Projekten
+und 7 Mini-Einheiten. Gebaut wird Track für Track in der Reihenfolge
 A → B → C → D → AI, je Track ein Durchgang mit eigener Spezifikation
 (Teilprojekt 3+). Die Kernfrage ist ein Entwurf und wird beim Bau geschärft.
 Verweise in „Baut auf“ und „Führt zu“ nutzen die neue Zählung.
@@ -131,19 +131,19 @@ Verweise in „Baut auf“ und „Führt zu“ nutzen die neue Zählung.
 | A-003 ✓ | 013 | Sample Ratio Mismatch Checker | Woran erkenne ich, dass ein Test kaputt ist, bevor ich sein Ergebnis lese? | A-001, A-002 | A-004 | – |
 | A-004 ✓ | 004 | Simpson's Paradox Visualizer | Wie kann ein Effekt in jedem Segment steigen und insgesamt fallen? | A-002 | D-003 | – |
 
-### Track B – Web & APIs ■
+### Track B – Web & APIs ■ ✓
 
 Jedes Projekt bekommt vor dem Bau einen Mini-Brief (Frage, Known/New,
 Demo-Idee, 3–5 Zeilen) zur Freigabe und enthält Code-Aufgaben zum
-Selbstschreiben. Als Nächstes dran: **B-001**.
+Selbstschreiben. Als Nächstes dran: **Track C**, beginnend mit **C-001**.
 
 | Nr. | Alte ID | Projekt | Kernfrage | Baut auf | Führt zu | Mini-Einheiten |
 |---|---|---|---|---|---|---|
-| B-001 | 010 | JSON API Explorer | Was passiert zwischen `fetch()` und einem fertigen JavaScript-Objekt? | JS-Basis | B-002 | B-001.1 JSON vs. JS-Objekte |
+| B-001 ✓ | 010 | JSON API Explorer | Was passiert zwischen `fetch()` und einem fertigen JavaScript-Objekt? | JS-Basis | B-002 ✓ | B-001.1 JSON vs. JS-Objekte ✓ |
 | B-002 | 011 | HTTP Request Visualizer | Was steht in Request und Antwort – und was bedeuten 200, 400, 401, 404 und 500? | B-001 | B-003, B-004 | – |
-| B-003 | 022 | JavaScript Event Loop Visualizer | In welcher Reihenfolge läuft asynchroner Code wirklich? | B-001, B-002 | B-004 | – |
-| B-004 | 012 | GA4 Event Builder | Wie ist ein GA4-Event aufgebaut, und woran erkenne ich ein fehlerhaftes? | B-001, B-002 | B-005 | B-004.1 Purchase vs. Add-to-Cart, B-004.2 Datenqualität |
-| B-005 | 014 | GA4 / React Event Builder | Was ändert sich, wenn ein bestehendes Tool in React neu gebaut wird? | B-004 | B-006 | – |
+| B-003 ✓ | 022 | JavaScript Event Loop Visualizer | In welcher Reihenfolge läuft asynchroner Code wirklich? | B-001, B-002 | B-004 ✓ | – |
+| B-004 | 012 | GA4 Event Builder | Wie ist ein GA4-Event aufgebaut, und woran erkenne ich ein fehlerhaftes? | B-001, B-002 | B-005 ✓ | B-004.1 Purchase vs. Add-to-Cart ✓, B-004.2 Datenqualität ✓ |
+| B-005 | 014 | GA4 / React Event Builder | Was ändert sich, wenn ein bestehendes Tool in React neu gebaut wird? | B-004 | B-006 ✓ | – |
 | B-006 | 024 | First Testing Playground | Was prüfe ich mit einem Unit Test an echter Projektlogik überhaupt? | B-005 | – | – |
 
 ### Track C – Personalization ●
@@ -174,11 +174,11 @@ Selbstschreiben. Als Nächstes dran: **B-001**.
 | | Projekte | davon fertig | Mini-Einheiten | davon fertig |
 |---|---:|---:|---:|---:|
 | A Experimentation & Data | 4 | 4 | 4 | 4 |
-| B Web & APIs | 6 | 0 | 3 | 0 |
+| B Web & APIs | 6 | 6 | 3 | 3 |
 | C Personalization | 3 | 0 | 3 | 0 |
 | D Digital Experience | 3 | 0 | 1 | 0 |
 | AI & Automation | 2 | 0 | 1 | 0 |
-| **Summe** | **18** | **4** | **12** | **4** |
+| **Summe** | **18** | **10** | **12** | **7** |
 
 Gestrichen oder aufgegangen (alte IDs): 002, 003, 009, 015, 016, 018, 019, 020, 021,
 025, 026, 029 (davon 002, 009, 019, 026 als Mini-Einheit erhalten).
