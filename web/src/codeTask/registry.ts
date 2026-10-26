@@ -6,4 +6,7 @@ import type { CheckModule } from './types';
 export const CHECKS: Record<string, () => Promise<{ default: CheckModule }>> = {
   // Entwicklungsbeispiel; fehlt in `projects` im Produktionsbuild (siehe registry.test.ts).
   '000-code-01': () => import('../projects/000-sample/code/01.checks'),
+  'B-001-code-01': () => import('../projects/b-001-json-api/code/01.checks'),
+  'B-001-code-02': () => import('../projects/b-001-json-api/code/02.checks'),
+  'B-001-code-03': () => import('../projects/b-001-json-api/code/03.checks'),
 };

@@ -14,6 +14,8 @@ import { meta as srmMeta } from './a-003-srm/content';
 import SrmSketch from './a-003-srm/Sketch';
 import { meta as simpsonMeta } from './a-004-simpson/content';
 import SimpsonSketch from './a-004-simpson/Sketch';
+import { meta as jsonApiMeta } from './b-001-json-api/content';
+import JsonApiSketch from './b-001-json-api/Sketch';
 import SampleSketch from './000-sample/Sketch';
 
 export interface ProjectModule {
@@ -53,6 +55,12 @@ export const projects: ProjectModule[] = [
     Sketch: SimpsonSketch,
     Demo: lazy(() => import('./a-004-simpson/Demo')),
     UnderTheHood: lazy(() => import('./a-004-simpson/UnderTheHood')),
+  },
+  {
+    meta: jsonApiMeta,
+    Sketch: JsonApiSketch,
+    Demo: lazy(() => import('./b-001-json-api/Demo')),
+    UnderTheHood: lazy(() => import('./b-001-json-api/UnderTheHood')),
   },
 ];
 

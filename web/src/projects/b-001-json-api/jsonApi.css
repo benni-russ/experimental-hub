@@ -1,0 +1,144 @@
+/* B-001 JSON API Explorer. Weinrot nur für die Auswahl (Fall, Knopf), Gold nur in der InsightBox.
+   Stationsstatus: Farbe plus Zeichen und Wort (✓ geklappt, ✗ gerissen, – nicht erreicht, … wartet). */
+
+.json-demo,
+.json-hood { display: grid; gap: var(--abstand-5); min-width: 0; }
+.json-demo { container-type: inline-size; }
+.json-demo > .insight { margin: 0; }
+.json-hood > p,
+.json-hood > h3 { margin: 0; }
+.json-hood h3 { margin-top: var(--abstand-2); }
+
+/* Steuerung */
+.json-controls { display: flex; flex-wrap: wrap; align-items: end; gap: var(--abstand-4); }
+.json-cases { display: grid; gap: var(--abstand-1); min-width: 0; }
+.json-label { font-size: 0.9rem; font-weight: var(--gewicht-mittel); color: var(--farbe-text-gedaempft); }
+.json-loading,
+.json-muted { margin: 0; color: var(--farbe-text-gedaempft); }
+
+/* Fünf Fälle passen schmal nicht in eine Zeile: dort untereinander. */
+@container (max-width: 47.99rem) {
+  .json-cases { width: 100%; }
+  .json-cases .segmented { display: grid; }
+  .json-cases .segmented-item { text-align: left; }
+  .json-cases .segmented-item + .segmented-item { border-left: 0; border-top: var(--linie); }
+}
+
+/* Stationen-Leiste */
+.json-rail {
+  display: grid;
+  gap: var(--abstand-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+@container (min-width: 48rem) {
+  .json-rail { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+}
+
+.json-station {
+  display: grid;
+  align-content: start;
+  gap: var(--abstand-2);
+  min-width: 0;
+  padding: var(--abstand-3);
+  background: var(--farbe-flaeche);
+  border: var(--linie);
+  border-top-width: 3px;
+  border-radius: var(--radius-klein);
+  transition: opacity var(--animation-kurz) var(--animation-kurve), border-color var(--animation-kurz) var(--animation-kurve);
+}
+.json-station.is-done { border-top-color: var(--farbe-erfolg); }
+.json-station.is-failed { border-color: var(--farbe-fehler); background: var(--farbe-fehler-weich); }
+.json-station.is-skipped { color: var(--farbe-text-gedaempft); background: transparent; border-style: dashed; }
+.json-station.is-pending { border-style: dashed; border-top-color: var(--farbe-rahmen-stark); }
+
+.json-station-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--abstand-1) var(--abstand-2); }
+.json-station-name { font-weight: var(--gewicht-halbfett); }
+.json-station-status { font-size: 0.8rem; font-weight: var(--gewicht-mittel); white-space: nowrap; }
+.is-done .json-station-status { color: var(--farbe-erfolg); }
+.is-failed .json-station-status { color: var(--farbe-fehler); }
+.is-skipped .json-station-status,
+.is-pending .json-station-status { color: var(--farbe-text-gedaempft); }
+
+.json-station-call { font-size: 0.8rem; color: var(--farbe-text-gedaempft); overflow-wrap: anywhere; }
+.json-station-code {
+  display: block;
+  font-size: 0.8rem;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.json-station-detail { margin: 0; font-size: 0.9rem; }
+.json-station-error {
+  margin: 0;
+  font-family: var(--schrift-code);
+  font-size: 0.8rem;
+  color: var(--farbe-fehler);
+  overflow-wrap: anywhere;
+}
+
+/* Zwischenstände: Rohtext und Objektbaum */
+.json-panels { display: grid; gap: var(--abstand-4); }
+@container (min-width: 40rem) {
+  .json-panels { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+.json-panel {
+  display: grid;
+  align-content: start;
+  gap: var(--abstand-2);
+  min-width: 0;
+  padding: var(--abstand-4);
+  border: var(--linie);
+  border-radius: var(--radius-klein);
+}
+.json-panel h3 { margin: 0; font-size: 1rem; }
+.json-raw {
+  margin: 0;
+  max-height: 18rem;
+  overflow: auto;
+  padding: var(--abstand-3);
+  background: var(--farbe-flaeche-neutral);
+  border-radius: var(--radius-klein);
+  font-size: 0.8rem;
+}
+
+/* Objektbaum */
+.json-tree,
+.json-children { margin: 0; padding: 0; list-style: none; }
+.json-children { padding-left: var(--abstand-4); border-left: var(--linie); margin-left: var(--abstand-2); }
+.json-tree li { min-width: 0; }
+.json-leaf { padding: var(--abstand-1) 0; overflow-wrap: anywhere; }
+.json-branch > summary {
+  display: flex;
+  align-items: center;
+  gap: var(--abstand-2);
+  min-height: 44px;
+  cursor: pointer;
+}
+.json-key { font-family: var(--schrift-code); font-size: 0.9rem; }
+.json-value { font-size: 0.9rem; }
+.json-type {
+  display: inline-block;
+  padding: 0 var(--abstand-2);
+  border: var(--linie);
+  border-radius: var(--radius-rund);
+  font-family: var(--schrift-code);
+  font-size: 0.75rem;
+  color: var(--farbe-text-gedaempft);
+  line-height: 1.6;
+}
+.json-empty { margin: 0 0 0 var(--abstand-4); color: var(--farbe-text-gedaempft); }
+
+/* Unter der Haube */
+.json-browser-says code { overflow-wrap: anywhere; }
+.json-table-wrap { overflow-x: auto; }
+.json-table { border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.json-table th,
+.json-table td { padding: var(--abstand-2) var(--abstand-4); border-bottom: 1px solid var(--farbe-rahmen-stark); text-align: left; }
+.json-table thead th { font-size: 0.85rem; color: var(--farbe-text-gedaempft); font-weight: var(--gewicht-halbfett); }
+.json-table tbody th { font-weight: var(--gewicht-normal); }
+.json-links { margin: 0; padding-left: var(--abstand-5); }
+
+@media (prefers-reduced-motion: reduce) {
+  .json-station { transition: none; }
+}
