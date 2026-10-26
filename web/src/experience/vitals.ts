@@ -125,18 +125,18 @@ export function percentile75(values: number[]): number {
 
 export function simulateLoad(fixes: VitalsFixes, profile: Profile): LoadResult {
   // Jede Datei hat die volle Leitung: Ende = Start + RTT + Größe / Bandbreite.
-  const fetch = (start: number, sizeKB: number) => start + profile.rttS + sizeKB / profile.bandwidthKBps;
+  const loadEnd = (start: number, sizeKB: number) => start + profile.rttS + sizeKB / profile.bandwidthKBps;
 
-  const htmlEnd = fetch(0, 30);
+  const htmlEnd = loadEnd(0, 30);
   const cssKB = fixes.criticalCss ? 15 : 120;
-  const cssEnd = fetch(htmlEnd, cssKB);
+  const cssEnd = loadEnd(htmlEnd, cssKB);
   const firstPaint = cssEnd; // das CSS blockiert das Zeichnen
-  const fontEnd = fetch(cssEnd, 80);
-  const scriptEnd = fetch(htmlEnd, 400);
+  const fontEnd = loadEnd(cssEnd, 80);
+  const scriptEnd = loadEnd(htmlEnd, 400);
   const taskEnd = scriptEnd + 0.35 * profile.cpu;
   const imageKB = fixes.compress ? 300 : 2400;
   const imageStart = fixes.preload ? htmlEnd : cssEnd;
-  const imageEnd = fetch(imageStart, imageKB);
+  const imageEnd = loadEnd(imageStart, imageKB);
   const imagePainted = Math.max(imageEnd, firstPaint);
 
   const shifts: Shift[] = [];
@@ -185,5 +185,6 @@ export function fieldResults(fixes: VitalsFixes): { visit: number; profile: Prof
 
 /** Zeit auf die Achse [0, end] begrenzen. */
 export function clampTime(time: number, end: number): number {
+  if (Number.isNaN(time)) return 0;
   return Math.min(Math.max(time, 0), end);
 }

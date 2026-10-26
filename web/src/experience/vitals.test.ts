@@ -107,9 +107,31 @@ describe('clampTime', () => {
     expect(clampTime(-1, 4)).toBe(0);
     expect(clampTime(2, 4)).toBe(2);
   });
+  it('NaN ergibt die untere Grenze 0', () => {
+    expect(clampTime(NaN, 4)).toBe(0);
+  });
+});
+
+describe('FIXES', () => {
+  it('sieben Gegenmittel mit Beschriftung und Ziel', () => {
+    expect(FIXES.map((f) => [f.id, f.label, f.targets])).toEqual([
+      ['criticalCss', 'Kritisches CSS zuerst', 'lcp'],
+      ['preload', 'Produktbild vorladen', 'lcp'],
+      ['compress', 'Produktbild komprimieren', 'lcp'],
+      ['fontFallback', 'Passende Ersatzschrift', 'cls'],
+      ['reserveSpace', 'Platz für das Banner reservieren', 'cls'],
+      ['dimensions', 'Bildmaße angeben', 'cls'],
+      ['splitTask', 'Aufgabe aufteilen', 'inp'],
+    ]);
+  });
 });
 
 describe('Profile', () => {
+  it('Feldbesuche je Profil', () => {
+    const count: Record<string, number> = {};
+    for (const id of FIELD_VISITS) count[id] = (count[id] ?? 0) + 1;
+    expect(count).toEqual({ fiber: 2, cable: 2, wifi: 3, phone4g: 4, phone4gSlow: 5, oldPhone: 2, weak: 1, edge: 1 });
+  });
   it('Referenz ist das Handy im 4G-Netz', () => {
     expect(REFERENCE).toEqual({ id: 'phone4g', label: 'Handy, 4G', bandwidthKBps: 625, rttS: 0.15, cpu: 1 });
     expect(PROFILES).toContain(REFERENCE);
