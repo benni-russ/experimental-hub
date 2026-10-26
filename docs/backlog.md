@@ -5,7 +5,7 @@ ausdünnen. Was danach übrig bleibt, wird
 einmal vollständig umgesetzt.
 
 Stand: 26.10.2026 · Status: **kuratiert** – alle Vorschläge übernommen,
-Track A und B fertig
+Track A, B und C fertig
 
 Vorgaben aus der Abstimmung:
 
@@ -116,8 +116,8 @@ Karten) an einem Projekt.
 
 ## 2. Backlog
 
-**18 Projekte und 12 Mini-Einheiten**, davon fertig: Track A und B mit 10 Projekten
-und 7 Mini-Einheiten. Gebaut wird Track für Track in der Reihenfolge
+**18 Projekte und 12 Mini-Einheiten**, davon fertig: Track A, B und C mit 13 Projekten
+und 10 Mini-Einheiten. Als Nächstes dran: **Track D**, beginnend mit **D-001**. Gebaut wird Track für Track in der Reihenfolge
 A → B → C → D → AI, je Track ein Durchgang mit eigener Spezifikation
 (Teilprojekt 3+). Die Kernfrage ist ein Entwurf und wird beim Bau geschärft.
 Verweise in „Baut auf“ und „Führt zu“ nutzen die neue Zählung.
@@ -135,7 +135,7 @@ Verweise in „Baut auf“ und „Führt zu“ nutzen die neue Zählung.
 
 Jedes Projekt bekommt vor dem Bau einen Mini-Brief (Frage, Known/New,
 Demo-Idee, 3–5 Zeilen) zur Freigabe und enthält Code-Aufgaben zum
-Selbstschreiben. Als Nächstes dran: **Track C**, beginnend mit **C-001**.
+Selbstschreiben.
 
 | Nr. | Alte ID | Projekt | Kernfrage | Baut auf | Führt zu | Mini-Einheiten |
 |---|---|---|---|---|---|---|
@@ -146,13 +146,13 @@ Selbstschreiben. Als Nächstes dran: **Track C**, beginnend mit **C-001**.
 | B-005 ✓ | 014 | GA4 / React Event Builder | Was ändert sich, wenn ein bestehendes Tool in React neu gebaut wird? | B-004 | B-006 ✓ | – |
 | B-006 ✓ | 024 | First Testing Playground | Was prüfe ich mit einem Unit Test an echter Projektlogik überhaupt? | B-005 | – | – |
 
-### Track C – Personalization ●
+### Track C – Personalization ● ✓
 
 | Nr. | Alte ID | Projekt | Kernfrage | Baut auf | Führt zu | Mini-Einheiten |
 |---|---|---|---|---|---|---|
-| C-001 | 005 | Personalization Rule Builder | Wie wird aus Targeting-Regeln eine Entscheidung – und welche gewinnt bei Konflikten? | Targeting-Praxis | C-002 | C-001.1 Segmentierung vs. Personalisierung |
-| C-002 | 030 | Product Feed Inspector | Woran erkenne ich, dass ein Produktfeed Empfehlungen verdirbt? | C-001, B-001 | C-003 | – |
-| C-003 | 008 | Recommendation Demo | Wie entsteht aus Signalen und Gewichten ein Ranking? | C-002 | – | C-003.1 Affinitätsprofil (019), C-003.2 Wann Personalisierung keinen Sinn ergibt |
+| C-001 ✓ | 005 | Personalization Rule Builder | Wie wird aus Targeting-Regeln eine Entscheidung – und welche gewinnt bei Konflikten? | Targeting-Praxis | C-002 ✓ | C-001.1 Segmentierung vs. Personalisierung ✓ |
+| C-002 ✓ | 030 | Product Feed Inspector | Woran erkenne ich, dass ein Produktfeed Empfehlungen verdirbt? | C-001, B-001 | C-003 ✓ | – |
+| C-003 ✓ | 008 | Recommendation Demo | Wie entsteht aus Signalen und Gewichten ein Ranking? | C-002 | – | C-003.1 Affinitätsprofil (019) ✓, C-003.2 Wann Personalisierung keinen Sinn ergibt ✓ |
 
 ### Track D – Digital Experience ▲
 
@@ -175,10 +175,10 @@ Selbstschreiben. Als Nächstes dran: **Track C**, beginnend mit **C-001**.
 |---|---:|---:|---:|---:|
 | A Experimentation & Data | 4 | 4 | 4 | 4 |
 | B Web & APIs | 6 | 6 | 3 | 3 |
-| C Personalization | 3 | 0 | 3 | 0 |
+| C Personalization | 3 | 3 | 3 | 3 |
 | D Digital Experience | 3 | 0 | 1 | 0 |
 | AI & Automation | 2 | 0 | 1 | 0 |
-| **Summe** | **18** | **10** | **12** | **7** |
+| **Summe** | **18** | **13** | **12** | **10** |
 
 Gestrichen oder aufgegangen (alte IDs): 002, 003, 009, 015, 016, 018, 019, 020, 021,
 025, 026, 029 (davon 002, 009, 019, 026 als Mini-Einheit erhalten).
